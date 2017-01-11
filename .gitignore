@@ -3,9 +3,6 @@
 *.log
 .emacs.desktop
 .emacs.desktop.lock
-.project
-.classpath
-.settings
 target
 bin
 build
@@ -15,6 +12,7 @@ build
 /.idea/*.xml
 /.idea/libraries
 /.idea/dictionaries
+.idea/workspace.xml
 .DS_Store
 /build
 /captures
