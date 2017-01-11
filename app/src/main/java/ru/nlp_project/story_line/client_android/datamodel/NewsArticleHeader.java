@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.model;
+package ru.nlp_project.story_line.client_android.datamodel;
 
 /**
  * Заголовок статьи со всей служебной информацией необходимой для поверхностного ознакомления.

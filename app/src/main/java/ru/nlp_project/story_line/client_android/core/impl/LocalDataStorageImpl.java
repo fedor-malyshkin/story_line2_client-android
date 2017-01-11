@@ -10,7 +10,8 @@ import java.util.List;
 
 import nl.qbusict.cupboard.QueryResultIterable;
 import ru.nlp_project.story_line.client_android.core.ILocalDataStorage;
-import ru.nlp_project.story_line.client_android.data.model.NewsArticleHeader;
+import ru.nlp_project.story_line.client_android.datamodel.NewsArticle;
+import ru.nlp_project.story_line.client_android.datamodel.NewsArticleHeader;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -64,8 +65,9 @@ public class LocalDataStorageImpl extends SQLiteOpenHelper implements ILocalData
 		return wd;
 	}
 
+
 	@Override
-	public List<NewsArticleHeader> getExistingNewsArticleHeaders() {
+	public List<NewsArticleHeader> getNewsArticleHeaders(int limit) {
 		List<NewsArticleHeader> result = new ArrayList<>();
 		SQLiteDatabase readableDatabase = getReadableDatabaseInt();
 		// Get the cursor for this query
@@ -96,4 +98,13 @@ public class LocalDataStorageImpl extends SQLiteOpenHelper implements ILocalData
 
 	}
 
+	@Override
+	public void storeNewsArticles(List<NewsArticle> articles) {
+
+	}
+
+	@Override
+	public List<NewsArticleHeader> getAdditionalNewsArticleHeaders(long fromId, int limit) {
+		return null;
+	}
 }

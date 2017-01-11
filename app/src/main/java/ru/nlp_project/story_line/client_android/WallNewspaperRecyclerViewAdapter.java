@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import ru.nlp_project.story_line.client_android.data.model.NewsArticleHeader;
+import ru.nlp_project.story_line.client_android.datamodel.NewsArticleHeader;
 
 
 /**

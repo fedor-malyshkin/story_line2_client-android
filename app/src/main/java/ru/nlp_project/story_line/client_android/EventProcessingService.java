@@ -12,8 +12,8 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.builder.ApplicationComponent;
 import ru.nlp_project.story_line.client_android.builder.ApplicationModule;
 import ru.nlp_project.story_line.client_android.builder.DaggerApplicationComponent;
-import ru.nlp_project.story_line.client_android.core.ILocalDataStorage;
-import ru.nlp_project.story_line.client_android.data.model.NewsArticleHeader;
+import ru.nlp_project.story_line.client_android.core.IDataManager;
+import ru.nlp_project.story_line.client_android.datamodel.NewsArticleHeader;
 
 public class EventProcessingService extends Service implements IEventProcessor {
 	public static class ServiceBinder extends Binder {
@@ -29,7 +29,7 @@ public class EventProcessingService extends Service implements IEventProcessor {
 	}
 
 	@Inject
-	ILocalDataStorage localDataStorage;
+	IDataManager dataManager;
 
 	public EventProcessingService() {
 	}
@@ -55,12 +55,17 @@ public class EventProcessingService extends Service implements IEventProcessor {
 
 	@Override
 	public List<NewsArticleHeader> getDefaultNewsArticleHeaders() {
-		return localDataStorage.getExistingNewsArticleHeaders();
+		return dataManager.getCachedLocalyNewsArticleHeaders(-1);
 	}
 
 	@Override
 	public void populateDB() {
-		localDataStorage.populateDB();
+		dataManager.populateDB();
+	}
+
+	@Override
+	public void updateData() {
+		dataManager.downloadNewsArticles();
 	}
 
 }

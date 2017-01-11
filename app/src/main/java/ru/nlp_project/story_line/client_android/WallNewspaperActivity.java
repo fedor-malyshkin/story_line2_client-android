@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.nlp_project.story_line.client_android.data.model.NewsArticleHeader;
+import ru.nlp_project.story_line.client_android.datamodel.NewsArticleHeader;
 
 import static ru.nlp_project.story_line.client_android.R.id.rvNews;
 
@@ -26,6 +27,7 @@ public class WallNewspaperActivity extends Activity {
 	private List<NewsArticleHeader> articles;
 	private RecyclerView newsRecyclerView;
 	private ServiceConnectionImpl serviceConnection;
+	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,22 @@ public class WallNewspaperActivity extends Activity {
 		setContentView(R.layout.activity_wall_newspaper);
 		initializeEventProcessingSerice();
 		initializeRecyclerView();
+		initializeSwipeUpdate();
 		initializeOtherControls();
+	}
+
+	private void initializeSwipeUpdate() {
+		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+		swipeLayout.setRefreshing(false);
+		swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				if (processor == null) return;
+				swipeLayout.setRefreshing(true);
+				processor.updateData();
+				swipeLayout.setRefreshing(false);
+			}
+		});
 	}
 
 	private void initializeOtherControls() {
@@ -43,7 +60,7 @@ public class WallNewspaperActivity extends Activity {
 			public void onClick(View v) {
 				if (processor == null) return;
 				processor.populateDB();
-			pumpData() ;
+				pumpData();
 			}
 		});
 	}
