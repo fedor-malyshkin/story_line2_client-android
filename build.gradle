@@ -5,13 +5,16 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.+'
-		//classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+		// https://github.com/JakeWharton/butterknife
+		classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.+'
+		// https://github.com/evant/gradle-retrolambda
+		classpath 'me.tatarka:gradle-retrolambda:3.5.+'
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
+		jcenter()
     }
 }
 

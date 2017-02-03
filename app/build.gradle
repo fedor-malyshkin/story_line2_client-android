@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -12,6 +13,14 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "0.1"
+
+		// Espresso
+ 		// testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+		// java 1.8 enable
+		jackOptions {
+  			enabled false
+		}
     }
     buildTypes {
         release {
@@ -20,9 +29,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
+		sourceCompatibility JavaVersion.VERSION_1_8
+	    targetCompatibility JavaVersion.VERSION_1_8
+	}
     productFlavors {
     }
 
@@ -33,16 +42,47 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:gridlayout-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+	// Android Support Libraries
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:gridlayout-v7:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
+	// dagger 2
 	compile 'com.google.dagger:dagger:2.8'
-	// https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler
- 	// apt 'com.google.dagger:dagger-compiler:2.8'
 	annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
-	compile 'nl.qbusict:cupboard:2.2.0'
-	compile 'com.google.code.gson:gson:2.8.0'
-   compile 'com.squareup.retrofit2:retrofit:2.1.0'
-   compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+	// cupboard
+	compile 'nl.qbusict:cupboard:2.2+'
+	// retrofit
+   	compile 'com.squareup.retrofit2:retrofit:2.1.+'
+   	// compile 'com.squareup.retrofit2:converter-jackson:2.1.+'
+	// butterknife (https://github.com/JakeWharton/butterknife)
+	compile 'com.jakewharton:butterknife:8.5.+'
+	annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.+'
+	// rxJava2 =======================
+	// compile "io.reactivex.rxjava2:rxjava:2.+"
+	// compile 'io.reactivex.rxjava2:rxandroid:2.+'
+	// rxJava1 =======================
+	compile 'io.reactivex:rxjava:1.+'
+	compile 'io.reactivex:rxandroid:1.+'
+
+	// rxBinding: platform bindings:
+	compile 'com.jakewharton.rxbinding:rxbinding:1.+'
+	// rxBinding: 'appcompat-v7' library bindings:
+	compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:1.+'
+	// rxBinding: 'design' library bindings:
+	// compile 'com.jakewharton.rxbinding:rxbinding-design:1.+'
+	// rxBinding: 'recyclerview-v7' library bindings:
+	compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.+'
+	// rxBinding: 'leanback-v17' library bindings:
+	// compile 'com.jakewharton.rxbinding:rxbinding-leanback-v17:1.+'
+
+	// junit
+	testCompile 'junit:junit:4.+'
+   	// Robolectric
+    testCompile 'org.robolectric:robolectric:3.+'
+	// assertJ
+	testCompile 'org.assertj:assertj-core:3.+'
+
+	// Espresso
+   	// androidTestCompile 'com.android.support.test:runner:0.+'
+   	// androidTestCompile 'com.android.support.test.espresso:espresso-core:2.+'
 }
