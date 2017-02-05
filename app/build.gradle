@@ -36,6 +36,7 @@ android {
     }
 
     lintOptions {
+		tasks.lint.enabled = false
         abortOnError false
     }
 }
@@ -58,12 +59,13 @@ dependencies {
 	compile 'com.jakewharton:butterknife:8.5.+'
 	annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.+'
 	// rxJava2 =======================
-	// compile "io.reactivex.rxjava2:rxjava:2.+"
-	// compile 'io.reactivex.rxjava2:rxandroid:2.+'
+	compile "io.reactivex.rxjava2:rxjava:2.+"
+	compile 'io.reactivex.rxjava2:rxandroid:2.+'
 	// rxJava1 =======================
-	compile 'io.reactivex:rxjava:1.+'
-	compile 'io.reactivex:rxandroid:1.+'
+	// compile 'io.reactivex:rxjava:1.+'
+	// compile 'io.reactivex:rxandroid:1.+'
 
+	/*
 	// rxBinding: platform bindings:
 	compile 'com.jakewharton.rxbinding:rxbinding:1.+'
 	// rxBinding: 'appcompat-v7' library bindings:
@@ -74,6 +76,7 @@ dependencies {
 	compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.+'
 	// rxBinding: 'leanback-v17' library bindings:
 	// compile 'com.jakewharton.rxbinding:rxbinding-leanback-v17:1.+'
+	*/
 
 	// junit
 	testCompile 'junit:junit:4.+'

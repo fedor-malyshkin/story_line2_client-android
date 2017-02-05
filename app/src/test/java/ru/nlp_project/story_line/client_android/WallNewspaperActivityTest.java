@@ -22,7 +22,7 @@ public class WallNewspaperActivityTest {
 
 	@Test
 	public void clickingButton_shouldChangeResultsViewText() throws Exception {
-		// WallNewspaperActivity activity = Robolectric.setupActivity(WallNewspaperActivity.class);
+		// NewsTapeFragment activity = Robolectric.setupActivity(NewsTapeFragment.class);
 
 		//RecyclerView rv = (RecyclerView) activity.findViewById(R.id.rvNews);
 		//assertThat(results.getText().toString()).isEqualTo("Robolectric Rocks!");

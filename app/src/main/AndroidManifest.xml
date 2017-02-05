@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="ru.nlp_project.story_line.client_android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".ClientAndroidApp"
         android:allowBackup="true"
         android:description="@string/description_activity_startup"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".StartupActivity"
+            android:name=".ui.StartupActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_startup"
             android:noHistory="true">
@@ -21,30 +24,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WallNewspaperActivity"
-            android:label="@string/title_activity_wall_newspaper">
+            android:name=".ui.browser.BrowserActivity"
+            android:label="@string/title_activity_browser">
         </activity>
-        <activity
-            android:name=".NewspaperShelfActivity"
-            android:label="@string/title_activity_newspaper_shelf">
-        </activity>
-
-        <receiver
-            android:name=".StartupBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.SHUTDOWN"/>
-                <action android:name="android.intent.action.ACTION_SHUTDOWN"/>
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".EventProcessingService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

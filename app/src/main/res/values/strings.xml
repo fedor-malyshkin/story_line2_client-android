@@ -5,4 +5,5 @@
     <string name="description_activity_startup">...</string>
     <string name="title_activity_wall_newspaper">WallNewspaperActivity</string>
     <string name="title_activity_newspaper_shelf">NewspaperShelfActivity</string>
+    <string name="title_activity_browser">BrowserActivity</string>
 </resources>
