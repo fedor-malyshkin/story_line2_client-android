@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.observables.ConnectableObservable;
 import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
 import ru.nlp_project.story_line.client_android.business.news_tape.NewsArticleBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
@@ -26,11 +27,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 	private INewsTapeView view;
 
-	@Override
-	public void connectNewsArticlesStream() {
-		interactor.getNewsArticleStream().compose
-				(transformer).subscribe(news -> view.updateNewsArticle(news));
-	}
 
 	@Override
 	public void bindView(INewsTapeView view) {
@@ -56,19 +52,20 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	}
 
 	@Override
-	public void connectAdditionNewsArticlesStream() {
-		interactor.getAdditionNewsArticleStream().compose
-				(transformer).subscribe(news -> view.addNewsArticle(news));
-	}
-
-	@Override
-	public void requsetUpdate() {
+	public void reloadNewsArticles() {
+		view.showUpdateIndicator(true);
 		view.clearTape();
-		interactor.requsetUpdate();
+		Observable<NewsArticleBusinessModel> stream = interactor
+				.createNewsArticleStream();
+		ConnectableObservable<NewsArticleUIModel> observable = stream.compose(transformer).publish();
+		observable.subscribe(
+				news -> view.addNewsArticle(news),
+				e-> e.printStackTrace(),
+				() -> view.showUpdateIndicator(false));
+		// run emitting
+		observable.connect();
+
 	}
 
-	@Override
-	public void requsetAddition(Long lastNewsId) {
-		interactor.requsetAddition(0L);
-	}
+
 }

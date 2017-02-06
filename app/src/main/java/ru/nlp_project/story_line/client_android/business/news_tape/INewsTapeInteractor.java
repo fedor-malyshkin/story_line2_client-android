@@ -9,32 +9,20 @@ import io.reactivex.Observable;
 
 public interface INewsTapeInteractor {
 	/**
-	 * Получить основной поток новостей.
+	 * Создать основной поток новостей.
 	 * <p>
 	 * По указанному потоку возвращаются как первоначальные, так и обновлнные данны.
 	 *
 	 * @return поток данных
 	 */
-	Observable<NewsArticleBusinessModel> getNewsArticleStream();
+	Observable<NewsArticleBusinessModel> createNewsArticleStream();
 
 	/**
-	 * Получить поток новостей "дозагрузки".
+	 * Создать поток новостей "дозагрузки".
 	 *
+	 * @param lastNewsId идентификатор последней новости для дозагрузки (нужны новости после неё).*
 	 * @return поток данных
 	 */
-	Observable<NewsArticleBusinessModel> getAdditionNewsArticleStream();
-
-	/**
-	 * Запросить обновление данных новостей. Вызывается на текущий момент мгновенно.
-	 * TODO: реализовать задержку в возврате до завершения возврата данных.
-	 */
-	void requsetUpdate();
-
-	/**
-	 * Запросить "дозагрузку" новостей по потоку из {@link #getAdditionNewsArticleStream()}.
-	 *
-	 * @param lastNewsId идентификатор последней новости для дозагрузки (нужны новости после неё).
-	 */
-	void requsetAddition(Long lastNewsId);
-
+	Observable<NewsArticleBusinessModel> createAdditionNewsArticleStream(
+			Long lastNewsId);
 }

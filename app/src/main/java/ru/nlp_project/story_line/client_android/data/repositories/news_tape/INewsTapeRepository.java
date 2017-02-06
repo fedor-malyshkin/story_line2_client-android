@@ -7,11 +7,6 @@ import io.reactivex.Observable;
  */
 
 public interface INewsTapeRepository {
-	Observable<NewsArticleDataModel> getNewsArticleStream();
-	
-	Observable<NewsArticleDataModel> getAdditionNewsArticleStream();
-	
-	void requsetUpdate();
-	
-	void requsetAddition(Long lastNewsId);
+	Observable<NewsArticleDataModel> createNewsArticleStream();
+	Observable<NewsArticleDataModel> createAdditionNewsArticleStream(Long lastNewsId);
 }

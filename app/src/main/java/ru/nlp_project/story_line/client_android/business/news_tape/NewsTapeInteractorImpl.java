@@ -15,35 +15,28 @@ import ru.nlp_project.story_line.client_android.data.repositories.news_tape.News
 @NewsTapeScope
 public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 
-	private DataToBusinessModelTransformer transformer = new DataToBusinessModelTransformer();
+	private ObservableTransformer<NewsArticleDataModel,
+			NewsArticleBusinessModel> transformer = new DataToBusinessModelTransformer();
 
 	@Inject
 	INewsTapeRepository repository;
+
 
 	@Inject
 	public NewsTapeInteractorImpl() {
 	}
 
 	@Override
-	public Observable<NewsArticleBusinessModel> getNewsArticleStream() {
-		return repository.getNewsArticleStream().compose
+	public Observable<NewsArticleBusinessModel> createNewsArticleStream() {
+		return repository.createNewsArticleStream().compose
 				(transformer);
 	}
 
 	@Override
-	public Observable<NewsArticleBusinessModel> getAdditionNewsArticleStream() {
-		return repository.getAdditionNewsArticleStream().compose
+	public Observable<NewsArticleBusinessModel> createAdditionNewsArticleStream(
+			Long lastNewsId) {
+		return repository.createAdditionNewsArticleStream(lastNewsId).compose
 				(transformer);
-	}
-
-	@Override
-	public void requsetUpdate() {
-		repository.requsetUpdate();
-	}
-
-	@Override
-	public void requsetAddition(Long lastNewsId) {
-		repository.requsetAddition(lastNewsId);
 	}
 
 	private class DataToBusinessModelTransformer implements ObservableTransformer<NewsArticleDataModel,

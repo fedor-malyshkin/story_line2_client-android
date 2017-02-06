@@ -5,9 +5,7 @@ package ru.nlp_project.story_line.client_android.ui.news_tape;
  */
 
 public interface INewsTapeView  {
-	void updateNewsArticle(NewsArticleUIModel news);
-	
+	void showUpdateIndicator(boolean show);
 	void addNewsArticle(NewsArticleUIModel news);
-	
 	void clearTape();
 }

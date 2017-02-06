@@ -10,6 +10,8 @@
 ## Передача данных
 В качестве основного метода взаимодействия между уровнями и внутри используется реактивный подход на базе RxJava (см. http://reactivex.io, https://github.com/ReactiveX/RxJava)
 
+
+
 ## Тестирование
 Основными библиотека для тестирования являются
 - [AssertJ](http://joel-costigliola.github.io/assertj/)

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -63,23 +62,8 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	private void initializeSwipeUpdate() {
 		swipeLayout.setRefreshing(false);
 		swipeLayout.setOnRefreshListener(
-				() -> {
-					swipeLayout.setRefreshing(true);
-					try {
-						presenter.requsetUpdate();
-						TimeUnit.MICROSECONDS.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					} finally {
-					}
-					swipeLayout.setRefreshing(false);
-				}
+				() -> presenter.reloadNewsArticles()
 		);
-	}
-
-	@Override
-	public void updateNewsArticle(NewsArticleUIModel news) {
-		newsTapeRecyclerViewAdapter.addNewsArticle(news);
 	}
 
 	private void initializeRecyclerView() {
@@ -99,9 +83,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
 
-		presenter.connectNewsArticlesStream();
-		presenter.requsetUpdate();
-		presenter.connectAdditionNewsArticlesStream();
+		presenter.reloadNewsArticles();
 	}
 
 	@Override
@@ -112,5 +94,10 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Override
 	public void clearTape() {
 		newsTapeRecyclerViewAdapter.clear();
+	}
+
+	@Override
+	public void showUpdateIndicator(boolean show) {
+		swipeLayout.setRefreshing(show);
 	}
 }
