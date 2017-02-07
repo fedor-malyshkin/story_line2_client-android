@@ -12,7 +12,8 @@ public class DaggerBuilder {
 	private static Context appContext;
 
 	private static ApplicationComponent createApplicationBuilder() {
-		return DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(appContext))
+		return DaggerApplicationComponent.builder()
+				.applicationModule(new ApplicationModule(appContext))
 				.build();
 	}
 
@@ -25,6 +26,12 @@ public class DaggerBuilder {
 	public static NewsTapeComponent createNewsTapeBuilder() {
 		return getApplicationBuilder().addToGraph(new NewsTapeModule());
 	}
+
+
+	public static SourcesBrowserComponent createSourcesBrowserBuilder() {
+		return getApplicationBuilder().addToGraph(new SourcesBrowserModule());
+	}
+
 
 	public static void inintialize(Context applicationContext) {
 		appContext = applicationContext;

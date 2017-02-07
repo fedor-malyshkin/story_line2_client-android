@@ -6,8 +6,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
-import ru.nlp_project.story_line.client_android.data.repositories.news_tape.INewsTapeRepository;
-import ru.nlp_project.story_line.client_android.data.repositories.news_tape.NewsArticleDataModel;
+import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
+import ru.nlp_project.story_line.client_android.data.news_tape.NewsArticleDataModel;
 
 /**
  * Created by fedor on 05.02.17.

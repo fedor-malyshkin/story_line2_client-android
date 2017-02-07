@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.browser.BrowserActivity"
+            android:name=".ui.sources_browser.SourcesBrowserActivity"
             android:label="@string/title_activity_browser">
         </activity>
     </application>

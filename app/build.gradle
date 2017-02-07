@@ -47,6 +47,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:gridlayout-v7:25.1.1'
     compile 'com.android.support:recyclerview-v7:25.1.1'
+	// for NavigationView
+	 compile 'com.android.support:design:25.1.1'
+
 	// dagger 2
 	compile 'com.google.dagger:dagger:2.8'
 	annotationProcessor 'com.google.dagger:dagger-compiler:2.8'

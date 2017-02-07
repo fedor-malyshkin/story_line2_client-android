@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,23 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Inject
 	public INewsTapePresenter presenter;
 	private List<NewsArticleUIModel> articles;
+
+	@BindView(R.id.news_tape_caption)
+	TextView newsTapeCaption;
 	@BindView(R.id.news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
 	@BindView(R.id.news_tape_swipe_сontainer)
 	SwipeRefreshLayout swipeLayout;
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
+
+	// newInstance constructor for creating fragment with arguments
+	public static NewsTapeFragment newInstance(String caption) {
+		NewsTapeFragment fragmentFirst = new NewsTapeFragment();
+		Bundle args = new Bundle();
+		args.putString("caption", caption);
+		fragmentFirst.setArguments(args);
+		return fragmentFirst;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +53,8 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		super.onCreate(savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
+		String caption = getArguments().getString("caption");
+		newsTapeCaption.setText(caption);
 		return view;
 	}
 

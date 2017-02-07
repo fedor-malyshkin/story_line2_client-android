@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.repositories.news_tape;
+package ru.nlp_project.story_line.client_android.data.news_tape;
 
 /**
  * Created by fedor on 04.02.17.

@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.repositories.news_tape;
+package ru.nlp_project.story_line.client_android.data.news_tape;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

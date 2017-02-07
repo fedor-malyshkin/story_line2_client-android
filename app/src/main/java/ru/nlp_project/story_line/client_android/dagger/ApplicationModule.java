@@ -6,9 +6,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.nlp_project.story_line.client_android.data.repositories.news_tape.INewsTapeRepository;
-import ru.nlp_project.story_line.client_android.data.repositories.news_tape.NewsTapeRepositoryDemo;
-import ru.nlp_project.story_line.client_android.data.repositories.news_tape.NewsTapeRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
+import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryDemo;
+import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
+import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryDemo;
 
 /**
  * Created by fedor on 11.01.17.
@@ -31,4 +32,11 @@ public class ApplicationModule {
 	}
 
 
+	@Provides
+	@Singleton
+	public ISourcesBrowserRepository provideSourcesBrowserModuleRepository
+			(SourcesBrowserRepositoryDemo
+					 implementation) {
+		return implementation;
+	}
 }
