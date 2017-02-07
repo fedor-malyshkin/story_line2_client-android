@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.nlp_project.story_line.client_android.R;
@@ -17,8 +19,14 @@ import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
 	private SourcesPageAdapter adapterViewPager;
+
+	@BindView(R.id.browser_sliding_panel)
+	SlidingPaneLayoutEx slidingPanel;
+
 	@BindView(R.id.browser_view_pager)
 	ViewPager viewPager;
+
+	@Inject
 	public ISourcesBrowserPresenter presenter;
 
 
@@ -30,7 +38,12 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		SourcesBrowserComponent builder = DaggerBuilder.createSourcesBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
+		initializeSlidingPanel();
 		initializeViewPager();
+	}
+
+	private void initializeSlidingPanel() {
+		slidingPanel.setParallaxDistance(200);
 	}
 
 	private void initializeViewPager() {

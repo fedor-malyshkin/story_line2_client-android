@@ -1,26 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/browser_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx
+    xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:id="@+id/browser_sliding_panel"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent" >
 
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:orientation="vertical">
 
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pager_header"
+        <TextView
+            android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" />
+            android:id="@+id/textView"/>
 
-    </android.support.v4.view.ViewPager>
-</LinearLayout>
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"/>
+
+        <Button
+            android:text="Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/browser_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <android.support.v4.view.PagerTabStrip
+                android:id="@+id/pager_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp" />
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+
+
+</ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx>
+
+
 
 
 <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
