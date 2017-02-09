@@ -5,11 +5,13 @@ import android.support.v4.app.Fragment;
 import javax.inject.Inject;
 
 import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
+import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
 
 /**
  * Created by fedor on 07.02.17.
  */
+@SourcesBrowserScope
 public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	private ISourcesBrowserView view;
 

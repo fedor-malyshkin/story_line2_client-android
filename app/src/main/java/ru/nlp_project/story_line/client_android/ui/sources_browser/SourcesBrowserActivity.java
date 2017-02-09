@@ -33,9 +33,10 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_browser);
+		setContentView(R.layout.activity_sources_browser);
 		ButterKnife.bind(this);
-		SourcesBrowserComponent builder = DaggerBuilder.createSourcesBrowserBuilder();
+		SourcesBrowserComponent builder = DaggerBuilder
+				.createSourcesBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
 		initializeSlidingPanel();

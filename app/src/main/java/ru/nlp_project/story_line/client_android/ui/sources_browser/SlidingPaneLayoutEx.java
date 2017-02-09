@@ -7,15 +7,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
-/**
- * Created by fedor on 08.02.17.
- */
-
 public class SlidingPaneLayoutEx extends SlidingPaneLayout {
-	private  int mEdgeSlop = 0;
+
+	private int mEdgeSlop = 0;
 	private float mInitialMotionX;
-	private float mInitialMotionY;
-	
+
+
 	public SlidingPaneLayoutEx(Context context) {
 		super(context);
 	}
@@ -24,7 +21,8 @@ public class SlidingPaneLayoutEx extends SlidingPaneLayout {
 		super(context, attrs);
 	}
 
-	public SlidingPaneLayoutEx(Context context, AttributeSet attrs, int defStyle) {
+	public SlidingPaneLayoutEx(Context context, AttributeSet attrs,
+		int defStyle) {
 		super(context, attrs, defStyle);
 		ViewConfiguration config = ViewConfiguration.get(context);
 		mEdgeSlop = config.getScaledEdgeSlop();
@@ -32,29 +30,36 @@ public class SlidingPaneLayoutEx extends SlidingPaneLayout {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		int mev = MotionEventCompat.getActionMasked(ev);
 
 		switch (MotionEventCompat.getActionMasked(ev)) {
 			case MotionEvent.ACTION_DOWN: {
 				mInitialMotionX = ev.getX();
-				mInitialMotionY = ev.getY();
+
 				break;
 			}
 
 			case MotionEvent.ACTION_MOVE: {
 				final float x = ev.getX();
 				final float y = ev.getY();
-				// The user should always be able to "close" the pane, so we only check
-				// for child scrollability if the pane is currently closed.
-				if (mInitialMotionX > mEdgeSlop && !isOpen() && canScroll(this, false,
-						Math.round(x - mInitialMotionX), Math.round(x), Math.round(y))) {
 
-					// How do we set super.mIsUnableToDrag = true?
+				// проверяем на следующие критерии:
+				// 1) двигаемся за границей дальшей края
+				// 2) закрыта
+				// 3) дочерние элементы могут двигаться (для вложенных с
+				// горизонтальной прокруткой)
+				if (mInitialMotionX > mEdgeSlop && !isOpen() && canScroll(this,
+					false,
+					Math.round(x - mInitialMotionX), Math.round(x),
+					Math.round(y))) {
 
-					// send the parent a cancel event
+					// при удовлетворяющих условиях вызываем родительский
+					// метод с событием ACTION_CANCEL и отказом от открытия
 					MotionEvent cancelEvent = MotionEvent.obtain(ev);
 					cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
 					return super.onInterceptTouchEvent(cancelEvent);
 				}
+
 			}
 		}
 

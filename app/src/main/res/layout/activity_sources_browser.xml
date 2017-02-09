@@ -5,32 +5,16 @@
                                              android:id="@+id/browser_sliding_panel"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent" >
+    <!-- side  container (for CategorySelector) -->
+    <fragment
+      android:name="ru.nlp_project.story_line.client_android.ui.categories_browser.CategoriesBrowserFragment"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+        >
 
-    <LinearLayout
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:orientation="vertical">
+    </fragment>
 
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"/>
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"/>
-
-        <Button
-            android:text="Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button"/>
-    </LinearLayout>
-
+    <!-- main container -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
@@ -40,8 +24,6 @@
             android:id="@+id/browser_view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
 
             <android.support.v4.view.PagerTabStrip
                 android:id="@+id/pager_header"
@@ -57,14 +39,3 @@
 
 
 </ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx>
-
-
-
-
-<!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
-          <!--xmlns:tools="http://schemas.android.com/tools"-->
-          <!--android:id="@+id/fragment"-->
-          <!--android:name="ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment"-->
-          <!--android:layout_width="match_parent"-->
-          <!--android:layout_height="match_parent"-->
-          <!--tools:layout="@layout/fragment_news_tape"/>-->

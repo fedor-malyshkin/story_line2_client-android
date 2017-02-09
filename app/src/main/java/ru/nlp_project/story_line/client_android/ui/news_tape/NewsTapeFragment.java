@@ -11,19 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeComponent;
 
 public class NewsTapeFragment extends Fragment implements INewsTapeView {
+
 	public static final String TAG = NewsTapeFragment.class.getName();
 
 	@Inject
@@ -49,7 +47,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+		Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
@@ -77,7 +75,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	private void initializeSwipeUpdate() {
 		swipeLayout.setRefreshing(false);
 		swipeLayout.setOnRefreshListener(
-				() -> presenter.reloadNewsArticles()
+			() -> presenter.reloadNewsArticles()
 		);
 	}
 
@@ -85,17 +83,16 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		// Initialize contacts
 		articles = new ArrayList<>();
 
-
 		// Create adapter passing in the sample user data
 		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(getContext(),
-				articles);
+			articles);
 		// Attach the adapter to the recyclerview to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
 		// Set layout manager to position the items
 		newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		// That's all!
 		RecyclerView.ItemDecoration itemDecoration = new
-				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+			DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
 
 		presenter.reloadNewsArticles();
@@ -114,5 +111,12 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Override
 	public void showUpdateIndicator(boolean show) {
 		swipeLayout.setRefreshing(show);
+	}
+
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		presenter.unbindView();
 	}
 }

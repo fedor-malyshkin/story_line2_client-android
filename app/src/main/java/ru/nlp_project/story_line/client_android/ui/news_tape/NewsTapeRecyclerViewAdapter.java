@@ -13,10 +13,6 @@ import java.util.List;
 import ru.nlp_project.story_line.client_android.R;
 
 
-/**
- * Created by fedor on 09.01.17.
- */
-
 class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerViewAdapter.ViewHolder> {
 	
 	private final Context context;
@@ -51,7 +47,8 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 // Store the context
 			this.context = context;
 			idTextView = (TextView) itemView.findViewById(R.id.news_article_id);
-			nameTextView = (TextView) itemView.findViewById(R.id.news_article_name);
+			nameTextView = (TextView) itemView
+					.findViewById(R.id.news_article_name);
 			// Attach a click listener to the entire row view
 			itemView.setOnClickListener(this);
 		}
@@ -61,19 +58,22 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 			int position = getAdapterPosition(); // gets item position
 			if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
 				// We can access the data within the views
-				Toast.makeText(context, nameTextView.getText(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, nameTextView.getText(),
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
 	@Override
-	public NewsTapeRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-																	 int viewType) {
+	public NewsTapeRecyclerViewAdapter.ViewHolder onCreateViewHolder(
+			ViewGroup parent,
+			int viewType) {
 		Context context = parent.getContext();
 		LayoutInflater inflater = LayoutInflater.from(context);
 
 		// Inflate the custom layout
-		View articleHeaderView = inflater.inflate(R.layout.view_news_tape_entry, parent, false);
+		View articleHeaderView = inflater
+				.inflate(R.layout.view_news_tape_entry, parent, false);
 
 		// Return a new holder instance
 		ViewHolder viewHolder = new ViewHolder(context, articleHeaderView);
@@ -82,7 +82,8 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 
 
 	@Override
-	public void onBindViewHolder(NewsTapeRecyclerViewAdapter.ViewHolder holder, int position) {
+	public void onBindViewHolder(NewsTapeRecyclerViewAdapter.ViewHolder holder,
+								 int position) {
 		// Get the data model based on position
 		NewsArticleUIModel article = articles.get(position);
 
@@ -99,7 +100,8 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 	}
 
 
-	public NewsTapeRecyclerViewAdapter(Context context, List<NewsArticleUIModel> articleHeaders) {
+	public NewsTapeRecyclerViewAdapter(Context context,
+									   List<NewsArticleUIModel> articleHeaders) {
 		this.context = context;
 		this.articles = articleHeaders;
 	}

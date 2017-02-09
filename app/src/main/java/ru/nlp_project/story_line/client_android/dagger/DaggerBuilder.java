@@ -7,19 +7,21 @@ import android.content.Context;
  */
 
 public class DaggerBuilder {
+
 	private static ApplicationComponent applicationBuilder;
 	private static NewsTapeComponent newsTapeBuilder;
 	private static Context appContext;
 
 	private static ApplicationComponent createApplicationBuilder() {
 		return DaggerApplicationComponent.builder()
-				.applicationModule(new ApplicationModule(appContext))
-				.build();
+			.applicationModule(new ApplicationModule(appContext))
+			.build();
 	}
 
 	public static ApplicationComponent getApplicationBuilder() {
-		if (applicationBuilder == null)
+		if (applicationBuilder == null) {
 			applicationBuilder = createApplicationBuilder();
+		}
 		return applicationBuilder;
 	}
 
@@ -35,5 +37,9 @@ public class DaggerBuilder {
 
 	public static void inintialize(Context applicationContext) {
 		appContext = applicationContext;
+	}
+
+	public static CategoriesBrowserComponent createCategoriesBrowserBuilder() {
+		return getApplicationBuilder().addToGraph(new CategoriesBrowserModule());
 	}
 }
