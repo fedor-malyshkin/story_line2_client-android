@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.data.categories_browser;
 
 import io.reactivex.Observable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

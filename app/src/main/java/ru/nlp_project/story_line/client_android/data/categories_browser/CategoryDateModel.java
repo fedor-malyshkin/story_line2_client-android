@@ -1,8 +1,12 @@
 package ru.nlp_project.story_line.client_android.data.categories_browser;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by fedor on 10.02.17.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDateModel {
 
 	public CategoryDateModel(Long id, String name, String serverId) {
@@ -11,8 +15,13 @@ public class CategoryDateModel {
 		this.serverId = serverId;
 	}
 
+	public CategoryDateModel() {
+	}
+
 	private Long id;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("id")
 	private String serverId;
 
 	public String getName() {

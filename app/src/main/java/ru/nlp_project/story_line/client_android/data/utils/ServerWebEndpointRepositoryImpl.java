@@ -21,6 +21,6 @@ public class ServerWebEndpointRepositoryImpl implements ICategoriesBrowserReposi
 	@Override
 	public Observable<CategoryDateModel> createCategoryStream() {
 		CategoriesBrowserRetrofitService service = retrofiService.getCategoriesBrowserService();
-		return service.list().subscribeOn(bckgScheduler);
+		return service.list().subscribeOn(bckgScheduler).flatMap(Observable::fromIterable);
 	}
 }

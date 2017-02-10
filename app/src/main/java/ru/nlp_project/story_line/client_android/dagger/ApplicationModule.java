@@ -23,7 +23,7 @@ import ru.nlp_project.story_line.client_android.data.utils.ServerWebEndpointRepo
 public class ApplicationModule {
 
 	private Context context;
-	public static final String BASE_URL = "http://localhost:3000/";
+	public static final String BASE_URL = "http://192.168.1.100:8080/";
 
 	public ApplicationModule(Context context) {
 		this.context = context;
