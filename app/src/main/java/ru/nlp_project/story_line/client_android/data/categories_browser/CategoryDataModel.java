@@ -7,15 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by fedor on 10.02.17.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CategoryDateModel {
+public class CategoryDataModel {
 
-	public CategoryDateModel(Long id, String name, String serverId) {
+	public CategoryDataModel(Long id, String name, String serverId) {
 		this.id = id;
 		this.name = name;
 		this.serverId = serverId;
 	}
 
-	public CategoryDateModel() {
+	public CategoryDataModel() {
 	}
 
 	private Long id;
@@ -34,5 +34,14 @@ public class CategoryDateModel {
 
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "CategoryDataModel{" +
+			"id=" + id +
+			", name='" + name + '\'' +
+			", serverId='" + serverId + '\'' +
+			'}';
 	}
 }

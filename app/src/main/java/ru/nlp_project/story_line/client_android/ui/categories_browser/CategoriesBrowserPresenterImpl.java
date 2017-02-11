@@ -1,17 +1,22 @@
 package ru.nlp_project.story_line.client_android.ui.categories_browser;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
 import io.reactivex.observables.ConnectableObservable;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.categories_browser.CategoryBusinessModel;
 import ru.nlp_project.story_line.client_android.business.categories_browser.ICategoriesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.CategoriesBrowserScope;
+import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 
 @CategoriesBrowserScope
 public class CategoriesBrowserPresenterImpl implements ICategoriesBrowserPresenter {
 
 	private ICategoriesBrowserView view;
+
+	@Inject
+	@SchedulerType(SchedulerType.ui)
+	public Scheduler uiScheduler;
 
 	@Inject
 	public CategoriesBrowserPresenterImpl() {
@@ -35,10 +40,10 @@ public class CategoriesBrowserPresenterImpl implements ICategoriesBrowserPresent
 		Observable<CategoryBusinessModel> stream = interactor
 			.createCategoryStream();
 		ConnectableObservable<CategoryBusinessModel> observable = stream.publish();
-		observable.observeOn(AndroidSchedulers.mainThread()).subscribe(
-			category -> view.addCategory(category.getName(), category.getServerId()),
+		observable.observeOn(uiScheduler).subscribe(
+			category -> view.addCategoryInTop(category.getName(), category.getServerId()),
 			e -> e.printStackTrace(),
-			() -> view.noMoreCategory());
+			() -> view.noMoreAddCategory());
 		// run emitting
 		observable.connect();
 	}

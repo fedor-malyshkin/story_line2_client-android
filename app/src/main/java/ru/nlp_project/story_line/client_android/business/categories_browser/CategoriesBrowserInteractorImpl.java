@@ -4,7 +4,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import javax.inject.Inject;
-import ru.nlp_project.story_line.client_android.data.categories_browser.CategoryDateModel;
+import ru.nlp_project.story_line.client_android.data.categories_browser.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
 
 /**
@@ -12,7 +12,7 @@ import ru.nlp_project.story_line.client_android.data.categories_browser.ICategor
  */
 public class CategoriesBrowserInteractorImpl implements ICategoriesBrowserInteractor {
 
-	private ObservableTransformer<CategoryDateModel,
+	private ObservableTransformer<CategoryDataModel,
 		CategoryBusinessModel> transformer = new DataToBusinessModelTransformer();
 
 	@Inject
@@ -30,12 +30,12 @@ public class CategoriesBrowserInteractorImpl implements ICategoriesBrowserIntera
 	}
 
 
-	private class DataToBusinessModelTransformer implements ObservableTransformer<CategoryDateModel,
+	private class DataToBusinessModelTransformer implements ObservableTransformer<CategoryDataModel,
 		CategoryBusinessModel> {
 
 		@Override
 		public ObservableSource<CategoryBusinessModel> apply(
-			Observable<CategoryDateModel> upstream) {
+			Observable<CategoryDataModel> upstream) {
 			return upstream.map(
 				data -> new CategoryBusinessModel(data.getId(), data.getName(),
 					data.getServerId()));

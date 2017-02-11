@@ -1,9 +1,19 @@
 <resources>
-    <string name="app_name">Story Line</string>
-    <string name="title_activity_startup">StartupActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="description_activity_startup">...</string>
-    <string name="title_activity_wall_newspaper">WallNewspaperActivity</string>
-    <string name="title_activity_newspaper_shelf">NewspaperShelfActivity</string>
-    <string name="title_activity_browser">BrowserActivity</string>
+  <string name="app_name">Story Line</string>
+  <string name="title_activity_startup">StartupActivity</string>
+  <string name="title_activity_browser">BrowserActivity</string>
+  <string name="description_activity_startup">Новостное приложение \"Story Line\"</string>
+  <string name="categories_browser_category_main_title">Главные новости</string>
+  <string name="categories_browser_category_politics_title">Политика</string>
+  <string name="categories_browser_category_business_title">Бизнес</string>
+  <string name="categories_browser_category_society_title">Общество</string>
+  <string name="categories_browser_category_sport_title">Спорт</string>
+  <string name="categories_browser_category_culture_title">Культура</string>
+  <string name="categories_browser_category_science_title">Наука</string>
+  <string name="categories_browser_category_auto_title">Авто</string>
+  <string name="categories_browser_category_technology_title">Технологии</string>
+  <string name="categories_browser_category_fashion_title">Мода</string>
+  <string name="categories_browser_category_favorites_title">Избранное</string>
+  <string name="categories_browser_category_settings_title">Настройки</string>
+  <string name="categories_browser_category_about_title">О приложении</string>
 </resources>

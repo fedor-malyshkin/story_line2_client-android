@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ru.nlp_project.story_line.client_android">
+  package="ru.nlp_project.story_line.client_android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
 
-    <application
-        android:name=".ClientAndroidApp"
-        android:allowBackup="true"
-        android:description="@string/description_activity_startup"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.StartupActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_startup"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+  <application
+    android:allowBackup="true"
+    android:description="@string/description_activity_startup"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:name=".ClientAndroidApp"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity
+      android:excludeFromRecents="true"
+      android:label="@string/title_activity_startup"
+      android:name=".ui.StartupActivity"
+      android:noHistory="true"
+      >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.sources_browser.SourcesBrowserActivity"
-            android:label="@string/title_activity_browser">
-        </activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:label="@string/title_activity_browser"
+      android:name=".ui.sources_browser.SourcesBrowserActivity">
+    </activity>
+  </application>
 
 </manifest>

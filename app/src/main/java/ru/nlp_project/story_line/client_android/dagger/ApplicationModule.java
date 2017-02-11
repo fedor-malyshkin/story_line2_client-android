@@ -7,13 +7,15 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import javax.inject.Singleton;
+import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryDemo;
 import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
 import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryDemo;
+import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
+import ru.nlp_project.story_line.client_android.data.utils.LocalDBStorageImpl;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
-import ru.nlp_project.story_line.client_android.data.utils.ServerWebEndpointRepositoryImpl;
 
 /**
  * Created by fedor on 11.01.17.
@@ -48,9 +50,8 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ICategoriesBrowserRepository provideCateriesBrowserModuleRepository(
-		RetrofiService retrofiService,
-		@SchedulerType(SchedulerType.background) Scheduler scheduler) {
-		return new ServerWebEndpointRepositoryImpl(retrofiService, scheduler);
+		CategoriesBrowserRepositoryImpl instance) {
+		return instance;
 	}
 
 
@@ -72,6 +73,14 @@ public class ApplicationModule {
 	public RetrofiService provideRetrofiService() {
 		RetrofiService service = new RetrofiService(BASE_URL);
 		service.build();
+		return service;
+	}
+
+	@Provides
+	@Singleton
+	public ILocalDBStorage provideLocalDBStorage () {
+		LocalDBStorageImpl service = new  LocalDBStorageImpl(context);
+		service.initialize();
 		return service;
 	}
 }

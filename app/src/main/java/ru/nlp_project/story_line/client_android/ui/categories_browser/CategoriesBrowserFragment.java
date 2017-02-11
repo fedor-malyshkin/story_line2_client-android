@@ -25,6 +25,7 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 	public ICategoriesBrowserPresenter presenter;
 	@BindView(R.id.categories_browser_layout)
 	ViewGroup layout;
+	private int addTopCategoryPos = 0;
 
 
 	@Override
@@ -63,20 +64,20 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 	}
 
 	@Override
-	public void addCategory(String name, String serverId) {
+	public void addCategoryInTop(String name, String serverId) {
 		//set the properties for button
 		Button btnTag = new Button(getContext());
 		btnTag.setLayoutParams(
-			new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		btnTag.setText(name + "-" + serverId);
 		btnTag.setId(1);
 
 		//add button to the layout
-		layout.addView(btnTag);
+		layout.addView(btnTag, addTopCategoryPos++);
 	}
 
 	@Override
-	public void noMoreCategory() {
-
+	public void noMoreAddCategory() {
+		addTopCategoryPos = 0;
 	}
 }

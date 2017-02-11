@@ -7,6 +7,6 @@ import retrofit2.http.GET;
 public interface CategoriesBrowserRetrofitService {
 
 	@GET("categories")
-	Observable<List<CategoryDateModel>> list();
+	Observable<List<CategoryDataModel>> list();
 
 }

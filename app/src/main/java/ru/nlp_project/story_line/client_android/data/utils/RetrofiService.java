@@ -6,9 +6,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRetrofitService;
 
-/**
- * Created by fedor on 10.02.17.
- */
 @Singleton
 public class RetrofiService {
 
@@ -27,7 +24,7 @@ public class RetrofiService {
 			.build();
 	}
 
-	CategoriesBrowserRetrofitService getCategoriesBrowserService() {
+	public CategoriesBrowserRetrofitService getCategoriesBrowserService() {
 		return retrofit.create(CategoriesBrowserRetrofitService.class);
 	}
 }

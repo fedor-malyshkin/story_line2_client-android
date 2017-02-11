@@ -4,5 +4,5 @@ import io.reactivex.Observable;
 
 public interface ICategoriesBrowserRepository {
 
-	Observable<CategoryDateModel> createCategoryStream();
+	Observable<CategoryDataModel> createCategoryStream();
 }
