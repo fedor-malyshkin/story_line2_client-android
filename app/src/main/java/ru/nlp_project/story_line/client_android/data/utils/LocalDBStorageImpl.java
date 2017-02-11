@@ -21,17 +21,17 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public void addCategoryToCache(CategoryDataModel dataModel) {
-		Log.i("addCategoryToCache", dataModel.toString());
+
 	}
 
 	@Override
 	public void commitCategoryCacheUpdate() {
-		Log.i("commitCategoryCacheUpdate", "");
+
 	}
 
 	@Override
 	public void cancelCategoryCacheUpdate(Throwable throwable) {
-		Log.w("cancelCategoryCacheUpdate", throwable.getMessage(), throwable);
+		// Log.w("cancelCategoryCacheUpdate", throwable.getMessage(), throwable);
 	}
 
 	@Override

@@ -1,9 +1,8 @@
 package ru.nlp_project.story_line.client_android.ui.sources_browser;
 
 import android.support.v4.app.Fragment;
-
+import android.util.Log;
 import javax.inject.Inject;
-
 import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
@@ -13,6 +12,7 @@ import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
  */
 @SourcesBrowserScope
 public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
+
 	private ISourcesBrowserView view;
 
 	@Inject
@@ -49,5 +49,10 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	@Override
 	public void unbindView() {
 		this.view = null;
+	}
+
+	@Override
+	public void categorySelected(String category) {
+		Log.i("categorySelected", category);
 	}
 }

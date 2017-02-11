@@ -17,6 +17,7 @@
 
     <Button
       android:id="@+id/categories_browser_category_main"
+      style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_main_title"/>

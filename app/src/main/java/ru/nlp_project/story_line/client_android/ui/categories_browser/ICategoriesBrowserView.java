@@ -1,11 +1,12 @@
 package ru.nlp_project.story_line.client_android.ui.categories_browser;
 
-/**
- * Created by fedor on 09.02.17.
- */
 public interface ICategoriesBrowserView {
+	public interface ICategorySelectionListener {
 
-	void addCategoryInTop(String name, String serverId);
+		void categorySelected(String category);
+	}
 
-	void noMoreAddCategory();
+	void addCategoryOnTop(String name, String serverId);
+
+	void commitAddCategoryOnTop();
 }

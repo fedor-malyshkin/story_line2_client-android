@@ -1,5 +1,8 @@
 package ru.nlp_project.story_line.client_android.ui.sources_browser;
 
 
-public interface ISourcesBrowserView {
+import ru.nlp_project.story_line.client_android.ui.categories_browser.ICategoriesBrowserView.ICategorySelectionListener;
+
+public interface ISourcesBrowserView extends ICategorySelectionListener {
+
 }

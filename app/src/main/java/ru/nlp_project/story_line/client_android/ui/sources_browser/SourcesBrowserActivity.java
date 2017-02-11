@@ -7,11 +7,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
@@ -36,7 +34,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		setContentView(R.layout.activity_sources_browser);
 		ButterKnife.bind(this);
 		SourcesBrowserComponent builder = DaggerBuilder
-				.createSourcesBrowserBuilder();
+			.createSourcesBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
 		initializeSlidingPanel();
@@ -81,6 +79,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	}
 
 	public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
+
 		private static final float MIN_SCALE = 0.85f;
 		private static final float MIN_ALPHA = 0.5f;
 
@@ -109,13 +108,19 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 				// Fade the page relative to its size.
 				view.setAlpha(MIN_ALPHA +
-						(scaleFactor - MIN_SCALE) /
-								(1 - MIN_SCALE) * (1 - MIN_ALPHA));
+					(scaleFactor - MIN_SCALE) /
+						(1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
 			} else { // (1,+Infinity]
 				// This page is way off-screen to the right.
 				view.setAlpha(0);
 			}
 		}
+	}
+
+
+	@Override
+	public void categorySelected(String category) {
+		presenter.categorySelected(category);
 	}
 }

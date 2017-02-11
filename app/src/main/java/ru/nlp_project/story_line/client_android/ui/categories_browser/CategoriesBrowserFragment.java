@@ -3,6 +3,7 @@ package ru.nlp_project.story_line.client_android.ui.categories_browser;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,6 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.CategoriesBrowserComponent;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
-
-/**
- * Created by fedor on 09.02.17.
- */
 
 public class CategoriesBrowserFragment extends Fragment implements ICategoriesBrowserView {
 
@@ -38,6 +35,16 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 		return view;
 	}
 
+	private void initilizeOnClickListener() {
+		for (int i = 0; i < layout.getChildCount(); i++) {
+			View child = layout.getChildAt(i);
+			if (Button.class.isInstance(child)) {
+				Button btn = (Button) child;
+				btn.setOnClickListener(presenter::onCategorySelection);
+			}
+		}
+	}
+
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -48,11 +55,20 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 		loadCategories();
 	}
 
+	private void initializeActivityConnection() {
+		FragmentActivity activity = getActivity();
+		if (ICategorySelectionListener.class.isInstance(activity)) {
+			presenter.setCategorySelectionListener((ICategorySelectionListener) activity);
+		}
+
+	}
+
 	/**
 	 * Выполнить инициализацию элементов управления.
 	 *
 	 * Среди прочего загрузить список категорий и создать необходимые элементы управления.
 	 */
+
 	private void loadCategories() {
 		presenter.loadCategories();
 	}
@@ -64,20 +80,22 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 	}
 
 	@Override
-	public void addCategoryInTop(String name, String serverId) {
+	public void addCategoryOnTop(String name, String serverId) {
 		//set the properties for button
 		Button btnTag = new Button(getContext());
 		btnTag.setLayoutParams(
 			new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		btnTag.setText(name + "-" + serverId);
-		btnTag.setId(1);
-
 		//add button to the layout
 		layout.addView(btnTag, addTopCategoryPos++);
 	}
 
 	@Override
-	public void noMoreAddCategory() {
+	public void commitAddCategoryOnTop() {
+		// reset position counter
 		addTopCategoryPos = 0;
+		// after finish - initialize control and add listeners
+		initilizeOnClickListener();
+		initializeActivityConnection();
 	}
 }
