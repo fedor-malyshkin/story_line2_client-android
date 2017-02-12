@@ -44,21 +44,18 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public int getFragmentsCount() {
-		return 3;
+		return sources.size();
 	}
 
 	@Override
 	public Fragment getFragmentByIndex(int position) {
-		switch (position) {
-			case 0: // Fragment # 0 - This will show FirstFragment
-				return NewsTapeFragment.newInstance("Page # 1");
-			case 1: // Fragment # 0 - This will show FirstFragment different title
-				return NewsTapeFragment.newInstance("Page # 2");
-			case 2: // Fragment # 1 - This will show SecondFragment
-				return NewsTapeFragment.newInstance("Page # 3");
-			default:
-				return null;
-		}
+		SourceBusinessModel model = sources.get(position);
+		return NewsTapeFragment.newInstance(model);
+	}
+
+	@Override
+	public CharSequence getFragmentTitleByIndex(int position) {
+		return sources.get(position).getShortName();
 	}
 
 	@Override

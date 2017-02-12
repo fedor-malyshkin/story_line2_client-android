@@ -29,8 +29,8 @@
       android:name=".ui.sources_browser.SourcesBrowserActivity">
     </activity>
     <activity
-      android:label="@string/title_news_watcher"
-      android:name=".ui.news_watcher.NewsWatcherActivity">
+      android:label="@string/title_news_browser"
+      android:name=".ui.news_browser.NewsBrowserActivity">
     </activity>
 
   </application>

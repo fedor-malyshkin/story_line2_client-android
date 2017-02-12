@@ -2,7 +2,7 @@
 
 <ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/browser_sliding_panel"
+  android:id="@+id/sources_browser_sliding_panel"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   <!-- side  container (for CategorySelector) -->
@@ -20,12 +20,12 @@
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
-      android:id="@+id/browser_view_pager"
+      android:id="@+id/sources_browser_view_pager"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
       <android.support.v4.view.PagerTabStrip
-        android:id="@+id/pager_header"
+        android:id="@+id/sources_browser_pager_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"

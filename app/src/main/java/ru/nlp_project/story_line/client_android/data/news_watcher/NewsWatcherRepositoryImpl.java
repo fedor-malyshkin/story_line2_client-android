@@ -31,7 +31,7 @@ public class NewsWatcherRepositoryImpl implements INewsWatcherRepository {
 	// TODO: test variants
 	@Override
 	public Single<NewsArticleDataModel> createCachedNewsArticleStream(String serverId) {
-		NewsWatcherRetrofitService netService = retrofiService.getNewsWatcherService();
+		NewsWatcherRetrofitService netService = retrofiService.getNewsBrowserService();
 		// connectable (run if more than 1 subscriber)
 		Observable<NewsArticleDataModel> netStream = netService.get(serverId)
 			.subscribeOn(bckgScheduler).toObservable().publish().autoConnect(2);

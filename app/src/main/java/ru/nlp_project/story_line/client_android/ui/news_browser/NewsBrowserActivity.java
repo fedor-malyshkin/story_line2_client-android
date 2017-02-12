@@ -1,5 +1,6 @@
-package ru.nlp_project.story_line.client_android.ui.sources_browser;
+package ru.nlp_project.story_line.client_android.ui.news_browser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,39 +8,44 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.ArrayList;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
-import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
+import ru.nlp_project.story_line.client_android.dagger.NewsBrowserComponent;
 import ru.nlp_project.story_line.client_android.ui.utils.CachingFragmentStatePagerAdapter;
 import ru.nlp_project.story_line.client_android.ui.utils.ZoomOutPageTransformer;
 
-public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
+public class NewsBrowserActivity extends AppCompatActivity implements INewsBrowserView {
 
-	private SourcesPageAdapter adapterViewPager;
+	public static final String INTENT_KEY_ARTICLES = "articles";
+	public static final String INTENT_KEY_POSITION = "position";
 
-	@BindView(R.id.sources_browser_sliding_panel)
-	SlidingPaneLayoutEx slidingPanel;
+	private NewsArticlesPageAdapter adapterViewPager;
 
-	@BindView(R.id.sources_browser_view_pager)
+
+	@BindView(R.id.news_browser_view_pager)
 	ViewPager viewPager;
 
 	@Inject
-	public ISourcesBrowserPresenter presenter;
-
+	public INewsBrowserPresenter presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sources_browser);
+		setContentView(R.layout.activity_news_browser);
 		ButterKnife.bind(this);
-		SourcesBrowserComponent builder = DaggerBuilder
-			.createSourcesBrowserBuilder();
+		NewsBrowserComponent builder = DaggerBuilder
+			.createNewsBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
-		presenter.initialize();
-		initializeSlidingPanel();
-		initializeViewPager();
+
+		Intent intent = getIntent();
+		int articlePos = intent.getIntExtra(NewsBrowserActivity.INTENT_KEY_POSITION, 0);
+		ArrayList<String> articleServerIds = intent
+			.getStringArrayListExtra(NewsBrowserActivity.INTENT_KEY_ARTICLES);
+		presenter.initialize(articleServerIds, articlePos);
+		initializeViewPager(articlePos);
 	}
 
 	@Override
@@ -48,19 +54,17 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		presenter.unbindView();
 	}
 
-	private void initializeSlidingPanel() {
-		slidingPanel.setParallaxDistance(200);
-	}
 
-	private void initializeViewPager() {
-		adapterViewPager = new SourcesPageAdapter(getSupportFragmentManager());
+	private void initializeViewPager(int articlePos) {
+		adapterViewPager = new NewsArticlesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(adapterViewPager);
 		viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+		viewPager.setCurrentItem(articlePos, true);
 	}
 
-	public class SourcesPageAdapter extends CachingFragmentStatePagerAdapter {
+	public class NewsArticlesPageAdapter extends CachingFragmentStatePagerAdapter {
 
-		public SourcesPageAdapter(FragmentManager fragmentManager) {
+		public NewsArticlesPageAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);
 		}
 
@@ -82,10 +86,5 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 			return presenter.getFragmentTitleByIndex(position);
 		}
 
-	}
-
-	@Override
-	public void categorySelected(String category) {
-		presenter.categorySelected(category);
 	}
 }

@@ -29,7 +29,7 @@ public class NewsTapeRepositoryDemo implements INewsTapeRepository {
 		for (int i = 0; i < 50; i++) {
 			newsArticleStream
 				.onNext(new NewsHeaderDataModel((long) i, "System.currentTimeMillis()" + System
-					.currentTimeMillis(), "123"));
+					.currentTimeMillis(), "serverId-" + i));
 		}
 		newsArticleStream.onComplete();
 		return newsArticleStream;

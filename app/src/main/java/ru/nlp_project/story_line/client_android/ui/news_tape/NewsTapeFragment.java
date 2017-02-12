@@ -19,9 +19,10 @@ import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
+import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeComponent;
-import ru.nlp_project.story_line.client_android.ui.news_watcher.NewsWatcherActivity;
+import ru.nlp_project.story_line.client_android.ui.news_browser.NewsBrowserActivity;
 
 public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
@@ -40,12 +41,12 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
 
 	// newInstance constructor for creating fragment with arguments
-	public static NewsTapeFragment newInstance(String caption) {
-		NewsTapeFragment fragmentFirst = new NewsTapeFragment();
+	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
+		NewsTapeFragment fragment = new NewsTapeFragment();
 		Bundle args = new Bundle();
-		args.putString("caption", caption);
-		fragmentFirst.setArguments(args);
-		return fragmentFirst;
+		args.putString("caption", source.getShortName());
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -126,14 +127,14 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 //		Toast.makeText(getContext(), newsArticleUIModel.getName(),
 //			Toast.LENGTH_LONG).show();
 
-		Intent intent = new Intent(this.getContext(), NewsWatcherActivity.class);
+		Intent intent = new Intent(this.getContext(), NewsBrowserActivity.class);
 		ArrayList articlesArray = new ArrayList();
 		for (NewsHeaderBusinessModel a : articles) {
 			articlesArray.add(a.getServerId());
 		}
 
-		intent.putStringArrayListExtra(NewsWatcherActivity.INTENT_KEY_ARTICLES, articlesArray);
-		intent.putExtra(NewsWatcherActivity.INTENT_KEY_POSITION, position);
+		intent.putStringArrayListExtra(NewsBrowserActivity.INTENT_KEY_ARTICLES, articlesArray);
+		intent.putExtra(NewsBrowserActivity.INTENT_KEY_POSITION, position);
 		startActivity(intent);
 	}
 }

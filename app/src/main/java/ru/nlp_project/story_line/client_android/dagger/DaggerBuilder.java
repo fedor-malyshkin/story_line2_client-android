@@ -37,6 +37,10 @@ public class DaggerBuilder {
 		return getApplicationBuilder().addToGraph(new CategoriesBrowserModule());
 	}
 
+	public static NewsBrowserComponent createNewsBrowserBuilder() {
+		return getApplicationBuilder().addToGraph(new NewsBrowserModule());
+	}
+
 	public static NewsWatcherComponent createNewsWatcherBuilder() {
 		return getApplicationBuilder().addToGraph(new NewsWatcherModule());
 	}

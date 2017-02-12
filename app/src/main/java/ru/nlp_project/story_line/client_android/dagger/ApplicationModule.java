@@ -11,6 +11,8 @@ import ru.nlp_project.story_line.client_android.data.categories_browser.Categori
 import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryDemo;
+import ru.nlp_project.story_line.client_android.data.news_watcher.INewsWatcherRepository;
+import ru.nlp_project.story_line.client_android.data.news_watcher.NewsWatcherRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
 import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
@@ -31,6 +33,12 @@ public class ApplicationModule {
 		this.context = context;
 	}
 
+	@Provides
+	@Singleton
+	public INewsWatcherRepository provideNewsWatcherRepository(NewsWatcherRepositoryImpl
+		implementation) {
+		return implementation;
+	}
 
 	@Provides
 	@Singleton

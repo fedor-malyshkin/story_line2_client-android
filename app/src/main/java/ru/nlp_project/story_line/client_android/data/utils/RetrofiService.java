@@ -34,7 +34,7 @@ public class RetrofiService {
 		return retrofit.create(SourcesBrowserRetrofitService.class);
 	}
 
-	public NewsWatcherRetrofitService getNewsWatcherService() {
+	public NewsWatcherRetrofitService getNewsBrowserService() {
 		return retrofit.create(NewsWatcherRetrofitService.class);
 	}
 

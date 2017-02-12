@@ -1,15 +1,12 @@
 package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
-import android.support.v4.app.Fragment;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
-import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
-import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
+import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
+import ru.nlp_project.story_line.client_android.dagger.NewsWatcherScope;
 
-@SourcesBrowserScope
+@NewsWatcherScope
 public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
-
-	private INewsWatcherView view;
 
 	@Inject
 	public NewsWatcherPresenterImpl() {
@@ -18,24 +15,8 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	@Inject
 	INewsWatcherInteractor interactor;
 
-	@Override
-	public int getFragmentsCount() {
-		return 3;
-	}
+	private INewsWatcherView view;
 
-	@Override
-	public Fragment getFragmentByIndex(int position) {
-		switch (position) {
-			case 0: // Fragment # 0 - This will show FirstFragment
-				return NewsTapeFragment.newInstance("Page # 1");
-			case 1: // Fragment # 0 - This will show FirstFragment different title
-				return NewsTapeFragment.newInstance("Page # 2");
-			case 2: // Fragment # 1 - This will show SecondFragment
-				return NewsTapeFragment.newInstance("Page # 3");
-			default:
-				return null;
-		}
-	}
 
 	@Override
 	public void bindView(INewsWatcherView view) {

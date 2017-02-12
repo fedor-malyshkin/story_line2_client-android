@@ -16,5 +16,5 @@
   <string name="categories_browser_category_favorites_title">Избранное</string>
   <string name="categories_browser_category_settings_title">Настройки</string>
   <string name="categories_browser_category_about_title">О приложении</string>
-  <string name="title_news_watcher">Просмотр новости</string>
+  <string name="title_news_browser">Просмотр новости</string>
 </resources>
