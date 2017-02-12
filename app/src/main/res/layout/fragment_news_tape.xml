@@ -7,12 +7,6 @@
               tools:context="ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment"
               android:orientation="vertical">
 
-    <TextView
-        android:text=""
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/news_tape_caption"/>
-
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/news_tape_swipe_сontainer"

@@ -58,7 +58,10 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public Observable<SourceDataModel> createSourceStream() {
-		return Observable.fromArray(new SourceDataModel(0L, "bnkomi.ru", "BNK", "BNK Long", ""));
+		return Observable.fromArray(new SourceDataModel(0L, "bnkomi.ru", "BNK", "BNK Long",
+			"bnk_server_id"), new SourceDataModel(0L, "komiinform.ru", "KomiInform", "KomiInform "
+			+ "Long",
+			"komiinform_server_id"));
 	}
 
 	@Override

@@ -12,6 +12,10 @@ import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
 @NewsTapeScope
 public class NewsTapePresenterImpl implements INewsTapePresenter {
 
+	private String sourceServerId;
+	private String sourceShortName;
+	private String sourceName;
+
 	@Inject
 	public NewsTapePresenterImpl() {
 	}
@@ -38,12 +42,17 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 		view.showUpdateIndicator(true);
 		view.clearTape();
 		Observable<NewsHeaderBusinessModel> stream = interactor
-			.createNewsHeaderStream();
+			.createNewsHeaderStream(sourceServerId);
 		stream.subscribe(
 			news -> view.addNewsArticle(news),
 			e -> e.printStackTrace(),
 			() -> view.showUpdateIndicator(false));
 	}
 
-
+	@Override
+	public void initialize(String sourceServerId, String sourceShortName, String sourceName) {
+		this.sourceServerId = sourceServerId;
+		this.sourceShortName = sourceShortName;
+		this.sourceName = sourceName;
+	}
 }

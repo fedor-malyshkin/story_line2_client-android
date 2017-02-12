@@ -23,12 +23,12 @@ public class NewsTapeRepositoryDemo implements INewsTapeRepository {
 	}
 
 	@Override
-	public Observable<NewsHeaderDataModel> createNewsArticleStream() {
+	public Observable<NewsHeaderDataModel> createNewsArticleStream(String sourceServerId) {
 		newsArticleStream = ReplaySubject.create();
 
 		for (int i = 0; i < 50; i++) {
 			newsArticleStream
-				.onNext(new NewsHeaderDataModel((long) i, "System.currentTimeMillis()" + System
+				.onNext(new NewsHeaderDataModel((long) i, sourceServerId + "-" + System
 					.currentTimeMillis(), "serverId-" + i));
 		}
 		newsArticleStream.onComplete();
@@ -37,7 +37,8 @@ public class NewsTapeRepositoryDemo implements INewsTapeRepository {
 
 
 	@Override
-	public Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(Long lastNewsId) {
+	public Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(String sourceServerId,
+		Long lastNewsId) {
 		additionNewsArticleStream = PublishSubject.create();
 		return additionNewsArticleStream;
 	}

@@ -28,12 +28,14 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	public static final String TAG = NewsTapeFragment.class.getName();
 
+	private static final String FRAGMENT_ARG_SOURCE_SHORT_NAME = "sourceShortName";
+	private static final String FRAGMENT_ARG_SOURCE_SERVER_ID = "sourceServerId";
+	private static final String FRAGMENT_ARG_SOURCE_NAME = "sourceName";
+
 	@Inject
 	public INewsTapePresenter presenter;
 	private List<NewsHeaderBusinessModel> articles;
 
-	@BindView(R.id.news_tape_caption)
-	TextView newsTapeCaption;
 	@BindView(R.id.news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
 	@BindView(R.id.news_tape_swipe_сontainer)
@@ -44,7 +46,9 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
 		NewsTapeFragment fragment = new NewsTapeFragment();
 		Bundle args = new Bundle();
-		args.putString("caption", source.getShortName());
+		args.putString(FRAGMENT_ARG_SOURCE_SHORT_NAME, source.getShortName());
+		args.putString(FRAGMENT_ARG_SOURCE_SERVER_ID, source.getServerId());
+		args.putString(FRAGMENT_ARG_SOURCE_NAME, source.getName());
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -55,8 +59,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		super.onCreate(savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
-		String caption = getArguments().getString("caption");
-		newsTapeCaption.setText(caption);
 		return view;
 	}
 
@@ -74,6 +76,12 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		presenter.bindView(this);
 		initializeRecyclerView();
 		initializeSwipeUpdate();
+		// arguments
+		String sourceShortName = getArguments().getString(FRAGMENT_ARG_SOURCE_SHORT_NAME);
+		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
+		String serverId = getArguments().getString(FRAGMENT_ARG_SOURCE_SERVER_ID);
+presenter.initialize(serverId, sourceShortName, sourceName);
+
 		presenter.reloadNewsArticles();
 	}
 

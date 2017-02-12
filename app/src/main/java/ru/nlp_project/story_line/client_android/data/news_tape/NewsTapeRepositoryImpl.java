@@ -17,13 +17,14 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 
 	// TODO: implements with DB as cache
 	@Override
-	public Observable<NewsHeaderDataModel> createNewsArticleStream() {
+	public Observable<NewsHeaderDataModel> createNewsArticleStream(String sourceServerId) {
 		return null;
 	}
 
 	// TODO: implements with DB as cache
 	@Override
-	public Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(Long lastNewsId) {
+	public Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(String sourceServerId,
+		Long lastNewsId) {
 		return null;
 	}
 
