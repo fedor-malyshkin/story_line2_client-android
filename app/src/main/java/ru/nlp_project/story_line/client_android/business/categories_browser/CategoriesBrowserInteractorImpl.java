@@ -4,12 +4,12 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import javax.inject.Inject;
-import ru.nlp_project.story_line.client_android.data.categories_browser.CategoryDataModel;
+import ru.nlp_project.story_line.client_android.business.models.CategoryBusinessModel;
+import ru.nlp_project.story_line.client_android.dagger.CategoriesBrowserScope;
+import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
 
-/**
- * Created by fedor on 09.02.17.
- */
+@CategoriesBrowserScope
 public class CategoriesBrowserInteractorImpl implements ICategoriesBrowserInteractor {
 
 	private ObservableTransformer<CategoryDataModel,
@@ -37,7 +37,7 @@ public class CategoriesBrowserInteractorImpl implements ICategoriesBrowserIntera
 		public ObservableSource<CategoryBusinessModel> apply(
 			Observable<CategoryDataModel> upstream) {
 			return upstream.map(
-				data -> new CategoryBusinessModel(data.getId(), data.getName(),
+				data -> new CategoryBusinessModel( data.getName(),
 					data.getServerId()));
 		}
 	}

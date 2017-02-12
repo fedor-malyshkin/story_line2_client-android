@@ -46,31 +46,21 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 	}
 
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		CategoriesBrowserComponent builder = DaggerBuilder
 			.createCategoriesBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
-		loadCategories();
+		presenter.initialize();
 	}
 
-	private void initializeActivityConnection() {
+	private void initializeCategorySelectionListener() {
 		FragmentActivity activity = getActivity();
 		if (ICategorySelectionListener.class.isInstance(activity)) {
 			presenter.setCategorySelectionListener((ICategorySelectionListener) activity);
 		}
 
-	}
-
-	/**
-	 * Выполнить инициализацию элементов управления.
-	 *
-	 * Среди прочего загрузить список категорий и создать необходимые элементы управления.
-	 */
-
-	private void loadCategories() {
-		presenter.loadCategories();
 	}
 
 	@Override
@@ -96,6 +86,6 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 		addTopCategoryPos = 0;
 		// after finish - initialize control and add listeners
 		initilizeOnClickListener();
-		initializeActivityConnection();
+		initializeCategorySelectionListener();
 	}
 }

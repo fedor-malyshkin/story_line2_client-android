@@ -2,10 +2,6 @@ package ru.nlp_project.story_line.client_android.dagger;
 
 import android.content.Context;
 
-/**
- * Created by fedor on 04.02.17.
- */
-
 public class DaggerBuilder {
 
 	private static ApplicationComponent applicationBuilder;
@@ -18,7 +14,7 @@ public class DaggerBuilder {
 			.build();
 	}
 
-	public static ApplicationComponent getApplicationBuilder() {
+	private static ApplicationComponent getApplicationBuilder() {
 		if (applicationBuilder == null) {
 			applicationBuilder = createApplicationBuilder();
 		}
@@ -29,11 +25,9 @@ public class DaggerBuilder {
 		return getApplicationBuilder().addToGraph(new NewsTapeModule());
 	}
 
-
 	public static SourcesBrowserComponent createSourcesBrowserBuilder() {
 		return getApplicationBuilder().addToGraph(new SourcesBrowserModule());
 	}
-
 
 	public static void inintialize(Context applicationContext) {
 		appContext = applicationContext;
@@ -41,5 +35,9 @@ public class DaggerBuilder {
 
 	public static CategoriesBrowserComponent createCategoriesBrowserBuilder() {
 		return getApplicationBuilder().addToGraph(new CategoriesBrowserModule());
+	}
+
+	public static NewsWatcherComponent createNewsWatcherBuilder() {
+		return getApplicationBuilder().addToGraph(new NewsWatcherModule());
 	}
 }

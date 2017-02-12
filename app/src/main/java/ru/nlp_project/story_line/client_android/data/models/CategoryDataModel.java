@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.categories_browser;
+package ru.nlp_project.story_line.client_android.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

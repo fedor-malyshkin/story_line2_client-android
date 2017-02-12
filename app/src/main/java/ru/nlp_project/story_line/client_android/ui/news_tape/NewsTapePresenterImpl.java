@@ -1,13 +1,9 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.observables.ConnectableObservable;
+import javax.inject.Inject;
+import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
-import ru.nlp_project.story_line.client_android.business.news_tape.NewsArticleBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
 
 /**
@@ -15,8 +11,6 @@ import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
  */
 @NewsTapeScope
 public class NewsTapePresenterImpl implements INewsTapePresenter {
-
-	private BusinessToUiModelTransformer transformer = new BusinessToUiModelTransformer();
 
 	@Inject
 	public NewsTapePresenterImpl() {
@@ -39,32 +33,16 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	}
 
 
-	private class BusinessToUiModelTransformer implements ObservableTransformer<NewsArticleBusinessModel,
-			NewsArticleUIModel> {
-		@Override
-		public ObservableSource<NewsArticleUIModel> apply(
-				Observable<NewsArticleBusinessModel> upstream) {
-			return upstream.map(
-					data -> new NewsArticleUIModel(data.getId(), data.getName())
-			);
-
-		}
-	}
-
 	@Override
 	public void reloadNewsArticles() {
 		view.showUpdateIndicator(true);
 		view.clearTape();
-		Observable<NewsArticleBusinessModel> stream = interactor
-				.createNewsArticleStream();
-		ConnectableObservable<NewsArticleUIModel> observable = stream.compose(transformer).publish();
-		observable.subscribe(
-				news -> view.addNewsArticle(news),
-				e-> e.printStackTrace(),
-				() -> view.showUpdateIndicator(false));
-		// run emitting
-		observable.connect();
-
+		Observable<NewsHeaderBusinessModel> stream = interactor
+			.createNewsHeaderStream();
+		stream.subscribe(
+			news -> view.addNewsArticle(news),
+			e -> e.printStackTrace(),
+			() -> view.showUpdateIndicator(false));
 	}
 
 

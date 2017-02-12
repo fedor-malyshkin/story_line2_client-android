@@ -28,6 +28,11 @@
       android:label="@string/title_activity_browser"
       android:name=".ui.sources_browser.SourcesBrowserActivity">
     </activity>
+    <activity
+      android:label="@string/title_news_watcher"
+      android:name=".ui.news_watcher.NewsWatcherActivity">
+    </activity>
+
   </application>
 
 </manifest>

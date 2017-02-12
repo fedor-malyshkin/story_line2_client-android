@@ -1,9 +1,9 @@
 package ru.nlp_project.story_line.client_android.data.news_tape;
 
+import io.reactivex.Observable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.reactivex.Observable;
+import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 
 /**
  * Created by fedor on 05.02.17.
@@ -15,18 +15,16 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 	public NewsTapeRepositoryImpl() {
 	}
 
+	// TODO: implements with DB as cache
 	@Override
-	public Observable<NewsArticleDataModel> createNewsArticleStream() {
-		Observable<NewsArticleDataModel> observable = Observable
-				.just(new NewsArticleDataModel(1L, "val1"), new NewsArticleDataModel(2L, "val2"));
-		return observable;
+	public Observable<NewsHeaderDataModel> createNewsArticleStream() {
+		return null;
 	}
 
+	// TODO: implements with DB as cache
 	@Override
-	public Observable<NewsArticleDataModel> createAdditionNewsArticleStream(Long lastNewsId) {
-		Observable<NewsArticleDataModel> observable = Observable
-				.just(new NewsArticleDataModel(3L, "va3"), new NewsArticleDataModel(4L, "val5"));
-		return observable;
+	public Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(Long lastNewsId) {
+		return null;
 	}
 
 }

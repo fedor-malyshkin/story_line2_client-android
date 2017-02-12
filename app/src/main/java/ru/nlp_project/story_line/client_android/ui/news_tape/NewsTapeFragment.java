@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
+import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeComponent;
+import ru.nlp_project.story_line.client_android.ui.news_watcher.NewsWatcherActivity;
 
 public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
@@ -26,7 +29,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Inject
 	public INewsTapePresenter presenter;
-	private List<NewsArticleUIModel> articles;
+	private List<NewsHeaderBusinessModel> articles;
 
 	@BindView(R.id.news_tape_caption)
 	TextView newsTapeCaption;
@@ -63,20 +66,19 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	}
 
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		NewsTapeComponent builder = DaggerBuilder.createNewsTapeBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
 		initializeRecyclerView();
 		initializeSwipeUpdate();
+		presenter.reloadNewsArticles();
 	}
 
 	private void initializeSwipeUpdate() {
 		swipeLayout.setRefreshing(false);
-		swipeLayout.setOnRefreshListener(
-			() -> presenter.reloadNewsArticles()
-		);
+		swipeLayout.setOnRefreshListener(presenter::reloadNewsArticles);
 	}
 
 	private void initializeRecyclerView() {
@@ -84,7 +86,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		articles = new ArrayList<>();
 
 		// Create adapter passing in the sample user data
-		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(getContext(),
+		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(this, getContext(),
 			articles);
 		// Attach the adapter to the recyclerview to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
@@ -94,12 +96,10 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		RecyclerView.ItemDecoration itemDecoration = new
 			DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
-
-		presenter.reloadNewsArticles();
 	}
 
 	@Override
-	public void addNewsArticle(NewsArticleUIModel news) {
+	public void addNewsArticle(NewsHeaderBusinessModel news) {
 		newsTapeRecyclerViewAdapter.addNewsArticle(news);
 	}
 
@@ -118,5 +118,22 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	public void onDestroyView() {
 		super.onDestroyView();
 		presenter.unbindView();
+	}
+
+	@Override
+	public void newsSelected(int position) {
+		NewsHeaderBusinessModel newsArticleUIModel = articles.get(position);
+//		Toast.makeText(getContext(), newsArticleUIModel.getName(),
+//			Toast.LENGTH_LONG).show();
+
+		Intent intent = new Intent(this.getContext(), NewsWatcherActivity.class);
+		ArrayList articlesArray = new ArrayList();
+		for (NewsHeaderBusinessModel a : articles) {
+			articlesArray.add(a.getServerId());
+		}
+
+		intent.putStringArrayListExtra(NewsWatcherActivity.INTENT_KEY_ARTICLES, articlesArray);
+		intent.putExtra(NewsWatcherActivity.INTENT_KEY_POSITION, position);
+		startActivity(intent);
 	}
 }

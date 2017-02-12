@@ -6,19 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import java.util.List;
-
 import ru.nlp_project.story_line.client_android.R;
+import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 
 
-class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerViewAdapter.ViewHolder> {
-	
+class NewsTapeRecyclerViewAdapter extends
+	RecyclerView.Adapter<NewsTapeRecyclerViewAdapter.ViewHolder> {
+
 	private final Context context;
-	private List<NewsArticleUIModel> articles;
+	private final NewsTapeFragment parentFragment;
+	private List<NewsHeaderBusinessModel> articles;
 
-	public void addNewsArticle(NewsArticleUIModel news) {
+	public void addNewsArticle(NewsHeaderBusinessModel news) {
 		articles.add(news);
 		notifyItemInserted(articles.size() - 1);
 	}
@@ -28,14 +30,17 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 		articles.clear();
 		notifyItemRangeRemoved(0, oldSize);
 	}
-	
+
 	// Provide a direct reference to each of the views within a data item
 	// Used to cache the views within the item layout for fast access
-	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 		private Context context;
 		// Your holder should contain a member variable
 		// for any view that will be set as you render a row
+		@BindView(R.id.news_article_id)
 		public TextView idTextView;
+		@BindView(R.id.news_article_name)
 		public TextView nameTextView;
 
 		// We also create a constructor that accepts the entire item row
@@ -44,11 +49,9 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 			// Stores the itemView in a public final member variable that can be used
 			// to access the context from any ViewHolder instance.
 			super(itemView);
-// Store the context
+			// Store the context
 			this.context = context;
-			idTextView = (TextView) itemView.findViewById(R.id.news_article_id);
-			nameTextView = (TextView) itemView
-					.findViewById(R.id.news_article_name);
+			ButterKnife.bind(this, itemView);
 			// Attach a click listener to the entire row view
 			itemView.setOnClickListener(this);
 		}
@@ -56,24 +59,28 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 		@Override
 		public void onClick(View v) {
 			int position = getAdapterPosition(); // gets item position
-			if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+			if (position
+				!= RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
 				// We can access the data within the views
+				parentFragment.newsSelected(position);
+				/*
 				Toast.makeText(context, nameTextView.getText(),
-						Toast.LENGTH_SHORT).show();
+					Toast.LENGTH_SHORT).show();
+					*/
 			}
 		}
 	}
 
 	@Override
 	public NewsTapeRecyclerViewAdapter.ViewHolder onCreateViewHolder(
-			ViewGroup parent,
-			int viewType) {
+		ViewGroup parent,
+		int viewType) {
 		Context context = parent.getContext();
 		LayoutInflater inflater = LayoutInflater.from(context);
 
 		// Inflate the custom layout
 		View articleHeaderView = inflater
-				.inflate(R.layout.view_news_tape_entry, parent, false);
+			.inflate(R.layout.view_news_tape_entry, parent, false);
 
 		// Return a new holder instance
 		ViewHolder viewHolder = new ViewHolder(context, articleHeaderView);
@@ -83,13 +90,12 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 
 	@Override
 	public void onBindViewHolder(NewsTapeRecyclerViewAdapter.ViewHolder holder,
-								 int position) {
+		int position) {
 		// Get the data model based on position
-		NewsArticleUIModel article = articles.get(position);
+		NewsHeaderBusinessModel article = articles.get(position);
 
 		// Set item views based on your views and data model
 		TextView textView = holder.idTextView;
-		textView.setText(article.getId() + "");
 		textView = holder.nameTextView;
 		textView.setText(article.getName());
 	}
@@ -100,8 +106,9 @@ class NewsTapeRecyclerViewAdapter extends RecyclerView.Adapter<NewsTapeRecyclerV
 	}
 
 
-	public NewsTapeRecyclerViewAdapter(Context context,
-									   List<NewsArticleUIModel> articleHeaders) {
+	public NewsTapeRecyclerViewAdapter(NewsTapeFragment newsTapeFragment, Context context,
+		List<NewsHeaderBusinessModel> articleHeaders) {
+		this.parentFragment = newsTapeFragment;
 		this.context = context;
 		this.articles = articleHeaders;
 	}

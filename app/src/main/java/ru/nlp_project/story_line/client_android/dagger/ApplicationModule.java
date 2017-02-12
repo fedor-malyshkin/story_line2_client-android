@@ -12,7 +12,7 @@ import ru.nlp_project.story_line.client_android.data.categories_browser.ICategor
 import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryDemo;
 import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
-import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryDemo;
+import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.LocalDBStorageImpl;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
@@ -42,7 +42,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ISourcesBrowserRepository provideSourcesBrowserModuleRepository
-		(SourcesBrowserRepositoryDemo implementation) {
+		(SourcesBrowserRepositoryImpl implementation) {
 		return implementation;
 	}
 
@@ -78,8 +78,8 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public ILocalDBStorage provideLocalDBStorage () {
-		LocalDBStorageImpl service = new  LocalDBStorageImpl(context);
+	public ILocalDBStorage provideLocalDBStorage() {
+		LocalDBStorageImpl service = new LocalDBStorageImpl(context);
 		service.initialize();
 		return service;
 	}
