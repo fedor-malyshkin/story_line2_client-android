@@ -33,14 +33,15 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 	 * ...  к потоку данных из сети подключается слушатель для обновления через транзакцию данных в
 	 * БД (т.е. при успешном обновлении -- обновляется кэш)...
 	 */
-	// TODO: test variants
 	@Override
 	public Observable<SourceDataModel> createSourceStream() {
 		SourcesBrowserRetrofitService netService = retrofiService.getSourcesBrowserService();
 		Observable<SourceDataModel> obs = netService.list()
 			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable);
 		// see for details: http://stackoverflow.com/a/36118469
-		obs = obs.replay().autoConnect();
+		// need at least 2 subscribers (localDBStorage + actual)
+		obs = obs.replay().autoConnect(2);
+
 		obs.observeOn(bckgScheduler).subscribe(
 			// onNext
 			localDBStorage::addSourceToCache,
@@ -50,7 +51,7 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 			localDBStorage::commitSourceCacheUpdate
 		);
 		// intermediate level - to recieve onError to localDBStorage
-		Observable<SourceDataModel> wrap = Observable.wrap(obs);
+		 Observable<SourceDataModel> wrap = Observable.wrap(obs);
 		// fallback source
 		Observable<SourceDataModel> resumeNext = wrap
 			.onErrorResumeNext(localDBStorage.createSourceStream());
