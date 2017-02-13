@@ -38,7 +38,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 
 	@Override
-	public void reloadNewsArticles() {
+	public void reloadNewsHeaders() {
 		view.showUpdateIndicator(true);
 		view.clearTape();
 		Observable<NewsHeaderBusinessModel> stream = interactor

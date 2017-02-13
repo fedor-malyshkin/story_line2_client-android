@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Inject
 	public INewsTapePresenter presenter;
-	private List<NewsHeaderBusinessModel> articles;
+	private List<NewsHeaderBusinessModel> headers;
 
 	@BindView(R.id.news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
@@ -80,23 +79,22 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		String sourceShortName = getArguments().getString(FRAGMENT_ARG_SOURCE_SHORT_NAME);
 		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
 		String serverId = getArguments().getString(FRAGMENT_ARG_SOURCE_SERVER_ID);
-presenter.initialize(serverId, sourceShortName, sourceName);
-
-		presenter.reloadNewsArticles();
+		presenter.initialize(serverId, sourceShortName, sourceName);
+		presenter.reloadNewsHeaders();
 	}
 
 	private void initializeSwipeUpdate() {
 		swipeLayout.setRefreshing(false);
-		swipeLayout.setOnRefreshListener(presenter::reloadNewsArticles);
+		swipeLayout.setOnRefreshListener(presenter::reloadNewsHeaders);
 	}
 
 	private void initializeRecyclerView() {
 		// Initialize contacts
-		articles = new ArrayList<>();
+		headers = new ArrayList<>();
 
 		// Create adapter passing in the sample user data
 		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(this, getContext(),
-			articles);
+			headers);
 		// Attach the adapter to the recyclerview to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
 		// Set layout manager to position the items
@@ -109,7 +107,7 @@ presenter.initialize(serverId, sourceShortName, sourceName);
 
 	@Override
 	public void addNewsArticle(NewsHeaderBusinessModel news) {
-		newsTapeRecyclerViewAdapter.addNewsArticle(news);
+		newsTapeRecyclerViewAdapter.addNewsHeader(news);
 	}
 
 	@Override
@@ -131,13 +129,13 @@ presenter.initialize(serverId, sourceShortName, sourceName);
 
 	@Override
 	public void newsSelected(int position) {
-		NewsHeaderBusinessModel newsArticleUIModel = articles.get(position);
+		NewsHeaderBusinessModel newsArticleUIModel = headers.get(position);
 //		Toast.makeText(getContext(), newsArticleUIModel.getName(),
 //			Toast.LENGTH_LONG).show();
 
 		Intent intent = new Intent(this.getContext(), NewsBrowserActivity.class);
 		ArrayList articlesArray = new ArrayList();
-		for (NewsHeaderBusinessModel a : articles) {
+		for (NewsHeaderBusinessModel a : headers) {
 			articlesArray.add(a.getServerId());
 		}
 

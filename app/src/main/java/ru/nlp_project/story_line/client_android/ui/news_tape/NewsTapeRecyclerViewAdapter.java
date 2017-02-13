@@ -20,7 +20,7 @@ class NewsTapeRecyclerViewAdapter extends
 	private final NewsTapeFragment parentFragment;
 	private List<NewsHeaderBusinessModel> articles;
 
-	public void addNewsArticle(NewsHeaderBusinessModel news) {
+	public void addNewsHeader(NewsHeaderBusinessModel news) {
 		articles.add(news);
 		notifyItemInserted(articles.size() - 1);
 	}
