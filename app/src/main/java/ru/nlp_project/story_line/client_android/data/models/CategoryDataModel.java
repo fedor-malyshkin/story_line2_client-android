@@ -3,9 +3,6 @@ package ru.nlp_project.story_line.client_android.data.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by fedor on 10.02.17.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDataModel {
 
@@ -15,6 +12,7 @@ public class CategoryDataModel {
 		this.serverId = serverId;
 	}
 
+	// neccessary for unmarshalling from JSON
 	public CategoryDataModel() {
 	}
 

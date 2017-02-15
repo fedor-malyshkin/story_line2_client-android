@@ -44,7 +44,7 @@ public class CategoriesBrowserRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateSourceStream_NoAction() {
+	public void testCreateStream_NoAction() {
 		// long chain of initialization
 		ReplaySubject<List<CategoryDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<CategoryDataModel> dbSource = ReplaySubject.create();
@@ -61,7 +61,7 @@ public class CategoriesBrowserRepositoryImplTest {
 
 
 	@Test
-	public void testCreateSourceStream_Success() {
+	public void testCreateStream_Success() {
 		// long chain of initialization
 		ReplaySubject<List<CategoryDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<CategoryDataModel> dbSource = ReplaySubject.create();
@@ -94,7 +94,7 @@ public class CategoriesBrowserRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateSourceStream_NetworkError() {
+	public void testCreateStream_NetworkError() {
 		// long chain of initialization
 		ReplaySubject<List<CategoryDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<CategoryDataModel> dbSource = ReplaySubject.create();

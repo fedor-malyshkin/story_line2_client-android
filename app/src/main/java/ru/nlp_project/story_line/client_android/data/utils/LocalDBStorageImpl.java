@@ -3,6 +3,7 @@ package ru.nlp_project.story_line.client_android.data.utils;
 import android.content.Context;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import java.util.Date;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
@@ -67,7 +68,10 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public Maybe<NewsArticleDataModel> createNewsArticleStream(String serverId) {
-		return null;
+		return Maybe.just(new NewsArticleDataModel((long) 0, "Content of Новость 3",
+			"https://www.bnkomi.ru/data/news/59446/", "Новость 3", new Date(3), new Date(30),
+			"bnkomi.ru",
+			"asbd3"));
 	}
 
 	@Override
@@ -102,8 +106,8 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain) {
-		return Observable.fromArray(new NewsHeaderDataModel(0L, "News-1",
-			"bnk_server_id"), new NewsHeaderDataModel(0L, "news-2",
+		return Observable.fromArray(new NewsHeaderDataModel(0L, "News-1", "bnk", new Date(0),
+			"bnk_server_id"), new NewsHeaderDataModel(0L, "news-2", "komiinform", new Date(0),
 			"komiinform_server_id"));
 	}
 }

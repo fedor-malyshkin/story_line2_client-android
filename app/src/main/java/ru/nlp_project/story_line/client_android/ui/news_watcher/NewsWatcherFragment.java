@@ -43,7 +43,11 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		// args
 		Bundle arguments = getArguments();
 		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
-		newsContent.setText(serverId);
+
+		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
+		builder.inject(this);
+		presenter.bindView(this);
+		presenter.initialize(serverId);
 		return view;
 	}
 
@@ -56,9 +60,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
-		builder.inject(this);
-		presenter.bindView(this);
+		presenter.loadContent();
 	}
 
 	@Override
@@ -67,4 +69,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		presenter.unbindView();
 	}
 
+	@Override
+	public void setContent(String content) {
+		newsContent.setText(content);
+	}
 }

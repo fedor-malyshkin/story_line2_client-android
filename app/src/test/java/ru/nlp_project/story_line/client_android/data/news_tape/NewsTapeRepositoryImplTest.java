@@ -47,7 +47,7 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateSourceStream_NoAction() {
+	public void testCreateStream_NoAction() {
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -65,7 +65,7 @@ public class NewsTapeRepositoryImplTest {
 
 
 	@Test
-	public void testCreateSourceStream_Success() {
+	public void testCreateStream_Success() {
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -78,8 +78,8 @@ public class NewsTapeRepositoryImplTest {
 
 		// prepare datas
 		List<NewsHeaderDataModel> list = new ArrayList<>();
-		list.add(new NewsHeaderDataModel((long) 0, "news0", "serverId0"));
-		list.add(new NewsHeaderDataModel((long) 1, "news1", "serverId1"));
+		list.add(new NewsHeaderDataModel((long) 0, "news0", "source0", null, "serverId0"));
+		list.add(new NewsHeaderDataModel((long) 1, "news1", "source1", null,"serverId1"));
 		netSource.onNext(list);
 		netSource.onComplete();
 
@@ -98,7 +98,7 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateSourceStream_NetworkError() {
+	public void testCreateStream_NetworkError() {
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -114,9 +114,9 @@ public class NewsTapeRepositoryImplTest {
 
 
 		// prepare datas
-		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0", "serverId0"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "serverId1"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "serverId2"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0","source0", null, "serverId0"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "source1", null,"serverId1"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "source2", null,"serverId2"));
 		dbSource.onComplete();
 
 		TestObserver<NewsHeaderDataModel> testObserver = TestObserver.create();

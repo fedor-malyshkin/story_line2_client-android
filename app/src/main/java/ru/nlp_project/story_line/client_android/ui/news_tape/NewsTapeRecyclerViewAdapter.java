@@ -97,7 +97,7 @@ class NewsTapeRecyclerViewAdapter extends
 		// Set item views based on your views and data model
 		TextView textView = holder.idTextView;
 		textView = holder.nameTextView;
-		textView.setText(article.getName());
+		textView.setText(article.getTitle());
 	}
 
 	@Override

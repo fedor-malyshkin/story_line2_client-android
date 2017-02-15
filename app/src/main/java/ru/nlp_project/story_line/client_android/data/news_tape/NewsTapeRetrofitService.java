@@ -16,7 +16,7 @@ public interface NewsTapeRetrofitService {
 	 *
 	 * @param sourceDomain домен источника
 	 */
-	@GET("news_articles/{source_domain}?headers=true")
+	@GET("news_headers/{source_domain}")
 	Observable<List<NewsHeaderDataModel>> listHeaders(@Path("source_domain") String sourceDomain,
 		@Query("count")
 			int count);

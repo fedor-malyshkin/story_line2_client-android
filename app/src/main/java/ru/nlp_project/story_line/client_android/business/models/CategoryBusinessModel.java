@@ -1,8 +1,5 @@
 package ru.nlp_project.story_line.client_android.business.models;
 
-/**
- * Created by fedor on 10.02.17.
- */
 public class CategoryBusinessModel {
 
 	public CategoryBusinessModel(String name, String serverId) {

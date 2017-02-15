@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.news_watcher;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
@@ -27,11 +28,9 @@ public class NewsWatcherRepositoryImpl implements INewsWatcherRepository {
 	public NewsWatcherRepositoryImpl() {
 	}
 
-
-	// TODO: test variants
 	@Override
 	public Single<NewsArticleDataModel> createCachedNewsArticleStream(String serverId) {
-		NewsWatcherRetrofitService netService = retrofiService.getNewsBrowserService();
+		NewsWatcherRetrofitService netService = retrofiService.getNewsWatcherService();
 		// connectable (run if more than 1 subscriber)
 		Observable<NewsArticleDataModel> netStream = netService.getNewsArticleById(serverId)
 			.subscribeOn(bckgScheduler).toObservable().publish().autoConnect(2);
