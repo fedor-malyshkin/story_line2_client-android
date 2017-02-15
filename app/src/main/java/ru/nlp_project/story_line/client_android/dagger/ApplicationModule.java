@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
 import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
-import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryDemo;
+import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.news_watcher.INewsWatcherRepository;
 import ru.nlp_project.story_line.client_android.data.news_watcher.NewsWatcherRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
@@ -42,7 +42,7 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public INewsTapeRepository provideNewsTapeRepository(NewsTapeRepositoryDemo implementation) {
+	public INewsTapeRepository provideNewsTapeRepository(NewsTapeRepositoryImpl implementation) {
 		return implementation;
 	}
 

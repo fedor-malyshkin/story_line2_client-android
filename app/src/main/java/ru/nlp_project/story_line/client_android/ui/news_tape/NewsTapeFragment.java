@@ -28,7 +28,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	public static final String TAG = NewsTapeFragment.class.getName();
 
 	private static final String FRAGMENT_ARG_SOURCE_SHORT_NAME = "sourceShortName";
-	private static final String FRAGMENT_ARG_SOURCE_SERVER_ID = "sourceServerId";
+	private static final String FRAGMENT_ARG_SOURCE_DOMAIN = "sourceServerId";
 	private static final String FRAGMENT_ARG_SOURCE_NAME = "sourceName";
 
 	@Inject
@@ -46,7 +46,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		NewsTapeFragment fragment = new NewsTapeFragment();
 		Bundle args = new Bundle();
 		args.putString(FRAGMENT_ARG_SOURCE_SHORT_NAME, source.getShortName());
-		args.putString(FRAGMENT_ARG_SOURCE_SERVER_ID, source.getServerId());
+		args.putString(FRAGMENT_ARG_SOURCE_DOMAIN, source.getDomain());
 		args.putString(FRAGMENT_ARG_SOURCE_NAME, source.getName());
 		fragment.setArguments(args);
 		return fragment;
@@ -78,8 +78,8 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		// arguments
 		String sourceShortName = getArguments().getString(FRAGMENT_ARG_SOURCE_SHORT_NAME);
 		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
-		String serverId = getArguments().getString(FRAGMENT_ARG_SOURCE_SERVER_ID);
-		presenter.initialize(serverId, sourceShortName, sourceName);
+		String sourceDomain = getArguments().getString(FRAGMENT_ARG_SOURCE_DOMAIN);
+		presenter.initialize(sourceDomain, sourceShortName, sourceName);
 		presenter.reloadNewsHeaders();
 	}
 
@@ -106,7 +106,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	}
 
 	@Override
-	public void addNewsArticle(NewsHeaderBusinessModel news) {
+	public void addNewsHeader(NewsHeaderBusinessModel news) {
 		newsTapeRecyclerViewAdapter.addNewsHeader(news);
 	}
 

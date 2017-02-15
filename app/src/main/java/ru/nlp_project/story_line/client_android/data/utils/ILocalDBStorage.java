@@ -4,6 +4,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
+import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 
 public interface ILocalDBStorage {
@@ -26,11 +27,19 @@ public interface ILocalDBStorage {
 
 	Observable<SourceDataModel> createSourceStream();
 
-	Maybe<NewsArticleDataModel> createNewsArticleStream(String serverId);
+	Maybe<NewsArticleDataModel> createNewsArticleStream(String articleServerId);
 
 	void addNewsArticleToCache(NewsArticleDataModel newsArticleDataModel);
 
 	void cancelNewsArticleCacheUpdate(Throwable throwable);
 
 	void commitNewsArticleCacheUpdate();
+
+	void addNewsHeaderToCache(NewsHeaderDataModel newsHeaderDataModel);
+
+	void cancelNewsHeaderCacheUpdate(Throwable throwable);
+
+	void commitNewsHeaderCacheUpdate();
+
+	Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain);
 }

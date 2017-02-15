@@ -33,7 +33,7 @@ public class NewsWatcherRepositoryImpl implements INewsWatcherRepository {
 	public Single<NewsArticleDataModel> createCachedNewsArticleStream(String serverId) {
 		NewsWatcherRetrofitService netService = retrofiService.getNewsBrowserService();
 		// connectable (run if more than 1 subscriber)
-		Observable<NewsArticleDataModel> netStream = netService.get(serverId)
+		Observable<NewsArticleDataModel> netStream = netService.getNewsArticleById(serverId)
 			.subscribeOn(bckgScheduler).toObservable().publish().autoConnect(2);
 
 		// first subscriber -- write to cache if request from network

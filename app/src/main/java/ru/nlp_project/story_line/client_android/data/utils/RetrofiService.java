@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRetrofitService;
+import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRetrofitService;
 import ru.nlp_project.story_line.client_android.data.news_watcher.NewsWatcherRetrofitService;
 import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRetrofitService;
 
@@ -36,6 +37,10 @@ public class RetrofiService {
 
 	public NewsWatcherRetrofitService getNewsBrowserService() {
 		return retrofit.create(NewsWatcherRetrofitService.class);
+	}
+
+	public NewsTapeRetrofitService getNewsTapeService() {
+		return retrofit.create(NewsTapeRetrofitService.class);
 	}
 
 }

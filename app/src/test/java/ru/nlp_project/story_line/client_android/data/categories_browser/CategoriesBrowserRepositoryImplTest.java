@@ -23,9 +23,6 @@ import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 
-/**
- * Created by fedor on 11.02.17.
- */
 public class CategoriesBrowserRepositoryImplTest {
 
 	private RetrofiService retrofiService;

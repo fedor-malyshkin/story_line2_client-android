@@ -5,7 +5,9 @@ import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 
 
 public interface INewsTapeRepository {
-	Observable<NewsHeaderDataModel> createNewsArticleStream(String sourceServerId);
-	Observable<NewsHeaderDataModel> createAdditionNewsArticleStream(String sourceServerId,
+
+	Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain);
+
+	Observable<NewsHeaderDataModel> createAdditionNewsHeaderStream(String sourceDomain,
 		Long lastNewsId);
 }

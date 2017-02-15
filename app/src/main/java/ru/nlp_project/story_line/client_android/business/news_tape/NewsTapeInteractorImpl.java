@@ -24,15 +24,15 @@ public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 	}
 
 	@Override
-	public Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceServerId) {
-		return repository.createNewsArticleStream(sourceServerId).compose
+	public Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceDomain) {
+		return repository.createNewsHeaderStream(sourceDomain).compose
 			(transformer);
 	}
 
 	@Override
-	public Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderStream(String sourceServerId,
+	public Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderStream(String sourceDomain,
 		Long lastNewsId) {
-		return repository.createAdditionNewsArticleStream(sourceServerId, lastNewsId).compose
+		return repository.createAdditionNewsHeaderStream(sourceDomain, lastNewsId).compose
 			(transformer);
 	}
 

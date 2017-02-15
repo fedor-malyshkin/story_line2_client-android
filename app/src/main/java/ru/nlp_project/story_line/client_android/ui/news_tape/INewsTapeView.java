@@ -8,7 +8,7 @@ import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusine
 
 public interface INewsTapeView  {
 	void showUpdateIndicator(boolean show);
-	void addNewsArticle(NewsHeaderBusinessModel news);
+	void addNewsHeader(NewsHeaderBusinessModel news);
 	void clearTape();
 	void newsSelected(int position);
 }

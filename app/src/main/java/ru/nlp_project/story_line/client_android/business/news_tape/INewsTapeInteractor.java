@@ -11,9 +11,9 @@ public interface INewsTapeInteractor {
 	 * так и обновлнные данны.
 	 *
 	 * @return поток данных
-	 * @param sourceServerId
+	 * @param sourceDomain
 	 */
-	Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceServerId);
+	Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceDomain);
 
 	/**
 	 * Создать поток новостей "дозагрузки".
@@ -22,5 +22,5 @@ public interface INewsTapeInteractor {
 	 * @return поток данных
 	 */
 	Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderStream(
-		String sourceServerId, Long lastNewsId);
+		String sourceDomain, Long lastNewsId);
 }

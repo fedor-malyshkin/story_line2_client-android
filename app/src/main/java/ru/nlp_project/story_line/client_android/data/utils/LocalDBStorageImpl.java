@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
+import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 
 public class LocalDBStorageImpl implements ILocalDBStorage {
@@ -82,5 +83,27 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	@Override
 	public void commitNewsArticleCacheUpdate() {
 
+	}
+
+	@Override
+	public void addNewsHeaderToCache(NewsHeaderDataModel newsHeaderDataModel) {
+
+	}
+
+	@Override
+	public void cancelNewsHeaderCacheUpdate(Throwable throwable) {
+
+	}
+
+	@Override
+	public void commitNewsHeaderCacheUpdate() {
+
+	}
+
+	@Override
+	public Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain) {
+		return Observable.fromArray(new NewsHeaderDataModel(0L, "News-1",
+			"bnk_server_id"), new NewsHeaderDataModel(0L, "news-2",
+			"komiinform_server_id"));
 	}
 }
