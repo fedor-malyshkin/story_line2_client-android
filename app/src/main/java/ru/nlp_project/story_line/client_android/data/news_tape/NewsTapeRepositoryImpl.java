@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.news_tape;
 
+import android.util.Log;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 
 @Singleton
 public class NewsTapeRepositoryImpl implements INewsTapeRepository {
+
+	private static final String TAG = NewsTapeRepositoryImpl.class.getSimpleName();
 
 	@Inject
 	ILocalDBStorage localDBStorage;
@@ -27,9 +30,11 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 
 	@Override
 	public Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain) {
+		final long requestId = System.currentTimeMillis();
 		NewsTapeRetrofitService netService = retrofiService.getNewsTapeService();
 		Observable<NewsHeaderDataModel> obs = netService.listHeaders(sourceDomain, 20)
-			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable);
+			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
+				(TAG, t.getMessage(), t));
 		// see for details: http://stackoverflow.com/a/36118469
 		// need at least 2 subscribers (localDBStorage + actual)
 		obs = obs.replay().autoConnect(2);
@@ -38,9 +43,9 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 			// onNext
 			localDBStorage::addNewsHeaderToCache,
 			// onError
-			localDBStorage::cancelNewsHeaderCacheUpdate,
+			t -> Log.e(TAG, t.getMessage(), t),
 			// onComplete
-			localDBStorage::commitNewsHeaderCacheUpdate
+			()->{}
 		);
 		// intermediate level - to recieve onError to localDBStorage
 		Observable<NewsHeaderDataModel> wrap = Observable.wrap(obs);

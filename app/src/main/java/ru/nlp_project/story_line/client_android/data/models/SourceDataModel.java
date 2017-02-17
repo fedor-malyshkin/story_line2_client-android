@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +9,7 @@ public class SourceDataModel {
 
 	public SourceDataModel(Long id, String domain, String shortName, String name,
 		String serverId) {
-		this.id = id;
+		this._id = id;
 		this.name = name;
 		this.shortName = shortName;
 		this.domain = domain;
@@ -19,7 +20,7 @@ public class SourceDataModel {
 	public SourceDataModel() {
 	}
 
-	private Long id;
+	private Long _id;
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("short_name")
@@ -48,18 +49,29 @@ public class SourceDataModel {
 	}
 
 	public Long getId() {
-		return id;
+		return _id;
 	}
 
 
 	@Override
 	public String toString() {
 		return "SourceDataModel{" +
-			"id=" + id +
+			"id=" + _id +
 			", name='" + name + '\'' +
 			", shortName='" + shortName + '\'' +
 			", domain='" + domain + '\'' +
 			", serverId='" + serverId + '\'' +
 			'}';
+	}
+
+	@JsonIgnore
+	private long requestId;
+
+	public long getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(long requestId) {
+		this.requestId = requestId;
 	}
 }

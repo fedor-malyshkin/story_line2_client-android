@@ -82,18 +82,9 @@ dependencies {
 	// compile 'io.reactivex:rxjava:1.+'
 	// compile 'io.reactivex:rxandroid:1.+'
 
-	/*
-	// rxBinding: platform bindings:
-	compile 'com.jakewharton.rxbinding:rxbinding:1.+'
-	// rxBinding: 'appcompat-v7' library bindings:
-	compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:1.+'
-	// rxBinding: 'design' library bindings:
-	// compile 'com.jakewharton.rxbinding:rxbinding-design:1.+'
-	// rxBinding: 'recyclerview-v7' library bindings:
-	compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:1.+'
-	// rxBinding: 'leanback-v17' library bindings:
-	// compile 'com.jakewharton.rxbinding:rxbinding-leanback-v17:1.+'
-	*/
+	// stetho
+	compile 'com.facebook.stetho:stetho:1.4.2'
+	compile 'com.facebook.stetho:stetho-okhttp3:1.4.2' 
 
 	// junit
 	testCompile 'junit:junit:4.+'

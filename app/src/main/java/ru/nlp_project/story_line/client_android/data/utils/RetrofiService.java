@@ -1,7 +1,9 @@
 package ru.nlp_project.story_line.client_android.data.utils;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import javax.inject.Singleton;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRetrofitService;
@@ -20,10 +22,14 @@ public class RetrofiService {
 	}
 
 	public void build() {
+		OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+		clientBuilder.addNetworkInterceptor(new StethoInterceptor());
+
 		retrofit = new Retrofit.Builder()
 			.baseUrl(baseUrl)
 			.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 			.addConverterFactory(JacksonConverterFactory.create())
+			.client(clientBuilder.build())
 			.build();
 	}
 

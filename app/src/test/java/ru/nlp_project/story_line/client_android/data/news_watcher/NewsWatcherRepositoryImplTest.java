@@ -8,9 +8,7 @@ import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
 import io.reactivex.subjects.MaybeSubject;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +54,6 @@ public class NewsWatcherRepositoryImplTest {
 			("someDomain");
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).commitNewsArticleCacheUpdate();
 		verify(localDBStorage, never()).addNewsArticleToCache(any());
 	}
 
@@ -89,9 +86,7 @@ public class NewsWatcherRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		// no db actions
-		verify(localDBStorage, never()).addNewsArticleToCache(any());
-		verify(localDBStorage, never()).commitNewsArticleCacheUpdate();
-		verify(localDBStorage, never()).cancelNewsArticleCacheUpdate(any());
+		verify(localDBStorage, never()).addNewsArticleToCache( any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
@@ -125,7 +120,6 @@ public class NewsWatcherRepositoryImplTest {
 
 		InOrder inOrder = inOrder(localDBStorage);
 		inOrder.verify(localDBStorage, times(1)).addNewsArticleToCache(any());
-		inOrder.verify(localDBStorage, times(1)).commitNewsArticleCacheUpdate();
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();

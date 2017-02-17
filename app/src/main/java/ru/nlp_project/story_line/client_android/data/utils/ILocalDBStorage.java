@@ -9,21 +9,16 @@ import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 
 public interface ILocalDBStorage {
 
-	void addCategoryToCache(CategoryDataModel dateModel);
+	void addCategoryToCache(long requestId, CategoryDataModel dateModel);
 
-	void commitCategoryCacheUpdate();
 
 	void initialize();
 
-	void cancelCategoryCacheUpdate(Throwable throwable);
 
 	Observable<CategoryDataModel> createCategoryStream();
 
-	void addSourceToCache(SourceDataModel sourceDataModel);
+	void addSourceToCache(long requestId, SourceDataModel sourceDataModel);
 
-	void cancelSourceCacheUpdate(Throwable throwable);
-
-	void commitSourceCacheUpdate();
 
 	Observable<SourceDataModel> createSourceStream();
 
@@ -31,15 +26,17 @@ public interface ILocalDBStorage {
 
 	void addNewsArticleToCache(NewsArticleDataModel newsArticleDataModel);
 
-	void cancelNewsArticleCacheUpdate(Throwable throwable);
-
-	void commitNewsArticleCacheUpdate();
 
 	void addNewsHeaderToCache(NewsHeaderDataModel newsHeaderDataModel);
 
-	void cancelNewsHeaderCacheUpdate(Throwable throwable);
-
-	void commitNewsHeaderCacheUpdate();
-
 	Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain);
+
+
+	void cancelSourceCacheUpdate(long requestId);
+
+	void commitSourceCacheUpdate(long requestId);
+
+	void cancelCategoryCacheUpdate(long requestId);
+
+	void commitCategoryCacheUpdate(long requestId);
 }

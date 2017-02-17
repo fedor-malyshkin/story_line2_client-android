@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
@@ -48,4 +49,5 @@ public class NewsHeaderDataModel {
 	}
 	// neccessary for unmarshalling from JSON
 	public  NewsHeaderDataModel() {}
+
 }

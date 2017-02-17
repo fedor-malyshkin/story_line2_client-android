@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -16,7 +17,7 @@ public class NewsArticleDataModel {
 
 	public NewsArticleDataModel(Long id, String content, String path, String title, Date date,
 		Date processingDate, String source, String serverId) {
-		this.id = id;
+		this._id = id;
 		this.content = content;
 		this.path = path;
 		this.title = title;
@@ -28,7 +29,7 @@ public class NewsArticleDataModel {
 
 
 	public Long getId() {
-		return id;
+		return _id;
 	}
 
 	public String getContent() {
@@ -59,7 +60,7 @@ public class NewsArticleDataModel {
 		return serverId;
 	}
 
-	private Long id;
+	private Long _id;
 	@JsonProperty("content")
 	private String content;
 	@JsonProperty("path")
@@ -74,4 +75,5 @@ public class NewsArticleDataModel {
 	private String source;
 	@JsonProperty("id")
 	private String serverId;
+
 }

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import android.util.Log;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
@@ -18,13 +19,18 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
+import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.robolectric.annotation.Implements;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 
+//@RunWith(RobolectricTestRunner.class)
 public class NewsTapeRepositoryImplTest {
 
 	private RetrofiService retrofiService;
@@ -32,6 +38,15 @@ public class NewsTapeRepositoryImplTest {
 	private NewsTapeRepositoryImpl testable;
 	private ILocalDBStorage localDBStorage;
 	private NewsTapeRetrofitService service;
+
+	@Implements(Log.class)
+	public static class ShadowLog {
+		public static int e(java.lang.String tag, java.lang.String msg, Throwable t) {
+			System.out.println("[" + tag + "] " + msg);
+			return 0;
+		}
+	}
+
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,7 +74,6 @@ public class NewsTapeRepositoryImplTest {
 			("someDomain");
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).commitNewsHeaderCacheUpdate();
 		verify(localDBStorage, never()).addNewsHeaderToCache(any());
 	}
 
@@ -90,7 +104,6 @@ public class NewsTapeRepositoryImplTest {
 
 		InOrder inOrder = inOrder(localDBStorage);
 		inOrder.verify(localDBStorage, times(2)).addNewsHeaderToCache(any());
-		inOrder.verify(localDBStorage, times(1)).commitNewsHeaderCacheUpdate();
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
@@ -98,7 +111,9 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
+	@Config(shadows=ShadowLog.class, manifest = Config.NONE)
 	public void testCreateStream_NetworkError() {
+
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -123,9 +138,6 @@ public class NewsTapeRepositoryImplTest {
 		actualStream.subscribe(testObserver);
 		// run scheduler
 		bckgScheduler.triggerActions();
-
-		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(1)).cancelNewsHeaderCacheUpdate(any(Throwable.class));
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();

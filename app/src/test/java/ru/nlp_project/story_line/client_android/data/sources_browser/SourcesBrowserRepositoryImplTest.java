@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.data.sources_browser;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
@@ -56,8 +56,8 @@ public class SourcesBrowserRepositoryImplTest {
 		Observable<SourceDataModel> actualStream = testable.createSourceStream();
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).commitSourceCacheUpdate();
-		verify(localDBStorage, never()).addSourceToCache(any());
+		verify(localDBStorage, never()).commitSourceCacheUpdate(anyLong());
+		verify(localDBStorage, never()).addSourceToCache(anyLong(), any());
 	}
 
 
@@ -86,8 +86,8 @@ public class SourcesBrowserRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(2)).addSourceToCache(any());
-		inOrder.verify(localDBStorage, times(1)).commitSourceCacheUpdate();
+		inOrder.verify(localDBStorage, times(2)).addSourceToCache(anyLong(), any());
+		inOrder.verify(localDBStorage, times(1)).commitSourceCacheUpdate(anyLong());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
@@ -120,7 +120,7 @@ public class SourcesBrowserRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(1)).cancelSourceCacheUpdate(any());
+		inOrder.verify(localDBStorage, times(1)).cancelSourceCacheUpdate(anyLong());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();

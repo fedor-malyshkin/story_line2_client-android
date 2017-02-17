@@ -30,3 +30,6 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+# cupboard
+-keep class ru.nlp_project.story_line.client_android.data.models.** {*;}
