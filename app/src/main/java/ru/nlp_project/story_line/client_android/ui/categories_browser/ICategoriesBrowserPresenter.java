@@ -14,4 +14,5 @@ public interface ICategoriesBrowserPresenter extends IPresenter<ICategoriesBrows
 	void setCategorySelectionListener(ICategorySelectionListener activity);
 
 	void initialize();
+
 }

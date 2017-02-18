@@ -85,6 +85,11 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	}
 
 	@Override
+	public void hideLeftPanel() {
+		slidingPanel.closePane();
+	}
+
+	@Override
 	public void categorySelected(String category) {
 		presenter.categorySelected(category);
 	}

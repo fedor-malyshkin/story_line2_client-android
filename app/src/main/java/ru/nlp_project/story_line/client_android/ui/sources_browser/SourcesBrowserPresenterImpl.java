@@ -70,6 +70,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public void categorySelected(String category) {
+		view.hideLeftPanel();
 		Log.i("categorySelected", category);
 	}
 }

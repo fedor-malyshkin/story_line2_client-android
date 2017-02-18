@@ -1,6 +1,5 @@
 package ru.nlp_project.story_line.client_android.ui.categories_browser;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import io.reactivex.Observable;
@@ -45,7 +44,7 @@ public class CategoriesBrowserPresenterImpl implements ICategoriesBrowserPresent
 			.createCategoryStream();
 		stream.observeOn(uiScheduler).subscribe(
 			category -> view.addCategoryOnTop(category.getName(), category.getServerId()),
-			e ->e.printStackTrace(),
+			e ->{},
 			() -> view.commitAddCategoryOnTop());
 		// run emitting
 	}
@@ -58,7 +57,7 @@ public class CategoriesBrowserPresenterImpl implements ICategoriesBrowserPresent
 		}
 
 		Button btn = (Button) view;
-		Log.i("onCategorySelection", btn.getText().toString());
+
 
 		if (categorySelectionListener != null) {
 			categorySelectionListener.categorySelected(btn

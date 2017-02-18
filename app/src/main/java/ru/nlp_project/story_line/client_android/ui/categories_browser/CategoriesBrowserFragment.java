@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.CategoriesBrowserComponent;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
+import ru.nlp_project.story_line.client_android.ui.news_browser.NewsBrowserActivity;
 
 public class CategoriesBrowserFragment extends Fragment implements ICategoriesBrowserView {
 
@@ -88,4 +89,5 @@ public class CategoriesBrowserFragment extends Fragment implements ICategoriesBr
 		initilizeOnClickListener();
 		initializeCategorySelectionListener();
 	}
+
 }
