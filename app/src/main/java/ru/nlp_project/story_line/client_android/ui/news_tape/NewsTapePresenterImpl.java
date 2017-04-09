@@ -14,9 +14,9 @@ import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 @NewsTapeScope
 public class NewsTapePresenterImpl implements INewsTapePresenter {
 
-	private String sourceDomain;
-	private String sourceShortName;
 	private String sourceName;
+	private String sourceTitle;
+	private String sourceTitleShort;
 
 
 	@Inject
@@ -49,7 +49,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 		view.showUpdateIndicator(true);
 		view.clearTape();
 		Observable<NewsHeaderBusinessModel> stream = interactor
-			.createNewsHeaderStream(sourceDomain).observeOn(uiScheduler);
+			.createNewsHeaderStream(sourceName).observeOn(uiScheduler);
 		stream.subscribe(
 			news -> view.addNewsHeader(news),
 			e -> e.printStackTrace(),
@@ -57,9 +57,9 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	}
 
 	@Override
-	public void initialize(String sourceDomain, String sourceShortName, String sourceName) {
-		this.sourceDomain = sourceDomain;
-		this.sourceShortName = sourceShortName;
+	public void initialize(String sourceName, String sourceTitle, String sourceTitleShort) {
 		this.sourceName = sourceName;
+		this.sourceTitle = sourceTitle;
+		this.sourceTitleShort = sourceTitleShort;
 	}
 }

@@ -7,18 +7,16 @@ public class NewsArticleBusinessModel {
 	private String content;
 	private String path;
 	private String title;
-	private Date date;
-	private Date processingDate;
+	private Date publicationDate;
 	private String source;
 	private String serverId;
 
-	public NewsArticleBusinessModel(String content, String path, String title, Date date,
-		Date processingDate, String source, String serverId) {
+	public NewsArticleBusinessModel(String content, String path, String title,
+		Date publicationDate, String source, String serverId) {
 		this.content = content;
 		this.path = path;
 		this.title = title;
-		this.date = date;
-		this.processingDate = processingDate;
+		this.publicationDate = publicationDate;
 		this.source = source;
 		this.serverId = serverId;
 	}
@@ -35,12 +33,8 @@ public class NewsArticleBusinessModel {
 		return title;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public Date getProcessingDate() {
-		return processingDate;
+	public Date getPublicationDate() {
+		return publicationDate;
 	}
 
 	public String getSource() {

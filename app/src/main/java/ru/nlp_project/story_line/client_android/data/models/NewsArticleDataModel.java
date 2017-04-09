@@ -15,14 +15,13 @@ public class NewsArticleDataModel {
 	public NewsArticleDataModel() {
 	}
 
-	public NewsArticleDataModel(Long id, String content, String path, String title, Date date,
-		Date processingDate, String source, String serverId) {
+	public NewsArticleDataModel(Long id, String content, String path, String title,
+		Date publicationDate, String source, String serverId) {
 		this._id = id;
 		this.content = content;
 		this.path = path;
 		this.title = title;
-		this.date = date;
-		this.processingDate = processingDate;
+		this.publicationDate = publicationDate;
 		this.source = source;
 		this.serverId = serverId;
 	}
@@ -44,12 +43,8 @@ public class NewsArticleDataModel {
 		return title;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public Date getProcessingDate() {
-		return processingDate;
+	public Date getPublicationDate() {
+		return publicationDate;
 	}
 
 	public String getSource() {
@@ -60,6 +55,7 @@ public class NewsArticleDataModel {
 		return serverId;
 	}
 
+	@JsonIgnore
 	private Long _id;
 	@JsonProperty("content")
 	private String content;
@@ -67,13 +63,11 @@ public class NewsArticleDataModel {
 	private String path;
 	@JsonProperty("title")
 	private String title;
-	@JsonProperty("date")
-	private Date date;
-	@JsonProperty("processing_date")
-	private Date processingDate;
+	@JsonProperty("publication_date")
+	private Date publicationDate;
 	@JsonProperty("name")
 	private String source;
-	@JsonProperty("id")
+	@JsonProperty("_id")
 	private String serverId;
 
 }

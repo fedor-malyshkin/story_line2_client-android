@@ -76,7 +76,7 @@ public class NewsWatcherRepositoryImplTest {
 		// (Long id, String content, String path, String title, Date date,
 		// Date processingDate, String source, String serverId
 		dbSource.onSuccess(new NewsArticleDataModel((long) 0, "Content of Новость 3",
-			"https://www.bnkomi.ru/data/news/59446/", "Новость 3", new Date(3), new Date(30),
+			"https://www.bnkomi.ru/data/news/59446/", "Новость 3", new Date(30),
 			"bnkomi.ru",
 			"asbd3"));
 
@@ -109,7 +109,7 @@ public class NewsWatcherRepositoryImplTest {
 		dbSource.onComplete();
 
 		netSource.onSuccess(new NewsArticleDataModel((long) 0, "Content of Новость 3",
-			"https://www.bnkomi.ru/data/news/59446/", "Новость 3", new Date(3), new Date(30),
+			"https://www.bnkomi.ru/data/news/59446/", "Новость 3",  new Date(30),
 			"bnkomi.ru",
 			"asbd3"));
 

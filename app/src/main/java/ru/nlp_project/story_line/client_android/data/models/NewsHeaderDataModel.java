@@ -8,6 +8,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsHeaderDataModel {
 
+	@JsonIgnore
 	private Long _id;
 	@JsonProperty("title")
 	private String title;
@@ -15,7 +16,7 @@ public class NewsHeaderDataModel {
 	private String source;
 	@JsonProperty("date")
 	private Date date;
-	@JsonProperty("id")
+	@JsonProperty("_id")
 	private String serverId;
 
 	public Long get_id() {

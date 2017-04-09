@@ -40,7 +40,7 @@ public class NewsWatcherInteractorImpl implements INewsWatcherInteractor {
 				// String content, String path, String title, Date date,
 				// Date processingDate, String source, String serverId
 				data -> new NewsArticleBusinessModel(data.getContent(), data.getPath(), data
-					.getTitle(), data.getDate(), data.getProcessingDate(), data.getSource(), data
+					.getTitle(), data.getPublicationDate(), data.getSource(), data
 					.getServerId())
 			);
 		}

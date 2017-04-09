@@ -55,7 +55,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public CharSequence getFragmentTitleByIndex(int position) {
-		return sources.get(position).getShortName();
+		return sources.get(position).getTitleShort();
 	}
 
 	@Override

@@ -3,31 +3,25 @@ package ru.nlp_project.story_line.client_android.business.models;
 public class SourceBusinessModel {
 
 	private String name;
-	private String shortName;
-	private String domain;
-	private String serverId;
+	private String title;
+	private String titleShort;
 
-	public SourceBusinessModel(String domain, String shortName, String name,
-		String serverId) {
+	public SourceBusinessModel(String name, String title, String titleShort) {
 		this.name = name;
-		this.shortName = shortName;
-		this.domain = domain;
-		this.serverId = serverId;
+		this.title = title;
+		this.titleShort = titleShort;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getTitleShort() {
+		return titleShort;
 	}
 
 	public String getName() {
+
 		return name;
-	}
-
-	public String getShortName() {
-		return shortName;
-	}
-
-	public String getDomain() {
-		return domain;
-	}
-
-	public String getServerId() {
-		return serverId;
 	}
 }

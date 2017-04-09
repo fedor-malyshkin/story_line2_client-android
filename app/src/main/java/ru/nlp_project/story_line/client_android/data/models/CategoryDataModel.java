@@ -17,10 +17,11 @@ public class CategoryDataModel {
 	public CategoryDataModel() {
 	}
 
+	@JsonIgnore
 	private Long _id;
 	@JsonProperty("name")
 	private String name;
-	@JsonProperty("id")
+	@JsonProperty("_id")
 	private String serverId;
 
 
