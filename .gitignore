@@ -1,11 +1,11 @@
 *.*~
 /.gradle
-*.log
-.emacs.desktop
-.emacs.desktop.lock
-target
-bin
-build
+/*.log
+/.emacs.desktop
+/.emacs.desktop.lock
+/target
+/bin
+/build
 *.iml
 .gradle
 /local.properties

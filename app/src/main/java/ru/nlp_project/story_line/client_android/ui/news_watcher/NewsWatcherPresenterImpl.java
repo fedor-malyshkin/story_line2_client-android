@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
+import android.util.Log;
 import io.reactivex.Scheduler;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
@@ -44,8 +45,11 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 
 	@Override
 	public void loadContent() {
+		Log.d("loadContent", "=== " + newsArticleServerId);
 		interactor.createCachedNewsArticleStream(newsArticleServerId).observeOn(uiScheduler)
-			.subscribe(newsArticle ->
-				view.setContent(newsArticle.getContent()));
+			.subscribe(newsArticle -> {
+				view.setContent(newsArticle.getTitle(), newsArticle.getContent(), newsArticle
+					.getImageUrl());
+			});
 	}
 }

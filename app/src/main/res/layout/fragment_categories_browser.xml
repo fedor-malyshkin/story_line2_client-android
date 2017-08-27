@@ -16,91 +16,79 @@
     tools:ignore="ScrollViewSize">
 
     <Button
+      android:id="@+id/categories_browser_sources"
+      style="?android:attr/borderlessButtonStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/categories_browser_category_sources_title"/>
+<!--
+    <Button
       android:id="@+id/categories_browser_category_main"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_main_title"/>
-    <!--<string name="categories_browser_category_politics_title">1</string>-->
     <Button
       android:id="@+id/categories_browser_category_politics"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_politics_title"/>
-    <!--<string name="categories_browser_category_business_title">1</string>-->
     <Button
       android:id="@+id/categories_browser_category_business"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_business_title"/>
-
-    <!--<string name="categories_browser_category_society_title">1</string>-->
     <Button
       android:id="@+id/categories_browser_category_society"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_society_title"/>
-
-    <!--<string name="categories_browser_category_sport_title">2</string>-->
     <Button
       android:id="@+id/categories_browser_category_sport"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_sport_title"/>
-
-    <!--<string name="categories_browser_category_culture_title">3</string>-->
     <Button
       android:id="@+id/categories_browser_category_culture"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_culture_title"/>
-
-    <!--<string name="categories_browser_category_science_title">2</string>-->
     <Button
       android:id="@+id/categories_browser_category_science"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_science_title"/>
-
-    <!--<string name="categories_browser_category_auto_title">123</string>-->
     <Button
       android:id="@+id/categories_browser_category_auto"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_auto_title"/>
-
-    <!--<string name="categories_browser_category_technology_title">123</string>-->
     <Button
       android:id="@+id/categories_browser_category_technology"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_technology_title"/>
-
-    <!--<string name="categories_browser_category_fashion_title">fs</string>-->
     <Button
       android:id="@+id/categories_browser_category_fashion"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_fashion_title"/>
-
-    <!--<string name="categories_browser_category_favorites_title">fav</string>-->
     <Button
       android:id="@+id/categories_browser_category_favorites"
       style="?android:attr/borderlessButtonStyle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_favorites_title"/>
-
-    <!--<string name="categories_browser_category_settings_title">sett</string>-->
+  -->
     <Button
       android:id="@+id/categories_browser_category_settings"
       style="?android:attr/borderlessButtonStyle"
@@ -108,7 +96,6 @@
       android:layout_height="wrap_content"
       android:text="@string/categories_browser_category_settings_title"/>
 
-    <!--<string name="categories_browser_category_about_title">about</string>-->
     <Button
       android:id="@+id/categories_browser_category_about"
       style="?android:attr/borderlessButtonStyle"

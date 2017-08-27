@@ -33,13 +33,14 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Inject
 	public INewsTapePresenter presenter;
-	private List<NewsHeaderBusinessModel> headers;
+	private List<NewsHeaderBusinessModel> articleHeaders;
 
 	@BindView(R.id.news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
 	@BindView(R.id.news_tape_swipe_сontainer)
 	SwipeRefreshLayout swipeLayout;
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
+	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
@@ -90,20 +91,33 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	}
 
 	private void initializeRecyclerView() {
-		// Initialize contacts
-		headers = new ArrayList<>();
+		// Set layout manager to position the items
+		LinearLayoutManager newsRecyclerViewLM = new LinearLayoutManager(getContext());
+		endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(
+			newsRecyclerViewLM) {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount, RecyclerView recyclerView) {
+				onLoadMoreNewsHeaders(page, totalItemsCount, recyclerView);
+			}
+		};
+		// Initialize headers
+		articleHeaders = new ArrayList<>();
 
 		// Create adapter passing in the sample user data
 		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(this, getContext(),
-			headers);
+			articleHeaders);
 		// Attach the adapter to the recyclerview to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
-		// Set layout manager to position the items
-		newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+		newsRecyclerView.setLayoutManager(newsRecyclerViewLM);
 		// That's all!
 		RecyclerView.ItemDecoration itemDecoration = new
 			DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
+		newsRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+	}
+
+	private void onLoadMoreNewsHeaders(int page, int totalItemsCount, RecyclerView recyclerView) {
+		presenter.loadMoreNewsHeaders(articleHeaders.get(articleHeaders.size() - 1).getServerId());
 	}
 
 	@Override
@@ -114,6 +128,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Override
 	public void clearTape() {
 		newsTapeRecyclerViewAdapter.clear();
+		endlessRecyclerViewScrollListener.resetState();
 	}
 
 	@Override
@@ -130,18 +145,22 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Override
 	public void newsSelected(int position) {
-		NewsHeaderBusinessModel newsArticleUIModel = headers.get(position);
-//		Toast.makeText(getContext(), newsArticleUIModel.getName(),
-//			Toast.LENGTH_LONG).show();
+		NewsHeaderBusinessModel newsArticleUIModel = articleHeaders.get(position);
 
-		Intent intent = new Intent(this.getContext(), NewsBrowserActivity.class);
+		// сформировать список id'ов для листания свайпом
 		ArrayList articlesArray = new ArrayList();
-		for (NewsHeaderBusinessModel a : headers) {
+		for (NewsHeaderBusinessModel a : articleHeaders) {
 			articlesArray.add(a.getServerId());
 		}
 
+		Intent intent = new Intent(this.getContext(), NewsBrowserActivity.class);
 		intent.putStringArrayListExtra(NewsBrowserActivity.INTENT_KEY_ARTICLES, articlesArray);
 		intent.putExtra(NewsBrowserActivity.INTENT_KEY_POSITION, position);
 		startActivity(intent);
+	}
+
+	@Override
+	public void enableNewsUploading(boolean enable) {
+		endlessRecyclerViewScrollListener.setEnabled(enable);
 	}
 }

@@ -4,5 +4,5 @@ import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusine
 
 
 public interface INewsWatcherView {
-	void setContent(String content);
+	void setContent(String title, String content, String imageUrl);
 }

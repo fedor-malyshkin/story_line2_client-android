@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
@@ -24,6 +26,11 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@BindView(R.id.news_watcher_content)
 	TextView newsContent;
+	@BindView(R.id.news_watcher_title)
+	TextView newsTitle;
+
+	@BindView(R.id.news_watcher_image)
+	ImageView newsImage;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -70,7 +77,10 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	@Override
-	public void setContent(String content) {
+	public void setContent(String title, String content, String imageUrl) {
 		newsContent.setText(content);
+		newsTitle.setText(title);
+		Picasso.with(getContext()).load(imageUrl).into(newsImage);
 	}
+
 }

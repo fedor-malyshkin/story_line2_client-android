@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_height="match_parent"
-  android:orientation="vertical">
-
-
-  <TextView
-    android:text="TextView"
+  android:layout_width="match_parent">
+  <android.support.v7.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/news_watcher_content"/>
-</android.support.v7.widget.LinearLayoutCompat>
+    android:orientation="vertical"
+    >
+
+    <ImageView
+      android:id="@+id/news_watcher_image"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:adjustViewBounds="true"
+      android:scaleType="fitCenter"
+      tools:ignore="ContentDescription"/>
+    <TextView
+      android:id="@+id/news_watcher_title"
+      style="?attr/textAppearancePopupMenuHeader"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+    <TextView
+      android:id="@+id/news_watcher_content"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+  </android.support.v7.widget.LinearLayoutCompat>
+</ScrollView>

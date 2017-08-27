@@ -23,6 +23,8 @@ public class NewsArticleDataModel {
 		this.title = title;
 		this.publicationDate = publicationDate;
 		this.source = source;
+		this.url = url;
+		this.imageUrl = imageUrl;
 		this.serverId = serverId;
 	}
 
@@ -55,6 +57,14 @@ public class NewsArticleDataModel {
 		return serverId;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
 	@JsonIgnore
 	private Long _id;
 	@JsonProperty("content")
@@ -65,6 +75,10 @@ public class NewsArticleDataModel {
 	private String title;
 	@JsonProperty("publication_date")
 	private Date publicationDate;
+	@JsonProperty("url")
+	private String url;
+	@JsonProperty("image_url")
+	private String imageUrl;
 	@JsonProperty("name")
 	private String source;
 	@JsonProperty("_id")
