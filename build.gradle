@@ -18,6 +18,99 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        applicationId "ru.nlp_project.story_line.client_android"
+		// 4.4	KitKat - 19
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.1"
+
+		// Espresso
+ 		// testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+		// java 1.8 enable
+		jackOptions {
+  			enabled false
+		}
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+	    targetCompatibility JavaVersion.VERSION_1_8
+	}
+    productFlavors {
+    }
+
+    lintOptions {
+		tasks.lint.enabled = false
+        abortOnError false
+    }
+
+	// disable duplcate library exception...
+	packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/MANIFEST.MF'
+    }
+}
+
+dependencies {
+    // compile fileTree(include: ['*.jar'], dir: 'libs')
+    // Android Support Libraries
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:gridlayout-v7:25.+'
+    compile 'com.android.support:recyclerview-v7:25.+'
+    // for NavigationView
+    compile 'com.android.support:design:25.+'
+    // dagger 2
+    compile 'com.google.dagger:dagger:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    // cupboard
+    compile 'nl.qbusict:cupboard:2.2+'
+    // retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.+'
+    compile 'com.squareup.retrofit2:converter-jackson:2.1.+'
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.+'
+    // butterknife (https://github.com/JakeWharton/butterknife)
+    compile 'com.jakewharton:butterknife:8.5.+'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.+'
+    // rxJava2 =======================
+    compile 'io.reactivex.rxjava2:rxjava:2.0.6'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    // rxJava1 =======================
+    // compile 'io.reactivex:rxjava:1.+'
+    // compile 'io.reactivex:rxandroid:1.+'
+    // stetho
+    compile 'com.facebook.stetho:stetho:1.4.2'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+    // picasso (http://square.github.io/picasso/)
+    compile 'com.squareup.picasso:picasso:2.5.+'
+    // junit
+    testCompile 'junit:junit:4.+'
+    // Robolectric
+    testCompile 'org.robolectric:robolectric:3.+'
+    // assertJ
+    testCompile 'org.assertj:assertj-core:3.+'
+    // mockito
+    testCompile 'org.mockito:mockito-core:2.+'
+    // Espresso
+    // androidTestCompile 'com.android.support.test:runner:0.+'
+    // androidTestCompile 'com.android.support.test.espresso:espresso-core:2.+'
 }
