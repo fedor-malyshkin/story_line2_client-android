@@ -5,14 +5,8 @@
 /.emacs.desktop.lock
 /target
 /bin
-/build
-*.iml
-.gradle
 /local.properties
-/.idea/*.xml
-/.idea/libraries
-/.idea/dictionaries
-.idea/workspace.xml
 .DS_Store
 /captures
 /build
+/*.iml
