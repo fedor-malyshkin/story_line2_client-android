@@ -32,6 +32,10 @@
       android:label="@string/title_news_browser"
       android:name=".ui.news_browser.NewsBrowserActivity">
     </activity>
+    <activity
+      android:label="@string/title_preferences"
+      android:name=".ui.preferences.PreferencesActivity">
+    </activity>
 
   </application>
 

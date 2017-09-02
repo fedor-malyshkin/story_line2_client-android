@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:title="string/inline_preferences">
+
+    <CheckBoxPreference
+      android:key="checkbox_preference"
+      android:title="string/title_checkbox_preference"
+      android:summary="string/summary_checkbox_preference"/>
+
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:title="string/dialog_based_preferences">
+
+    <EditTextPreference
+      android:key="edittext_preference"
+      android:title="string/title_edittext_preference"
+      android:summary="string/summary_edittext_preference"
+      android:dialogTitle="string/dialog_title_edittext_preference"/>
+
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    android:title="string/launch_preferences">
+
+    <!-- This PreferenceScreen tag serves as a screen break (similar to page break
+         in word processing). Like for other preference types, we assign a key
+         here so it is able to save and restore its instance state. -->
+    <PreferenceScreen
+      android:key="screen_preference"
+      android:title="string/title_screen_preference"
+      android:summary="string/summary_screen_preference">
+
+      <CheckBoxPreference
+        android:key="next_screen_checkbox_preference"
+        android:title="string/title_next_screen_toggle_preference"
+        android:summary="string/summary_next_screen_toggle_preference"/>
+
+    </PreferenceScreen>
+
+
+  </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -11,10 +11,11 @@ public class DaggerBuilder {
 	private static ApplicationComponent createApplicationBuilder() {
 		return DaggerApplicationComponent.builder()
 			.applicationModule(new ApplicationModule(appContext))
+
 			.build();
 	}
 
-	private static ApplicationComponent getApplicationBuilder() {
+	private synchronized static ApplicationComponent getApplicationBuilder() {
 		if (applicationBuilder == null) {
 			applicationBuilder = createApplicationBuilder();
 		}
@@ -43,5 +44,9 @@ public class DaggerBuilder {
 
 	public static NewsWatcherComponent createNewsWatcherBuilder() {
 		return getApplicationBuilder().addToGraph(new NewsWatcherModule());
+	}
+
+	public static PreferencesComponent createPreferencesBuilder() {
+		return getApplicationBuilder().addToGraph(new PreferencesModule());
 	}
 }

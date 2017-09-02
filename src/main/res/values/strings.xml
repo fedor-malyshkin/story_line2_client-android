@@ -12,4 +12,5 @@
   <string name="menu_item_share_content">ShareContent</string>
   <string name="menu_item_share_url">ShareURL</string>
   <string name="menu_item_sources">Источники</string>
+  <string name="title_preferences">Настройки</string>
 </resources>

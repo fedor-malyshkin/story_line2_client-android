@@ -17,4 +17,6 @@ public abstract class ApplicationComponent {
 	abstract public CategoriesBrowserComponent addToGraph(CategoriesBrowserModule module);
 
 	public abstract NewsWatcherComponent addToGraph(NewsWatcherModule module);
+
+	public abstract PreferencesComponent addToGraph(PreferencesModule module);
 }

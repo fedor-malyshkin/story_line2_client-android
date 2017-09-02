@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.ui.sources_browser;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import io.reactivex.Observable;
@@ -10,6 +11,7 @@ import ru.nlp_project.story_line.client_android.business.models.SourceBusinessMo
 import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
+import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesActivity;
 
 /**
  * Created by fedor on 07.02.17.
@@ -36,10 +38,13 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	private void loadSources() {
 		Observable<SourceBusinessModel> stream = interactor.createSourceStream();
 		Iterable<SourceBusinessModel> models = stream.blockingIterable();
+
+		view.startUpdates();
 		sources.clear();
 		for (SourceBusinessModel m : models) {
 			sources.add(m);
 		}
+		view.finishUpdates();
 	}
 
 	@Override
@@ -56,6 +61,24 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	@Override
 	public CharSequence getFragmentTitleByIndex(int position) {
 		return sources.get(position).getTitleShort();
+	}
+
+	@Override
+	public boolean openSettings() {
+		// TODO: subscribe for sources changing...
+		Intent intent = new Intent(view.getContext(), PreferencesActivity.class);
+		intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.MASTER_SETTINGS);
+		view.startActivity(intent);
+		return true;
+	}
+
+	@Override
+	public boolean openSources() {
+		// TODO: subscribe for sources changing...
+		Intent intent = new Intent(view.getContext(), PreferencesActivity.class);
+		intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.SOURCES_SETTINGS);
+		view.startActivity(intent);
+		return true;
 	}
 
 	@Override
