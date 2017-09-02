@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import javax.inject.Inject;
@@ -18,11 +21,18 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 	private SourcesPageAdapter adapterViewPager;
 
-	@BindView(R.id.sources_browser_sliding_panel)
-	SlidingPaneLayoutEx slidingPanel;
+
+	// Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
+	// The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
+	private ActionBarDrawerToggle drawerToggle;
+
 
 	@BindView(R.id.sources_browser_view_pager)
 	ViewPager viewPager;
+
+	@BindView(R.id.toolbar)
+	Toolbar toolbar;
+
 
 	@Inject
 	public ISourcesBrowserPresenter presenter;
@@ -34,12 +44,27 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		setContentView(R.layout.activity_sources_browser);
 		ButterKnife.bind(this);
 		SourcesBrowserComponent builder = DaggerBuilder
-			.createSourcesBrowserBuilder();
+				.createSourcesBrowserBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
 		presenter.initialize();
 		initializeSlidingPanel();
+		initailizeToolbar();
 		initializeViewPager();
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_sources_browser, menu);
+		return true;
+	}
+
+	private void initailizeToolbar() {
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -49,7 +74,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	}
 
 	private void initializeSlidingPanel() {
-		slidingPanel.setParallaxDistance(200);
+//		slidingPanel.setParallaxDistance(200);
 	}
 
 	private void initializeViewPager() {
@@ -86,7 +111,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 	@Override
 	public void hideLeftPanel() {
-		slidingPanel.closePane();
+//		slidingPanel.closePane();
 	}
 
 	@Override

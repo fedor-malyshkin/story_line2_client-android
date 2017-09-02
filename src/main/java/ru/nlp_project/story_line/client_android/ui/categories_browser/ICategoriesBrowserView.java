@@ -1,7 +1,7 @@
 package ru.nlp_project.story_line.client_android.ui.categories_browser;
 
 public interface ICategoriesBrowserView {
-	public interface ICategorySelectionListener {
+	interface ICategorySelectionListener {
 		void categorySelected(String category);
 	}
 

@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx
+<android.support.v4.widget.DrawerLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/sources_browser_sliding_panel"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
-  <!-- side  container (for CategorySelector) -->
-  <fragment
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:name="ru.nlp_project.story_line.client_android.ui.categories_browser.CategoriesBrowserFragment"
-    >
-  </fragment>
+  android:layout_height="match_parent"
+  android:fitsSystemWindows="true">
+
 
   <!-- main container -->
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:minHeight="?attr/actionBarSize"
+      app:titleTextAppearance="@style/Toolbar.TitleText"
+      android:background="?attr/colorPrimary"
+      android:fitsSystemWindows="true"
+      />
 
     <android.support.v4.view.ViewPager
       android:id="@+id/sources_browser_view_pager"
@@ -35,5 +41,13 @@
     </android.support.v4.view.ViewPager>
   </LinearLayout>
 
+  <!-- The navigation drawer that comes from the left -->
+  <android.support.design.widget.NavigationView
+    android:id="@+id/nvView"
+    android:layout_gravity="start"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    />
 
-</ru.nlp_project.story_line.client_android.ui.sources_browser.SlidingPaneLayoutEx>
+</android.support.v4.widget.DrawerLayout>
