@@ -192,4 +192,12 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		withDatabase.delete(CategoryDataModel.class, "requestId != ?", String.valueOf(requestId));
 	}
+
+	@Override
+	public void replaceSources(List<SourceDataModel> list) {
+		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
+		withDatabase.delete(SourceDataModel.class, null);
+		withDatabase.put(list);
+	}
 }

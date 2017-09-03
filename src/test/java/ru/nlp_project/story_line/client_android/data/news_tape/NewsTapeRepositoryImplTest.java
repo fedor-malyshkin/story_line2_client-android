@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.Implements;
@@ -30,7 +29,7 @@ import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 
-//@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class NewsTapeRepositoryImplTest {
 
 	private RetrofiService retrofiService;
@@ -70,7 +69,7 @@ public class NewsTapeRepositoryImplTest {
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
 		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderStream
+		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
 			("someDomain");
 
 		Assertions.assertThat(actualStream).isNotNull();
@@ -87,7 +86,7 @@ public class NewsTapeRepositoryImplTest {
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
 		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderStream
+		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
 			("someDomain");
 
 		// prepare datas
@@ -121,7 +120,7 @@ public class NewsTapeRepositoryImplTest {
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
 		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderStream
+		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
 			("someDomain");
 
 		// prepare datas

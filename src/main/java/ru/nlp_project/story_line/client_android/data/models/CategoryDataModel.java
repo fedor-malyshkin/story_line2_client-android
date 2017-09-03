@@ -7,16 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDataModel {
 
-	public CategoryDataModel(Long id, String name, String serverId) {
-		this._id = id;
-		this.name = name;
-		this.serverId = serverId;
-	}
-
-	// neccessary for unmarshalling from JSON
-	public CategoryDataModel() {
-	}
-
 	@JsonIgnore
 	private Long _id;
 	@JsonProperty("name")
@@ -24,6 +14,16 @@ public class CategoryDataModel {
 	@JsonProperty("_id")
 	private String serverId;
 
+	public CategoryDataModel(Long id, String name, String serverId) {
+		this._id = id;
+		this.name = name;
+		this.serverId = serverId;
+	}
+
+
+	// neccessary for unmarshalling from JSON
+	public CategoryDataModel() {
+	}
 
 	public String getName() {
 		return name;
@@ -40,10 +40,10 @@ public class CategoryDataModel {
 	@Override
 	public String toString() {
 		return "CategoryDataModel{" +
-			"id=" + _id +
-			", name='" + name + '\'' +
-			", serverId='" + serverId + '\'' +
-			'}';
+				"id=" + _id +
+				", name='" + name + '\'' +
+				", serverId='" + serverId + '\'' +
+				'}';
 	}
 
 	@JsonIgnore

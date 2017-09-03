@@ -11,12 +11,31 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsArticleDataModel {
 
+	@JsonIgnore
+	private Long _id;
+	@JsonProperty("content")
+	private String content;
+	@JsonProperty("path")
+	private String path;
+	@JsonProperty("title")
+	private String title;
+	@JsonProperty("publication_date")
+	private Date publicationDate;
+	@JsonProperty("url")
+	private String url;
+	@JsonProperty("image_url")
+	private String imageUrl;
+	@JsonProperty("name")
+	private String source;
+	@JsonProperty("_id")
+	private String serverId;
+
 	// neccessary for unmarshalling from JSON
 	public NewsArticleDataModel() {
 	}
 
 	public NewsArticleDataModel(Long id, String content, String path, String title,
-		Date publicationDate, String source, String serverId) {
+			Date publicationDate, String source, String serverId) {
 		this._id = id;
 		this.content = content;
 		this.path = path;
@@ -27,7 +46,6 @@ public class NewsArticleDataModel {
 		this.imageUrl = imageUrl;
 		this.serverId = serverId;
 	}
-
 
 	public Long getId() {
 		return _id;
@@ -64,24 +82,5 @@ public class NewsArticleDataModel {
 	public String getImageUrl() {
 		return imageUrl;
 	}
-
-	@JsonIgnore
-	private Long _id;
-	@JsonProperty("content")
-	private String content;
-	@JsonProperty("path")
-	private String path;
-	@JsonProperty("title")
-	private String title;
-	@JsonProperty("publication_date")
-	private Date publicationDate;
-	@JsonProperty("url")
-	private String url;
-	@JsonProperty("image_url")
-	private String imageUrl;
-	@JsonProperty("name")
-	private String source;
-	@JsonProperty("_id")
-	private String serverId;
 
 }

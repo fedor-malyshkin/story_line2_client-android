@@ -19,7 +19,20 @@ public class NewsHeaderDataModel {
 	@JsonProperty("_id")
 	private String serverId;
 
-	public Long get_id() {
+	public NewsHeaderDataModel(Long _id, String title, String source, Date date,
+			String serverId) {
+		this._id = _id;
+		this.title = title;
+		this.source = source;
+		this.date = date;
+		this.serverId = serverId;
+	}
+
+	// neccessary for unmarshalling from JSON
+	public NewsHeaderDataModel() {
+	}
+
+	public Long getId() {
 		return _id;
 	}
 
@@ -38,17 +51,5 @@ public class NewsHeaderDataModel {
 	public String getServerId() {
 		return serverId;
 	}
-
-
-	public NewsHeaderDataModel(Long _id, String title, String source, Date date,
-		String serverId) {
-		this._id = _id;
-		this.title = title;
-		this.source = source;
-		this.date = date;
-		this.serverId = serverId;
-	}
-	// neccessary for unmarshalling from JSON
-	public  NewsHeaderDataModel() {}
 
 }

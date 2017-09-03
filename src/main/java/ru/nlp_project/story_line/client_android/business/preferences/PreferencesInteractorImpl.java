@@ -3,6 +3,8 @@ package ru.nlp_project.story_line.client_android.business.preferences;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.PreferencesScope;
@@ -24,7 +26,15 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createSourceStream() {
+	public void replaceSourcePreferences(List<SourceBusinessModel> sources) {
+		List<SourceDataModel> list = sources.stream().map(
+				s -> new SourceDataModel(s.getName(), s.getTitle(), s.getTitleShort(), s.isEnabled(),
+						s.getOrder())).collect(Collectors.toList());
+		repository.replaceSourcePreferences(list);
+	}
+
+	@Override
+	public Observable<SourceBusinessModel> createCombinedSourcePreferencesStream() {
 		return repository.createSourceStream().compose(transformer);
 	}
 

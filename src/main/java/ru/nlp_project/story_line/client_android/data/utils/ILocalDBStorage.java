@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.data.utils;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import java.util.List;
 import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
@@ -39,4 +40,10 @@ public interface ILocalDBStorage {
 	void cancelCategoryCacheUpdate(long requestId);
 
 	void commitCategoryCacheUpdate(long requestId);
+
+	/**
+	 * Add/Update
+	 * @param list
+	 */
+	void replaceSources(List<SourceDataModel> list);
 }

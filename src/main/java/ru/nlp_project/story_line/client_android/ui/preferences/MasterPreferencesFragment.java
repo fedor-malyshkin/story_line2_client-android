@@ -2,6 +2,8 @@ package ru.nlp_project.story_line.client_android.ui.preferences;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import javax.inject.Inject;
@@ -15,19 +17,20 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 	public MasterPreferencesFragment() {
 	}
 
-	public static PreferenceFragmentCompat newInstance() {
+	public static Fragment newInstance() {
 		MasterPreferencesFragment result = new MasterPreferencesFragment();
 		return result;
 	}
 
 	@Override
-	public void onCreatePreferences(Bundle bundle, String s) {
+	public void onCreatePreferences(@Nullable Bundle bundle, String s) {
 		setPreferencesFromResource(R.xml.preferences_master, s);
 	}
 
 	@Override
 	public void onNavigateToScreen(PreferenceScreen preferenceScreen) {
-		if (preferenceScreen.getKey().equalsIgnoreCase("screen_preference")) {
+		String sourcesKey = getResources().getString(R.string.preferences_screen_sources_key);
+		if (preferenceScreen.getKey().equalsIgnoreCase(sourcesKey)) {
 			Intent intent = new Intent(getContext(), PreferencesActivity.class);
 			intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.SOURCES_SETTINGS);
 			startActivity(intent);

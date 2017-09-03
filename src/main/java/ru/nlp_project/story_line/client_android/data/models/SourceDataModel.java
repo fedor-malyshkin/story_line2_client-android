@@ -8,6 +8,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SourceDataModel {
 
 
+	private Long _id;
+	@JsonProperty("name")
+	private String name;
+	@JsonProperty("title")
+	private String title;
+	@JsonProperty("title_short")
+	private String titleShort;
+	private boolean enabled = true;
+	private int order = -1;
+	@JsonIgnore
+	private long requestId;
+
 	// neccessary for unmarshalling from JSON
 	public SourceDataModel() {
 	}
@@ -18,13 +30,11 @@ public class SourceDataModel {
 		this.titleShort = titleShort;
 	}
 
-	private Long _id;
-	@JsonProperty("name")
-	private String name;
-	@JsonProperty("title")
-	private String title;
-	@JsonProperty("title_short")
-	private String titleShort;
+	public SourceDataModel(String name, String title, String titleShort, boolean enabled, int order) {
+		this(name, title, titleShort);
+		this.enabled = enabled;
+		this.order = order;
+	}
 
 	public String getName() {
 		return name;
@@ -37,9 +47,6 @@ public class SourceDataModel {
 	public String getTitleShort() {
 		return titleShort;
 	}
-
-	@JsonIgnore
-	private long requestId;
 
 	public long getRequestId() {
 		return requestId;

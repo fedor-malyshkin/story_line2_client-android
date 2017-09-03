@@ -29,17 +29,17 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 	}
 
 	@Override
-	public Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain) {
+	public Observable<NewsHeaderDataModel> createCachedNewsHeaderStream(String sourceDomain) {
 		final long requestId = System.currentTimeMillis();
 		NewsTapeRetrofitService netService = retrofiService.getNewsTapeService();
-		Observable<NewsHeaderDataModel> obs = netService.listHeaders(sourceDomain, 20)
+		Observable<NewsHeaderDataModel> netStream = netService.listHeaders(sourceDomain, 20)
 			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
 				(TAG, t.getMessage(), t));
 		// see for details: http://stackoverflow.com/a/36118469
 		// need at least 2 subscribers (localDBStorage + actual)
-		obs = obs.replay().autoConnect(2);
+		netStream = netStream.replay().autoConnect(2);
 
-		obs.observeOn(bckgScheduler).subscribe(
+		netStream.observeOn(bckgScheduler).subscribe(
 			// onNext
 			localDBStorage::addNewsHeaderToCache,
 			// onError
@@ -48,7 +48,7 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 			()->{}
 		);
 		// intermediate level - to recieve onError to localDBStorage
-		Observable<NewsHeaderDataModel> wrap = Observable.wrap(obs);
+		Observable<NewsHeaderDataModel> wrap = Observable.wrap(netStream);
 		// fallback source
 		Observable<NewsHeaderDataModel> resumeNext = wrap
 			.onErrorResumeNext(localDBStorage.createNewsHeaderStream(sourceDomain));

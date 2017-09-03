@@ -45,7 +45,6 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 
 	@Override
 	public void loadContent() {
-		Log.d("loadContent", "=== " + newsArticleServerId);
 		interactor.createCachedNewsArticleStream(newsArticleServerId).observeOn(uiScheduler)
 			.subscribe(newsArticle -> {
 				view.setContent(newsArticle.getTitle(), newsArticle.getContent(), newsArticle

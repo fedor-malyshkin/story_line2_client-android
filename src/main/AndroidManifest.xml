@@ -6,7 +6,7 @@
 
   <application
     android:allowBackup="false"
-    android:description="@string/description_activity_startup"
+    android:description="@string/activity_startup_description"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:name=".ClientAndroidApp"
@@ -14,7 +14,7 @@
     android:theme="@style/AppTheme">
     <activity
       android:excludeFromRecents="true"
-      android:label="@string/title_activity_startup"
+      android:label="@string/activity_startup_title"
       android:name=".ui.StartupActivity"
       android:noHistory="true"
       >
@@ -25,15 +25,15 @@
       </intent-filter>
     </activity>
     <activity
-      android:label="@string/title_activity_browser"
+      android:label="@string/activity_sources_browser_title"
       android:name=".ui.sources_browser.SourcesBrowserActivity">
     </activity>
     <activity
-      android:label="@string/title_news_browser"
+      android:label="@string/activity_news_browser_title"
       android:name=".ui.news_browser.NewsBrowserActivity">
     </activity>
     <activity
-      android:label="@string/title_preferences"
+      android:label="@string/activity_preferences_title"
       android:name=".ui.preferences.PreferencesActivity">
     </activity>
 

@@ -97,11 +97,16 @@ dependencies {
 	// Android Support Libraries
 	// https://developer.android.com/topic/libraries/support-library/packages.html
 	compile "com.android.support:appcompat-v7:$supportLibraryPrjVersion"
-	compile "com.android.support:preference-v14:$supportLibraryPrjVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryPrjVersion"
+	compile "com.android.support:preference-v7:$supportLibraryPrjVersion"
 
 	// for NavigationView
 	compile "com.android.support:design:$supportLibraryPrjVersion"
+
+	// https://github.com/nisrulz/recyclerviewhelper
+	// RecyclerViewHelper
+	compile 'com.github.nisrulz:recyclerviewhelper:26.0.0'
+
 	// dagger 2
 	compile 'com.google.dagger:dagger:2.8'
 	annotationProcessor 'com.google.dagger:dagger-compiler:2.8'

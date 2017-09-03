@@ -25,7 +25,7 @@ public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 
 	@Override
 	public Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceDomain) {
-		return repository.createNewsHeaderStream(sourceDomain).compose
+		return repository.createCachedNewsHeaderStream(sourceDomain).compose
 			(transformer);
 	}
 
