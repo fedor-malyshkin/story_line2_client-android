@@ -45,5 +45,5 @@ public interface ILocalDBStorage {
 	 * Add/Update
 	 * @param list
 	 */
-	void replaceSources(List<SourceDataModel> list);
+	void upsetSources(List<SourceDataModel> list);
 }

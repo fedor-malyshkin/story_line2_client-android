@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceDataModel {
-
-
 	private Long _id;
 	@JsonProperty("name")
 	private String name;
@@ -16,36 +14,50 @@ public class SourceDataModel {
 	@JsonProperty("title_short")
 	private String titleShort;
 	private boolean enabled = true;
-	private int order = -1;
+	private int _order = -1;
 	@JsonIgnore
 	private long requestId;
 
-	// neccessary for unmarshalling from JSON
+	// necessary for unmarshalling from JSON
 	public SourceDataModel() {
 	}
 
-	public SourceDataModel(String name, String title, String titleShort) {
+	public SourceDataModel(Long id, String name, String title, String titleShort) {
+		this._id = id;
 		this.name = name;
 		this.title = title;
 		this.titleShort = titleShort;
 	}
 
-	public SourceDataModel(String name, String title, String titleShort, boolean enabled, int order) {
-		this(name, title, titleShort);
+	public SourceDataModel(Long id, String name, String title, String titleShort, boolean enabled,
+			int order) {
+		this(id, name, title, titleShort);
 		this.enabled = enabled;
-		this.order = order;
+		this._order = order;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getTitle() {
 		return title;
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public String getTitleShort() {
 		return titleShort;
+	}
+
+	public void setTitleShort(String titleShort) {
+		this.titleShort = titleShort;
 	}
 
 	public long getRequestId() {
@@ -55,4 +67,27 @@ public class SourceDataModel {
 	public void setRequestId(long requestId) {
 		this.requestId = requestId;
 	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+
+		this.enabled = enabled;
+	}
+
+	public int getOrder() {
+		return _order;
+	}
+
+	public void setOrder(int order) {
+		this._order = order;
+	}
+
+	public Long getId() {
+		return _id;
+	}
 }
+
+

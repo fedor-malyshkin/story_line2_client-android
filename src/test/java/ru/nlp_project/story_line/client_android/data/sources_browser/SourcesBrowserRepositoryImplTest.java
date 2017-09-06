@@ -73,10 +73,10 @@ public class SourcesBrowserRepositoryImplTest {
 
 		Observable<SourceDataModel> actualStream = testable.createSourceStream();
 
-		// prepare datas
+		// prepare data
 		List<SourceDataModel> list = new ArrayList<>();
-		list.add(new SourceDataModel("domain0", "name0", "short0"));
-		list.add(new SourceDataModel( "domain1", "name1", "short1"));
+		list.add(new SourceDataModel(null,"domain0", "name0", "short0"));
+		list.add(new SourceDataModel(null, "domain1", "name1", "short1"));
 		netSource.onNext(list);
 		netSource.onComplete();
 
@@ -109,9 +109,9 @@ public class SourcesBrowserRepositoryImplTest {
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));
 
-		dbSource.onNext(new SourceDataModel("domain0", "name0", "short0"));
-		dbSource.onNext(new SourceDataModel( "domain1", "name1", "short1"));
-		dbSource.onNext(new SourceDataModel( "domain2", "name2", "short2"));
+		dbSource.onNext(new SourceDataModel(null,"domain0", "name0", "short0"));
+		dbSource.onNext(new SourceDataModel(null, "domain1", "name1", "short1"));
+		dbSource.onNext(new SourceDataModel(null, "domain2", "name2", "short2"));
 		dbSource.onComplete();
 
 		TestObserver<SourceDataModel> testObserver = TestObserver.create();

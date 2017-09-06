@@ -10,4 +10,8 @@ public interface IPreferencesPresenter  extends IPresenter<ISourcePreferencesVie
 	SourceBusinessModel getSource(int position);
 
 	int getSourcesCount();
+
+	void saveSources();
+
+	void sourceChangeEnabled(int position, boolean checked);
 }

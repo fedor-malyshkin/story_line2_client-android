@@ -52,7 +52,7 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 				// onComplete
 				() -> localDBStorage.commitSourceCacheUpdate(requestId)
 		);
-		// intermediate level - to recieve onError to localDBStorage
+		// intermediate level - to receive onError to localDBStorage
 		Observable<SourceDataModel> wrap = Observable.wrap(netStream);
 		// fallback source
 		Observable<SourceDataModel> resumeNext = wrap
@@ -61,13 +61,13 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 	}
 
 	@Override
-	public void replaceSourcePreferences(List<SourceDataModel> list) {
-		localDBStorage.replaceSources(list);
+	public void upsetSources(List<SourceDataModel> list) {
+		localDBStorage.upsetSources(list);
 	}
 
 	@Override
 	public Observable<SourceDataModel> createSourceStreamLocal() {
-		return localDBStorage.createSourceStream();
+		return localDBStorage.createSourceStream().subscribeOn(bckgScheduler);
 	}
 
 	@Override

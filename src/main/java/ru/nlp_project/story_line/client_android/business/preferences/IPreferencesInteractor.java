@@ -17,6 +17,6 @@ public interface IPreferencesInteractor {
 	/**
 	 * Обновить настройки источников данных, включая их активность и порядок.
 	 */
-	void replaceSourcePreferences(List<SourceBusinessModel> sources);
+	void upsetSources(List<SourceBusinessModel> sources);
 
 }

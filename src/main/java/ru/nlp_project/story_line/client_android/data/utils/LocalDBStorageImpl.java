@@ -28,11 +28,11 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	public void initialize() {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsHeaderDataModel.source ON "
-			+ "NewsHeaderDataModel (source);");
+				+ "NewsHeaderDataModel (source);");
 		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsHeaderDataModel.serverId ON "
-			+ "NewsHeaderDataModel (serverId);");
+				+ "NewsHeaderDataModel (serverId);");
 		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsArticleDataModel.serverId ON "
-			+ "NewsArticleDataModel (serverId);");
+				+ "NewsArticleDataModel (serverId);");
 		// wdb.close();
 	}
 
@@ -51,18 +51,17 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	public Observable<CategoryDataModel> createCategoryStream() {
 
 		return Observable.fromCallable(
-			() -> {
-				SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
-				List<CategoryDataModel> list = cupboard().withDatabase(rdb)
-					.query(CategoryDataModel.class)
-					.list();
-				// rdb.close();
-				return list;
-			}
+				() -> {
+					SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+					// rdb.close();
+					return cupboard().withDatabase(rdb)
+							.query(CategoryDataModel.class)
+							.list();
+				}
 		).flatMap(Observable::fromIterable);
 	}
 
-
+	// TODO: учесть обработку случаев, когда указанная запись уже есть в БД и её нельзя перезаписывать (теряется вся аттрибутивная информация)
 	@Override
 	public void addSourceToCache(long requestId, SourceDataModel dataModel) {
 		dataModel.setRequestId(requestId);
@@ -77,14 +76,13 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	@Override
 	public Observable<SourceDataModel> createSourceStream() {
 		return Observable.fromCallable(
-			() -> {
-				SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
-				List<SourceDataModel> list = cupboard().withDatabase(rdb)
-					.query(SourceDataModel.class)
-					.list();
-				// rdb.close();
-				return list;
-			}
+				() -> {
+					SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+					// rdb.close();
+					return cupboard().withDatabase(rdb)
+							.query(SourceDataModel.class)
+							.list();
+				}
 		).flatMap(Observable::fromIterable);
 	}
 
@@ -94,14 +92,13 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 		// considering null value from the callable as indication for valueless completion.
 		return Maybe.fromCallable(
-			() -> {
-				SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
-				NewsArticleDataModel model = cupboard().withDatabase(rdb)
-					.query(NewsArticleDataModel.class).withSelection
-						("serverId = ?", serverId).get();
-				// rdb.close();
-				return model;
-			}
+				() -> {
+					SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+					// rdb.close();
+					return cupboard().withDatabase(rdb)
+							.query(NewsArticleDataModel.class).withSelection
+									("serverId = ?", serverId).get();
+				}
 		);
 	}
 
@@ -111,8 +108,8 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		NewsArticleDataModel existing = withDatabase.query(NewsArticleDataModel.class)
-			.withSelection("serverId = ?",
-				dataModel.getServerId()).get();
+				.withSelection("serverId = ?",
+						dataModel.getServerId()).get();
 		if (existing == null) {
 			withDatabase.put(dataModel);
 		}
@@ -125,8 +122,8 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		NewsHeaderDataModel existing = withDatabase.query(NewsHeaderDataModel.class)
-			.withSelection("serverId = ?",
-				dataModel.getServerId()).get();
+				.withSelection("serverId = ?",
+						dataModel.getServerId()).get();
 		if (existing == null) {
 			withDatabase.put(dataModel);
 		}
@@ -137,15 +134,14 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	@Override
 	public Observable<NewsHeaderDataModel> createNewsHeaderStream(String sourceDomain) {
 		return Observable.fromCallable(
-			() -> {
-				SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
-				List<NewsHeaderDataModel> list = cupboard().withDatabase(rdb)
-					.query(NewsHeaderDataModel.class)
-					.withSelection("source = ?", sourceDomain)
-					.list();
-				// rdb.close();
-				return list;
-			}
+				() -> {
+					SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+					// rdb.close();
+					return cupboard().withDatabase(rdb)
+							.query(NewsHeaderDataModel.class)
+							.withSelection("source = ?", sourceDomain)
+							.list();
+				}
 		).flatMap(Observable::fromIterable);
 	}
 
@@ -194,10 +190,9 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	}
 
 	@Override
-	public void replaceSources(List<SourceDataModel> list) {
+	public void upsetSources(List<SourceDataModel> list) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
-		withDatabase.delete(SourceDataModel.class, null);
 		withDatabase.put(list);
 	}
 }

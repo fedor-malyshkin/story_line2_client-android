@@ -12,5 +12,5 @@ public interface ISourcesBrowserRepository {
 
 	Observable<SourceDataModel> createSourceStream();
 
-	void replaceSourcePreferences(List<SourceDataModel> list);
+	void upsetSources(List<SourceDataModel> list);
 }

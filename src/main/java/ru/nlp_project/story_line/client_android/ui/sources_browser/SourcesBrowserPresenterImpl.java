@@ -25,7 +25,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	public SourcesBrowserPresenterImpl() {
 	}
 
-	List<SourceBusinessModel> sources = new ArrayList<SourceBusinessModel>();
+	private List<SourceBusinessModel> sources = new ArrayList<>();
 
 	@Inject
 	ISourcesBrowserInteractor interactor;

@@ -35,7 +35,7 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 		public ObservableSource<SourceBusinessModel> apply(
 			Observable<SourceDataModel> upstream) {
 			return upstream.map(
-				data -> new SourceBusinessModel(data.getName(), data.getTitle(), data
+				data -> new SourceBusinessModel(data.getId(), data.getName(), data.getTitle(), data
 					.getTitleShort())
 			);
 		}
