@@ -8,6 +8,9 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsHeaderDataModel {
 
+	/**
+	 * id for cupboard
+	 */
 	@JsonIgnore
 	private Long _id;
 	@JsonProperty("title")
@@ -16,6 +19,9 @@ public class NewsHeaderDataModel {
 	private String source;
 	@JsonProperty("date")
 	private Date date;
+	/**
+	 * id for server side identification (mongodb/elasticsearch)
+	 */
 	@JsonProperty("_id")
 	private String serverId;
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
-import ru.nlp_project.story_line.client_android.ui.utils.CachingFragmentStatePagerAdapter;
 import ru.nlp_project.story_line.client_android.ui.utils.ZoomOutPageTransformer;
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
@@ -49,6 +49,12 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		initializeViewPager();
 		// last step - after full interface initilization
 		presenter.initialize();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		presenter.updateSources();
 	}
 
 	@Override
@@ -111,7 +117,21 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		}
 	}
 
-	public class SourcesPageAdapter extends CachingFragmentStatePagerAdapter {
+	@Override
+	public void startUpdates() {
+		adapterViewPager.startUpdate(viewPager);
+	}
+
+	@Override
+	public void finishUpdates() {
+		if (viewPager.getCurrentItem() > presenter.getFragmentsCount()) {
+			viewPager.setCurrentItem(0);
+		}
+		adapterViewPager.finishUpdate(viewPager);
+		adapterViewPager.notifyDataSetChanged();
+	}
+
+	public class SourcesPageAdapter extends FragmentStatePagerAdapter {
 
 		SourcesPageAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);
@@ -136,17 +156,5 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 			return presenter.getFragmentTitleByIndex(position);
 		}
 
-
-	}
-
-	@Override
-	public void startUpdates() {
-		adapterViewPager.startUpdate(viewPager);
-	}
-
-	@Override
-	public void finishUpdates() {
-		adapterViewPager.finishUpdate(viewPager);
-		adapterViewPager.notifyDataSetChanged();
 	}
 }

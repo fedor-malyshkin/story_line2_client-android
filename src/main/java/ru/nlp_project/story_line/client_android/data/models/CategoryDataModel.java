@@ -7,10 +7,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoryDataModel {
 
+	/**
+	 * id for cupboard
+	 */
 	@JsonIgnore
 	private Long _id;
 	@JsonProperty("name")
 	private String name;
+	/**
+	 * id for server side identification (mongodb/elasticsearch)
+	 */
 	@JsonProperty("_id")
 	private String serverId;
 
@@ -44,15 +50,6 @@ public class CategoryDataModel {
 				", name='" + name + '\'' +
 				", serverId='" + serverId + '\'' +
 				'}';
-	}
-
-	@JsonIgnore
-	private long requestId;
-	public long getRequestId() {
-		return requestId;
-	}
-	public void setRequestId(long requestId) {
-		this.requestId = requestId;
 	}
 
 }

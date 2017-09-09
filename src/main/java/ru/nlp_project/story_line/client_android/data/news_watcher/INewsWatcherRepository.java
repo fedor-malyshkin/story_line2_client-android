@@ -5,5 +5,5 @@ import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel
 
 public interface INewsWatcherRepository {
 
-	Single<NewsArticleDataModel> createCachedNewsArticleStream(String articleServerId);
+	Single<NewsArticleDataModel> createNewsArticleStreamRemoteCached(String articleServerId);
 }

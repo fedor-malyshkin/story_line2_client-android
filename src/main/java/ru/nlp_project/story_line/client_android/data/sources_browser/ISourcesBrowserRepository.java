@@ -10,7 +10,7 @@ public interface ISourcesBrowserRepository {
 
 	Observable<SourceDataModel> createSourceStreamRemote();
 
-	Observable<SourceDataModel> createSourceStream();
+	Observable<SourceDataModel> createSourceStreamRemoteCached();
 
 	void upsetSources(List<SourceDataModel> list);
 }

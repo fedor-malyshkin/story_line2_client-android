@@ -110,9 +110,9 @@ public class PreferencesInteractorImplTest {
 	public void createCombinedSourcePreferencesStream_NewFromRemote() throws Exception {
 		// prepare
 		ReplaySubject<SourceDataModel> observableLocal = ReplaySubject.create();
-		observableLocal.onNext(new SourceDataModel(null,"bnkomi.ru", "BNKLong", "BNK", true, 1));
-		observableLocal.onNext(new SourceDataModel(null,"7x7.ru", "7x7Long", "7x7", true, 2));
-		observableLocal.onNext(new SourceDataModel(null,"komiinform.ru", "KIMLong", "KIM", true, 3));
+		observableLocal.onNext(new SourceDataModel(new Long(1),"bnkomi.ru", "BNKLong", "BNK", true, 1));
+		observableLocal.onNext(new SourceDataModel(new Long(2),"7x7.ru", "7x7Long", "7x7", true, 2));
+		observableLocal.onNext(new SourceDataModel(new Long(3),"komiinform.ru", "KIMLong", "KIM", true, 3));
 		observableLocal.onComplete();
 		when(sourceRepository.createSourceStreamLocal()).thenReturn(observableLocal);
 
@@ -137,9 +137,9 @@ public class PreferencesInteractorImplTest {
 		testObserver.assertComplete();
 		testObserver.assertValueCount(4);
 		List<SourceBusinessModel> expected = Arrays
-				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1),
-						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2),
-						new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3),
+				.asList(new SourceBusinessModel(new Long(1), "bnkomi.ru", "BNKLong", "BNK", true, 1),
+						new SourceBusinessModel(new Long(2), "7x7.ru", "7x7Long", "7x7", true, 2),
+						new SourceBusinessModel(new Long(3), "komiinform.ru", "KIMLong", "KIM", true, 3),
 						new SourceBusinessModel(null, "new_source.ru", "NSLong", "NS", true, -1));
 		testObserver.assertValueSequence(expected);
 

@@ -11,6 +11,9 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsArticleDataModel {
 
+	/**
+	 * id for cupboard
+	 */
 	@JsonIgnore
 	private Long _id;
 	@JsonProperty("content")
@@ -27,6 +30,9 @@ public class NewsArticleDataModel {
 	private String imageUrl;
 	@JsonProperty("name")
 	private String source;
+	/**
+	 * id for server side identification (mongodb/elasticsearch)
+	 */
 	@JsonProperty("_id")
 	private String serverId;
 

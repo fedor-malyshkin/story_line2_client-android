@@ -2,9 +2,10 @@ package ru.nlp_project.story_line.client_android.ui.sources_browser;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import io.reactivex.Observable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
@@ -19,32 +20,27 @@ import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesActivi
 @SourcesBrowserScope
 public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
-	private ISourcesBrowserView view;
-
 	@Inject
-	public SourcesBrowserPresenterImpl() {
-	}
-
+	ISourcesBrowserInteractor interactor;
+	private ISourcesBrowserView view;
+	private Comparator<SourceBusinessModel> orderComparator;
 	private List<SourceBusinessModel> sources = new ArrayList<>();
 
 	@Inject
-	ISourcesBrowserInteractor interactor;
+	public SourcesBrowserPresenterImpl() {
+		orderComparator = new Comparator<SourceBusinessModel>() {
+
+			@Override
+			public int compare(SourceBusinessModel o1, SourceBusinessModel o2) {
+				return o1.getOrder() - o2.getOrder();
+			}
+		};
+	}
 
 	@Override
 	public void initialize() {
-		loadSources();
-	}
-
-	private void loadSources() {
-		Observable<SourceBusinessModel> stream = interactor.createSourceStream();
-		Iterable<SourceBusinessModel> models = stream.blockingIterable();
-
-		view.startUpdates();
-		sources.clear();
-		for (SourceBusinessModel m : models) {
-			sources.add(m);
-		}
-		view.finishUpdates();
+		// checkAndUpdateSources(interactor.createSourceStreamFromCache());
+		// checkAndUpdateSources(interactor.createSourceStream());
 	}
 
 	@Override
@@ -65,7 +61,6 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public boolean openSettings() {
-		// TODO: subscribe for sources changing...
 		Intent intent = new Intent(view.getContext(), PreferencesActivity.class);
 		intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.MASTER_SETTINGS);
 		view.startActivity(intent);
@@ -74,11 +69,15 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public boolean openSources() {
-		// TODO: subscribe for sources changing...
 		Intent intent = new Intent(view.getContext(), PreferencesActivity.class);
 		intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.SOURCES_SETTINGS);
 		view.startActivity(intent);
 		return true;
+	}
+
+	@Override
+	public void updateSources() {
+		checkAndUpdateSources(interactor.createSourceStreamFromCache());
 	}
 
 	@Override
@@ -94,6 +93,27 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	@Override
 	public void categorySelected(String category) {
 		view.hideLeftPanel();
-		Log.i("categorySelected", category);
+	}
+
+
+	private void checkAndUpdateSources(Observable<SourceBusinessModel> stream) {
+		Iterable<SourceBusinessModel> models = stream.blockingIterable();
+		List<SourceBusinessModel> newSources = new ArrayList<>();
+
+		for (SourceBusinessModel m : models) {
+			if (m.isEnabled()) {
+				newSources.add(m);
+			}
+		}
+		Collections.sort(newSources, orderComparator);
+		if (newSources.equals(sources)) {
+			return;
+		}
+
+// refresh main sources
+		view.startUpdates();
+		sources.clear();
+		sources.addAll(newSources);
+		view.finishUpdates();
 	}
 }

@@ -15,7 +15,7 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 	@Inject
 	ISourcesBrowserRepository repository;
 	private ObservableTransformer<SourceDataModel,
-		SourceBusinessModel> transformer = new DataToBusinessModelTransformer();
+			SourceBusinessModel> transformer = new DataToBusinessModelTransformer();
 
 
 	@Inject
@@ -24,19 +24,24 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 
 	@Override
 	public Observable<SourceBusinessModel> createSourceStream() {
-		return repository.createSourceStream().compose(transformer);
+		return repository.createSourceStreamRemoteCached().compose(transformer);
+	}
+
+	@Override
+	public Observable<SourceBusinessModel> createSourceStreamFromCache() {
+		return repository.createSourceStreamLocal().compose(transformer);
 	}
 
 	private class DataToBusinessModelTransformer implements
-		ObservableTransformer<SourceDataModel,
-			SourceBusinessModel> {
+			ObservableTransformer<SourceDataModel,
+					SourceBusinessModel> {
 
 		@Override
 		public ObservableSource<SourceBusinessModel> apply(
-			Observable<SourceDataModel> upstream) {
+				Observable<SourceDataModel> upstream) {
 			return upstream.map(
-				data -> new SourceBusinessModel(data.getId(), data.getName(), data.getTitle(), data
-					.getTitleShort())
+					data -> new SourceBusinessModel(data.getId(), data.getName(), data.getTitle(), data
+							.getTitleShort(), data.isEnabled(), data.getOrder())
 			);
 		}
 	}

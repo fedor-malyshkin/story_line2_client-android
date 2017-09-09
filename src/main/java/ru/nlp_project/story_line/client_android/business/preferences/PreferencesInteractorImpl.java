@@ -73,10 +73,10 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 					if (remoteLocal == null) {
 						return;
 					}
-					model.setTitle(remoteLocal.getTitle());
-					model.setTitleShort(remoteLocal.getTitleShort());
-					model.setOrder(remoteLocal.getOrder());
-					model.setEnabled(remoteLocal.isEnabled());
+					// update active/oder info
+					model.updateSystemData(remoteLocal);
+					// set ID !!!
+					model.setId(remoteLocal.getId());
 				}
 		).compose(transformer);
 	}

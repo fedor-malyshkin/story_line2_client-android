@@ -1,11 +1,14 @@
 package ru.nlp_project.story_line.client_android.data.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceDataModel {
+
+	/**
+	 * id for cupboard
+	 */
 	private Long _id;
 	@JsonProperty("name")
 	private String name;
@@ -15,8 +18,6 @@ public class SourceDataModel {
 	private String titleShort;
 	private boolean enabled = true;
 	private int _order = -1;
-	@JsonIgnore
-	private long requestId;
 
 	// necessary for unmarshalling from JSON
 	public SourceDataModel() {
@@ -34,6 +35,22 @@ public class SourceDataModel {
 		this(id, name, title, titleShort);
 		this.enabled = enabled;
 		this._order = order;
+	}
+
+	public void updatePresentationData(SourceDataModel other) {
+		if (null == other) {
+			throw new IllegalArgumentException("SourceDataModel 'other' must be not null.");
+		}
+		this.title = other.title;
+		this.titleShort = other.titleShort;
+	}
+
+	public void updateSystemData(SourceDataModel other) {
+		if (null == other) {
+			throw new IllegalArgumentException("SourceDataModel 'other' must be not null.");
+		}
+		this.enabled = other.enabled;
+		this._order = other._order;
 	}
 
 	public String getName() {
@@ -60,14 +77,6 @@ public class SourceDataModel {
 		this.titleShort = titleShort;
 	}
 
-	public long getRequestId() {
-		return requestId;
-	}
-
-	public void setRequestId(long requestId) {
-		this.requestId = requestId;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -87,6 +96,10 @@ public class SourceDataModel {
 
 	public Long getId() {
 		return _id;
+	}
+
+	public void setId(Long _id) {
+		this._id = _id;
 	}
 }
 

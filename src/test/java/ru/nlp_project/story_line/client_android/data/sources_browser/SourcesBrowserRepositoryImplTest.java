@@ -1,13 +1,7 @@
 package ru.nlp_project.story_line.client_android.data.sources_browser;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -53,11 +47,10 @@ public class SourcesBrowserRepositoryImplTest {
 		when(retrofiService.getSourcesBrowserService()).thenReturn(service);
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
-		Observable<SourceDataModel> actualStream = testable.createSourceStream();
+		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).commitSourceCacheUpdate(anyLong());
-		verify(localDBStorage, never()).addSourceToCache(anyLong(), any());
+		verify(localDBStorage, never()).addSourceToCache(any());
 	}
 
 
@@ -71,11 +64,11 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceDataModel> actualStream = testable.createSourceStream();
+		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		// prepare data
 		List<SourceDataModel> list = new ArrayList<>();
-		list.add(new SourceDataModel(null,"domain0", "name0", "short0"));
+		list.add(new SourceDataModel(null, "domain0", "name0", "short0"));
 		list.add(new SourceDataModel(null, "domain1", "name1", "short1"));
 		netSource.onNext(list);
 		netSource.onComplete();
@@ -86,8 +79,7 @@ public class SourcesBrowserRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(2)).addSourceToCache(anyLong(), any());
-		inOrder.verify(localDBStorage, times(1)).commitSourceCacheUpdate(anyLong());
+		inOrder.verify(localDBStorage, times(2)).addSourceToCache(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
@@ -104,12 +96,12 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceDataModel> actualStream = testable.createSourceStream();
+		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));
 
-		dbSource.onNext(new SourceDataModel(null,"domain0", "name0", "short0"));
+		dbSource.onNext(new SourceDataModel(null, "domain0", "name0", "short0"));
 		dbSource.onNext(new SourceDataModel(null, "domain1", "name1", "short1"));
 		dbSource.onNext(new SourceDataModel(null, "domain2", "name2", "short2"));
 		dbSource.onComplete();
@@ -120,13 +112,12 @@ public class SourcesBrowserRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(1)).cancelSourceCacheUpdate(anyLong());
+		inOrder.verify(localDBStorage, never()).addSourceToCache(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
 		testObserver.assertValueCount(3);
 	}
-
 
 
 }

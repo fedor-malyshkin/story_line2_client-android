@@ -15,48 +15,43 @@ import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 public class CategoriesBrowserRepositoryImpl implements ICategoriesBrowserRepository {
 
 	private static final String TAG = CategoriesBrowserRepositoryImpl.class.getSimpleName();
-
-	@Inject
-	ILocalDBStorage localDBStorage;
-
 	@Inject
 	public RetrofiService retrofiService;
 	@Inject
 	@SchedulerType(SchedulerType.background)
 	public Scheduler bckgScheduler;
+	@Inject
+	ILocalDBStorage localDBStorage;
 
 	@Inject
 	public CategoriesBrowserRepositoryImpl() {
 	}
 
 	/**
-	 * ...  к потоку данных из сети подключается слушатель для обновления через транзакцию данных в
-	 * БД (т.е. при успешном обновлении -- обновляется кэш)...
+	 * ...  к потоку данных из сети подключается слушатель для обновления через транзакцию данных в БД
+	 * (т.е. при успешном обновлении -- обновляется кэш)...
 	 */
 	@Override
-	public Observable<CategoryDataModel> createCategoryStream() {
-		final long requestId = System.currentTimeMillis();
+	public Observable<CategoryDataModel> createCategoryStreamRemoteCached() {
 		CategoriesBrowserRetrofitService netService = retrofiService.getCategoriesBrowserService();
 		Observable<CategoryDataModel> obs = netService.list()
-			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
-				(TAG, t.getMessage(), t));
+				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
+						(TAG, t.getMessage(), t));
 		// see for details: http://stackoverflow.com/a/36118469
 		// need at least 2 subscribers (localDBStorage + actual)
 		obs = obs.replay().autoConnect(2);
 		obs.observeOn(bckgScheduler).subscribe(
-			// onNext
-			val -> localDBStorage.addCategoryToCache(requestId, val),
-			// onError
-			exc -> localDBStorage.cancelCategoryCacheUpdate(requestId),
-			// onComplete
-			() -> localDBStorage.commitCategoryCacheUpdate(requestId)
+				// onNext
+				val -> localDBStorage.addCategoryToCache(val),
+				// onError
+				exc -> Log.e
+						(TAG, exc.getMessage(), exc)
 		);
 		// intermediate level - to recieve onError to localDBStorage
 		Observable<CategoryDataModel> wrap = Observable.wrap(obs);
 		// fallback source
-		Observable<CategoryDataModel> resumeNext = wrap
-			.onErrorResumeNext(localDBStorage.createCategoryStream());
-		return resumeNext;
+		return wrap
+				.onErrorResumeNext(localDBStorage.createCategoryStream());
 	}
 
 }

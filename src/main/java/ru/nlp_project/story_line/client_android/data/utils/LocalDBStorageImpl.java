@@ -38,8 +38,9 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 
 	@Override
-	public void addCategoryToCache(long requestId, CategoryDataModel dataModel) {
-		dataModel.setRequestId(requestId);
+	// TODO: обновлять в соотвествии с ключевым полем
+	public void addCategoryToCache(CategoryDataModel dataModel) {
+
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		// delete all categories
 		// cupboard().withDatabase(wdb).delete(CategoryDataModel.class, "", "");
@@ -61,15 +62,20 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		).flatMap(Observable::fromIterable);
 	}
 
-	// TODO: учесть обработку случаев, когда указанная запись уже есть в БД и её нельзя перезаписывать (теряется вся аттрибутивная информация)
+
 	@Override
-	public void addSourceToCache(long requestId, SourceDataModel dataModel) {
-		dataModel.setRequestId(requestId);
+	public void addSourceToCache(SourceDataModel dataModel) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		// delete all sources
-		// cupboard().withDatabase(wdb).delete(SourceDataModel.class, "", "");
-		cupboard().withDatabase(wdb).put(dataModel);
-		// wdb.close();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
+		SourceDataModel existing = withDatabase.query(SourceDataModel.class)
+				.withSelection("name = ?",
+						dataModel.getName()).get();
+		if (existing != null) {
+			existing.updatePresentationData(dataModel);
+			withDatabase.put(existing);
+		} else {
+			withDatabase.put(dataModel);
+		}
 	}
 
 
@@ -145,54 +151,12 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		).flatMap(Observable::fromIterable);
 	}
 
-	/**
-	 * Отменить и удалить все записи с текущим идентификатором requestId (неудачным).
-	 */
-	@Override
-	public void cancelSourceCacheUpdate(long requestId) {
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
-		withDatabase.delete(SourceDataModel.class, "requestId = ?", String.valueOf(requestId));
-
-	}
-
-	/**
-	 * После успешного обновления - удалить все записи с идентификатором запроса (requestId), не
-	 * совпадающим с текущим.
-	 */
-	@Override
-	public void commitSourceCacheUpdate(long requestId) {
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
-		withDatabase.delete(SourceDataModel.class, "requestId != ?", String.valueOf(requestId));
-
-	}
-
-	/**
-	 * Отменить и удалить все записи с текущим идентификатором requestId (неудачным).
-	 */
-	@Override
-	public void cancelCategoryCacheUpdate(long requestId) {
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
-		withDatabase.delete(CategoryDataModel.class, "requestId = ?", String.valueOf(requestId));
-	}
-
-	/**
-	 * После успешного обновления - удалить все записи с идентификатором запроса (requestId), не
-	 * совпадающим с текущим.
-	 */
-	@Override
-	public void commitCategoryCacheUpdate(long requestId) {
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
-		withDatabase.delete(CategoryDataModel.class, "requestId != ?", String.valueOf(requestId));
-	}
 
 	@Override
 	public void upsetSources(List<SourceDataModel> list) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
+		withDatabase.delete(SourceDataModel.class, "_id > 0");
 		withDatabase.put(list);
 	}
 }

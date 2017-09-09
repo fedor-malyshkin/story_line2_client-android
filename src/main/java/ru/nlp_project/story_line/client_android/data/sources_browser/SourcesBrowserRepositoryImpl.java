@@ -34,8 +34,7 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 	 * (т.е. при успешном обновлении -- обновляется кэш)...
 	 */
 	@Override
-	public Observable<SourceDataModel> createSourceStream() {
-		final long requestId = System.currentTimeMillis();
+	public Observable<SourceDataModel> createSourceStreamRemoteCached() {
 		SourcesBrowserRetrofitService netService = retrofiService.getSourcesBrowserService();
 		Observable<SourceDataModel> netStream = netService.list()
 				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
@@ -46,11 +45,10 @@ public class SourcesBrowserRepositoryImpl implements ISourcesBrowserRepository {
 
 		netStream.observeOn(bckgScheduler).subscribe(
 				// onNext
-				val -> localDBStorage.addSourceToCache(requestId, val),
+				val -> localDBStorage.addSourceToCache(val),
 				// onError
-				exc -> localDBStorage.cancelSourceCacheUpdate(requestId),
-				// onComplete
-				() -> localDBStorage.commitSourceCacheUpdate(requestId)
+				exc -> Log.e
+						(TAG, exc.getMessage(), exc)
 		);
 		// intermediate level - to receive onError to localDBStorage
 		Observable<SourceDataModel> wrap = Observable.wrap(netStream);
