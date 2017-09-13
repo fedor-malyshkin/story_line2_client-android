@@ -3,7 +3,6 @@ package ru.nlp_project.story_line.client_android.ui.news_tape;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
@@ -17,24 +16,21 @@ import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 @NewsTapeScope
 public class NewsTapePresenterImpl implements INewsTapePresenter {
 
-	private String sourceName;
-	private String sourceTitle;
-	private String sourceTitleShort;
-
-
 	@Inject
 	@SchedulerType(SchedulerType.ui)
 	public Scheduler uiScheduler;
+	@Inject
+	INewsTapeInteractor interactor;
+	private String sourceName;
+	private String sourceTitle;
+	private String sourceTitleShort;
+	private List<NewsHeaderBusinessModel> newsHeaders;
+	private INewsTapeView view;
 
 	@Inject
 	public NewsTapePresenterImpl() {
+		newsHeaders = new ArrayList<>();
 	}
-
-	@Inject
-	INewsTapeInteractor interactor;
-
-	private INewsTapeView view;
-
 
 	@Override
 	public void bindView(INewsTapeView view) {
@@ -51,16 +47,21 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	public void reloadNewsHeaders() {
 		view.enableNewsUploading(false);
 		view.showUpdateIndicator(true);
-		view.clearTape();
+		view.clearTape(newsHeaders.size());
+		newsHeaders.clear();
+
 		Observable<NewsHeaderBusinessModel> stream = interactor
-			.createNewsHeaderStream(sourceName).observeOn(uiScheduler);
+				.createNewsHeaderRemoteCachedStream(sourceName).observeOn(uiScheduler);
 		stream.subscribe(
-			news -> view.addNewsHeader(news),
-			e -> e.printStackTrace(),
-			() -> {
-				view.showUpdateIndicator(false);
-				view.enableNewsUploading(true);
-			});
+				news -> {
+					view.addNewsHeader(newsHeaders.size());
+					newsHeaders.add(news);
+				},
+				e -> e.printStackTrace(),
+				() -> {
+					view.showUpdateIndicator(false);
+					view.enableNewsUploading(true);
+				});
 	}
 
 	@Override
@@ -68,30 +69,42 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 		this.sourceName = sourceName;
 		this.sourceTitle = sourceTitle;
 		this.sourceTitleShort = sourceTitleShort;
+		reloadNewsHeaders();
 	}
 
 	@Override
-	public void loadMoreNewsHeaders(String serverId) {
-		List<NewsHeaderBusinessModel> data = new ArrayList<>();
-		for (int i = 0; i < 5; i++) {
-			NewsHeaderBusinessModel businessModel = new NewsHeaderBusinessModel("title",
-				"source", new Date(),
-				"serverId-" + System.currentTimeMillis());
-			data.add(businessModel);
-		}
+	public void uploadMoreNewsHeaders() {
+		view.enableNewsUploading(false);
 		view.showUpdateIndicator(true);
 
-		Observable<NewsHeaderBusinessModel> stream = Observable.fromIterable(data)
-			.observeOn(uiScheduler);
+		Observable<NewsHeaderBusinessModel> stream = interactor
+				.createAdditionNewsHeaderRemoteCachedStream(sourceName,
+						newsHeaders.get(newsHeaders.size() - 1).getServerId()).observeOn(uiScheduler);
 		stream.subscribe(
-			news -> {
-				view.addNewsHeader(news);
-			},
-			e -> e.printStackTrace(),
-			() ->
-				view.showUpdateIndicator(false)
-		);
+				news -> {
+					view.addNewsHeader(newsHeaders.size());
+					newsHeaders.add(news);
+				},
+				e -> e.printStackTrace(),
+				() -> {
+					view.showUpdateIndicator(false);
+					view.enableNewsUploading(true);
+				});
+	}
 
 
+	@Override
+	public int getNewsHeaderCount() {
+		return newsHeaders.size();
+	}
+
+	@Override
+	public NewsHeaderBusinessModel getNewsHeader(int position) {
+		return newsHeaders.get(position);
+	}
+
+	@Override
+	public List<NewsHeaderBusinessModel> getNewsHeaders() {
+		return newsHeaders;
 	}
 }

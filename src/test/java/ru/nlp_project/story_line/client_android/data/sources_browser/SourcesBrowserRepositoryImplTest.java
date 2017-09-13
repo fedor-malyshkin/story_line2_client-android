@@ -47,7 +47,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(retrofiService.getSourcesBrowserService()).thenReturn(service);
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
-		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
+		Observable<SourceDataModel> actualStream = testable.createSourceRemoteCachedStream();
 
 		Assertions.assertThat(actualStream).isNotNull();
 		verify(localDBStorage, never()).addSourceToCache(any());
@@ -64,7 +64,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
+		Observable<SourceDataModel> actualStream = testable.createSourceRemoteCachedStream();
 
 		// prepare data
 		List<SourceDataModel> list = new ArrayList<>();
@@ -96,7 +96,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceDataModel> actualStream = testable.createSourceStreamRemoteCached();
+		Observable<SourceDataModel> actualStream = testable.createSourceRemoteCachedStream();
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));

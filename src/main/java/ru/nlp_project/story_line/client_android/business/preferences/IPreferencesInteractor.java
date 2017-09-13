@@ -12,7 +12,7 @@ public interface IPreferencesInteractor {
 	 * Поток формируется посредством объединения данных из локального хранилища и сетевого (с
 	 * выставлением соотвествующих полей (enabled, order)).
 	 */
-	Observable<SourceBusinessModel> createCombinedSourcePreferencesStream();
+	Observable<SourceBusinessModel> createCombinedSourcePreferencesRemoteCachedStream();
 
 	/**
 	 * Обновить настройки источников данных, включая их активность и порядок.

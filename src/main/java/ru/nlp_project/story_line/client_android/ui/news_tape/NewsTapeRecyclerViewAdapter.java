@@ -18,16 +18,13 @@ class NewsTapeRecyclerViewAdapter extends
 
 	private final Context context;
 	private final NewsTapeFragment parentFragment;
-	private List<NewsHeaderBusinessModel> articleHeaders;
+	private INewsTapePresenter presenter;
 
-	public void addNewsHeader(NewsHeaderBusinessModel news) {
-		articleHeaders.add(news);
-		notifyItemInserted(articleHeaders.size() - 1);
+	public void addNewsHeader(int prevSize) {
+		notifyItemInserted(prevSize);
 	}
 
-	public void clear() {
-		int oldSize = articleHeaders.size();
-		articleHeaders.clear();
+	public void clear(int oldSize) {
 		notifyItemRangeRemoved(0, oldSize);
 	}
 
@@ -62,7 +59,7 @@ class NewsTapeRecyclerViewAdapter extends
 			if (position
 				!= RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
 				// We can access the data within the views
-				parentFragment.newsSelected(position);
+				parentFragment.onNewsSelected(position);
 			}
 		}
 	}
@@ -88,7 +85,7 @@ class NewsTapeRecyclerViewAdapter extends
 	public void onBindViewHolder(NewsTapeRecyclerViewAdapter.ViewHolder holder,
 		int position) {
 		// Get the data model based on position
-		NewsHeaderBusinessModel article = articleHeaders.get(position);
+		NewsHeaderBusinessModel article = presenter.getNewsHeader(position);
 
 		// Set item views based on your views and data model
 		TextView textView = holder.idTextView;
@@ -98,14 +95,14 @@ class NewsTapeRecyclerViewAdapter extends
 
 	@Override
 	public int getItemCount() {
-		return articleHeaders.size();
+		return presenter.getNewsHeaderCount();
 	}
 
 
 	public NewsTapeRecyclerViewAdapter(NewsTapeFragment newsTapeFragment, Context context,
-		List<NewsHeaderBusinessModel> articleHeaders) {
+		INewsTapePresenter presenter) {
 		this.parentFragment = newsTapeFragment;
 		this.context = context;
-		this.articleHeaders = articleHeaders;
+		this.presenter = presenter;
 	}
 }

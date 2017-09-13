@@ -99,6 +99,8 @@ dependencies {
 	compile "com.android.support:appcompat-v7:$supportLibraryPrjVersion"
 	compile "com.android.support:recyclerview-v7:$supportLibraryPrjVersion"
 	compile "com.android.support:preference-v7:$supportLibraryPrjVersion"
+	// for CardView
+	compile "com.android.support:cardview-v7:$supportLibraryPrjVersion"
 
 	// for NavigationView
 	compile "com.android.support:design:$supportLibraryPrjVersion"

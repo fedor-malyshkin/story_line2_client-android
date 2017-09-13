@@ -25,9 +25,9 @@ public class NewsWatcherInteractorImpl implements INewsWatcherInteractor {
 	}
 
 	@Override
-	public Single<NewsArticleBusinessModel> createCachedNewsArticleStream(
+	public Single<NewsArticleBusinessModel> createNewsArticleRemoteCachedStream(
 		String newsArticleServerId) {
-		return repository.createNewsArticleStreamRemoteCached(newsArticleServerId).compose(transformer);
+		return repository.createNewsArticleRemoteCachedStream(newsArticleServerId).compose(transformer);
 	}
 
 	private class DataToBusinessModelTransformer implements

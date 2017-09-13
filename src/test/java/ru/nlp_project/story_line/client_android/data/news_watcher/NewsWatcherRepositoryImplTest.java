@@ -50,7 +50,7 @@ public class NewsWatcherRepositoryImplTest {
 		when(retrofiService.getNewsWatcherService()).thenReturn(service);
 		when(service.getNewsArticleById(any(String.class))).thenReturn(netSource);
 		when(localDBStorage.createNewsArticleStream(any(String.class))).thenReturn(dbSource);
-		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleStreamRemoteCached
+		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleRemoteCachedStream
 			("someDomain");
 
 		Assertions.assertThat(actualStream).isNotNull();
@@ -69,7 +69,7 @@ public class NewsWatcherRepositoryImplTest {
 		when(service.getNewsArticleById(any(String.class))).thenReturn(netSource);
 		when(localDBStorage.createNewsArticleStream(any(String.class))).thenReturn(dbSource);
 
-		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleStreamRemoteCached
+		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleRemoteCachedStream
 			("someDomain");
 
 		// prepare datas
@@ -102,7 +102,7 @@ public class NewsWatcherRepositoryImplTest {
 		when(retrofiService.getNewsWatcherService()).thenReturn(service);
 		when(service.getNewsArticleById(any(String.class))).thenReturn(netSource);
 		when(localDBStorage.createNewsArticleStream(any(String.class))).thenReturn(dbSource);
-		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleStreamRemoteCached
+		Single<NewsArticleDataModel> actualStream = testable.createNewsArticleRemoteCachedStream
 			("someDomain");
 
 		// no_in_db and no_exception

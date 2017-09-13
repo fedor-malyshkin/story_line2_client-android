@@ -19,4 +19,10 @@
   <string name="preferences_screen_sources_key">preferences_screen_sources_key</string>
   <string name="preferences_screen_sources_title">preferences_screen_sources_title</string>
   <string name="preferences_screen_sources_summary">preferences_screen_sources_summary</string>
+  <string name="drawer_close">drawer_close</string>
+  <string name="drawer_open">drawer_open</string>
+  <string name="menu_sources_browser_item_search">Поиск</string>
+  <string name="menu_sources_browser_item_settings">Настройки</string>
+  <string name="menu_sources_browser_item_help">Помощь</string>
+  <string name="menu_sources_browser_item_feedback">Обратная связь</string>
 </resources>

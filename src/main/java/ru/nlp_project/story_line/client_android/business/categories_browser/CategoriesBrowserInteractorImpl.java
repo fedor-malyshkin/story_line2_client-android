@@ -25,7 +25,7 @@ public class CategoriesBrowserInteractorImpl implements ICategoriesBrowserIntera
 
 	@Override
 	public Observable<CategoryBusinessModel> createCategoryStream() {
-		return repository.createCategoryStreamRemoteCached().compose
+		return repository.createCategoryRemoteCachedStream().compose
 			(transformer);
 	}
 

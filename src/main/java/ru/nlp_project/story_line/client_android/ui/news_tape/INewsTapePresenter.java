@@ -1,5 +1,7 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
+import java.util.List;
+import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.ui.IPresenter;
 
 public interface INewsTapePresenter extends IPresenter<INewsTapeView> {
@@ -12,8 +14,27 @@ public interface INewsTapePresenter extends IPresenter<INewsTapeView> {
 	void initialize(String sourceName, String sourceTitle, String sourceTitleShort);
 
 	/**
-	 * Выполнить дополнительную подзагрузку заголовков новостей.
-	 * @param serverId идентификатор последней новости в списке
+	 * Выполнить подзагрузку заголовков новостей и добавить их в интерфейс.
 	 */
-	void loadMoreNewsHeaders(String serverId);
+	void uploadMoreNewsHeaders();
+
+	/**
+	 * Получить количество заголовков новостей.
+	 */
+	int getNewsHeaderCount();
+
+	/**
+	 * Получить заголовок новости по внутреннему списку по номеру позиции.
+	 *
+	 * @param position позиция.
+	 * @return заголовок новости
+	 */
+	NewsHeaderBusinessModel getNewsHeader(int position);
+
+	/**
+	 * Получить все заголовки новостей.
+	 *
+	 * @return все заголовки новостей
+	 */
+	List<NewsHeaderBusinessModel> getNewsHeaders();
 }

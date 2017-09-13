@@ -24,7 +24,7 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 
 	@Override
 	public Observable<SourceBusinessModel> createSourceStream() {
-		return repository.createSourceStreamRemoteCached().compose(transformer);
+		return repository.createSourceRemoteCachedStream().compose(transformer);
 	}
 
 	@Override

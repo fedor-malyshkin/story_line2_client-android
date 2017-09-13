@@ -29,10 +29,9 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 	}
 
 	@Override
-	public Observable<NewsHeaderDataModel> createCachedNewsHeaderStream(String sourceDomain) {
-		final long requestId = System.currentTimeMillis();
+	public Observable<NewsHeaderDataModel> createNewsHeaderRemoteCachedStream(String sourceDomain, String lastNewsId) {
 		NewsTapeRetrofitService netService = retrofiService.getNewsTapeService();
-		Observable<NewsHeaderDataModel> netStream = netService.listHeaders(sourceDomain, 20)
+		Observable<NewsHeaderDataModel> netStream = netService.listHeaders(sourceDomain, 20, lastNewsId)
 			.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
 				(TAG, t.getMessage(), t));
 		// see for details: http://stackoverflow.com/a/36118469
@@ -50,16 +49,8 @@ public class NewsTapeRepositoryImpl implements INewsTapeRepository {
 		// intermediate level - to recieve onError to localDBStorage
 		Observable<NewsHeaderDataModel> wrap = Observable.wrap(netStream);
 		// fallback source
-		Observable<NewsHeaderDataModel> resumeNext = wrap
+		return wrap
 			.onErrorResumeNext(localDBStorage.createNewsHeaderStream(sourceDomain));
-		return resumeNext;
-	}
-
-	// TODO: implements with DB as cache
-	@Override
-	public Observable<NewsHeaderDataModel> createAdditionNewsHeaderStream(String sourceDomain,
-		Long lastNewsId) {
-		return null;
 	}
 
 }

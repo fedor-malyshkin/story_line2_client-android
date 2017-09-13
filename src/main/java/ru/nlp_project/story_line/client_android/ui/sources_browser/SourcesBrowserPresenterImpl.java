@@ -92,7 +92,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public void categorySelected(String category) {
-		view.hideLeftPanel();
+
 	}
 
 
@@ -111,9 +111,9 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 		}
 
 // refresh main sources
-		view.startUpdates();
+		view.startSourcesUpdates();
 		sources.clear();
 		sources.addAll(newSources);
-		view.finishUpdates();
+		view.finishSourcesUpdates();
 	}
 }

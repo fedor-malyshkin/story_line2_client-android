@@ -32,7 +32,7 @@ public class CategoriesBrowserRepositoryImpl implements ICategoriesBrowserReposi
 	 * (т.е. при успешном обновлении -- обновляется кэш)...
 	 */
 	@Override
-	public Observable<CategoryDataModel> createCategoryStreamRemoteCached() {
+	public Observable<CategoryDataModel> createCategoryRemoteCachedStream() {
 		CategoriesBrowserRetrofitService netService = retrofiService.getCategoriesBrowserService();
 		Observable<CategoryDataModel> obs = netService.list()
 				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e

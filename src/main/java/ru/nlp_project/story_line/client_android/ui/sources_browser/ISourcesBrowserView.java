@@ -7,13 +7,11 @@ import ru.nlp_project.story_line.client_android.ui.categories_browser.ICategorie
 
 public interface ISourcesBrowserView extends ICategorySelectionListener {
 
-	void hideLeftPanel();
-
 	Context getContext();
 
 	void startActivity(Intent intent);
 
-	void startUpdates();
+	void startSourcesUpdates();
 
-	void finishUpdates();
+	void finishSourcesUpdates();
 }

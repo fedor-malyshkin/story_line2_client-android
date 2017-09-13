@@ -51,7 +51,7 @@ public class CategoriesBrowserRepositoryImplTest {
 		when(retrofiService.getCategoriesBrowserService()).thenReturn(service);
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createCategoryStream()).thenReturn(dbSource);
-		Observable<CategoryDataModel> actualStream = testable.createCategoryStreamRemoteCached();
+		Observable<CategoryDataModel> actualStream = testable.createCategoryRemoteCachedStream();
 
 		Assertions.assertThat(actualStream).isNotNull();
 		verify(localDBStorage, never()).addCategoryToCache(any());
@@ -67,7 +67,7 @@ public class CategoriesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createCategoryStream()).thenReturn(dbSource);
 
-		Observable<CategoryDataModel> actualStream = testable.createCategoryStreamRemoteCached();
+		Observable<CategoryDataModel> actualStream = testable.createCategoryRemoteCachedStream();
 
 		// prepare datas
 		List<CategoryDataModel> list = new ArrayList<>();
@@ -100,7 +100,7 @@ public class CategoriesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createCategoryStream()).thenReturn(dbSource);
 
-		Observable<CategoryDataModel> actualStream = testable.createCategoryStreamRemoteCached();
+		Observable<CategoryDataModel> actualStream = testable.createCategoryRemoteCachedStream();
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));

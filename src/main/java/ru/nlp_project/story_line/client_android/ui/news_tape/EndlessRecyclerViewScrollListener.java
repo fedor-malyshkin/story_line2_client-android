@@ -84,8 +84,8 @@ abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollLi
 				.findLastVisibleItemPosition();
 		}
 
-		Log.d("EndlessRecyclerViewScrollListener::onScrolled", "loading: " + loading);
-		Log.d("EndlessRecyclerViewScrollListener::onScrolled", totalItemCount + ":" +
+		Log.d("Endless::onScrolled", "loading: " + loading);
+		Log.d("Endless::onScrolled", totalItemCount + ":" +
 			previousTotalItemCount + ":" + lastVisibleItemPosition);
 
 		// If the total item count is zero and the previous isn't, assume the

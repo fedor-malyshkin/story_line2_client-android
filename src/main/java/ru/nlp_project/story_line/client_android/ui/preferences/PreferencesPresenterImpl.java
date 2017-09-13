@@ -43,7 +43,7 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 	}
 
 	private void loadSources() {
-		Observable<SourceBusinessModel> stream = interactor.createCombinedSourcePreferencesStream();
+		Observable<SourceBusinessModel> stream = interactor.createCombinedSourcePreferencesRemoteCachedStream();
 		Iterable<SourceBusinessModel> models = stream.blockingIterable();
 
 		view.startUpdates();

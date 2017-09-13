@@ -2,12 +2,8 @@ package ru.nlp_project.story_line.client_android.data.news_tape;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.*;
 
 import android.util.Log;
 import io.reactivex.Observable;
@@ -38,15 +34,6 @@ public class NewsTapeRepositoryImplTest {
 	private ILocalDBStorage localDBStorage;
 	private NewsTapeRetrofitService service;
 
-	@Implements(Log.class)
-	public static class ShadowLog {
-		public static int e(java.lang.String tag, java.lang.String msg, Throwable t) {
-			System.out.println("[" + tag + "] " + msg);
-			return 0;
-		}
-	}
-
-
 	@Before
 	public void setUp() throws Exception {
 		testable = new NewsTapeRepositoryImpl();
@@ -67,15 +54,14 @@ public class NewsTapeRepositoryImplTest {
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
 		Observable tempMock = mock(Observable.class);
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
-		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
+		when(service.listHeaders(any(String.class), anyInt(), isNull())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
-			("someDomain");
+		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderRemoteCachedStream
+				("someDomain", null);
 
 		Assertions.assertThat(actualStream).isNotNull();
 		verify(localDBStorage, never()).addNewsHeaderToCache(any());
 	}
-
 
 	@Test
 	public void testCreateStream_Success() {
@@ -84,15 +70,15 @@ public class NewsTapeRepositoryImplTest {
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
 		Observable tempMock = mock(Observable.class);
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
-		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
+		when(service.listHeaders(any(String.class), anyInt(), isNull())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
-			("someDomain");
+		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderRemoteCachedStream
+				("someDomain", null);
 
 		// prepare datas
 		List<NewsHeaderDataModel> list = new ArrayList<>();
 		list.add(new NewsHeaderDataModel((long) 0, "news0", "source0", null, "serverId0"));
-		list.add(new NewsHeaderDataModel((long) 1, "news1", "source1", null,"serverId1"));
+		list.add(new NewsHeaderDataModel((long) 1, "news1", "source1", null, "serverId1"));
 		netSource.onNext(list);
 		netSource.onComplete();
 
@@ -110,7 +96,7 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
-	@Config(shadows=ShadowLog.class, manifest = Config.NONE)
+	@Config(shadows = ShadowLog.class, manifest = Config.NONE)
 	public void testCreateStream_NetworkError() {
 
 		// long chain of initialization
@@ -118,19 +104,19 @@ public class NewsTapeRepositoryImplTest {
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
 		Observable tempMock = mock(Observable.class);
 		when(retrofiService.getNewsTapeService()).thenReturn(service);
-		when(service.listHeaders(any(String.class), anyInt())).thenReturn(netSource);
+		when(service.listHeaders(any(String.class), anyInt(), isNull())).thenReturn(netSource);
 		when(localDBStorage.createNewsHeaderStream("someDomain")).thenReturn(dbSource);
-		Observable<NewsHeaderDataModel> actualStream = testable.createCachedNewsHeaderStream
-			("someDomain");
+
+		Observable<NewsHeaderDataModel> actualStream = testable.createNewsHeaderRemoteCachedStream
+				("someDomain", null);
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));
 
-
 		// prepare datas
-		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0","source0", null, "serverId0"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "source1", null,"serverId1"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "source2", null,"serverId2"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0", "source0", null, "serverId0"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "source1", null, "serverId1"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "source2", null, "serverId2"));
 		dbSource.onComplete();
 
 		TestObserver<NewsHeaderDataModel> testObserver = TestObserver.create();
@@ -141,6 +127,15 @@ public class NewsTapeRepositoryImplTest {
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
 		testObserver.assertValueCount(3);
+	}
+
+	@Implements(Log.class)
+	public static class ShadowLog {
+
+		public static int e(java.lang.String tag, java.lang.String msg, Throwable t) {
+			System.out.println("[" + tag + "] " + msg);
+			return 0;
+		}
 	}
 
 }

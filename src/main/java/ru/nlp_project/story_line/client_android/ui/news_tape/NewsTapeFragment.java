@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
@@ -33,7 +32,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Inject
 	public INewsTapePresenter presenter;
-	private List<NewsHeaderBusinessModel> articleHeaders;
 
 	@BindView(R.id.news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
@@ -55,7 +53,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
@@ -82,7 +80,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
 
 		presenter.initialize(sourceName, sourceTitle, sourceTitleShort);
-		presenter.reloadNewsHeaders();
 	}
 
 	private void initializeSwipeUpdate() {
@@ -94,40 +91,35 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		// Set layout manager to position the items
 		LinearLayoutManager newsRecyclerViewLM = new LinearLayoutManager(getContext());
 		endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(
-			newsRecyclerViewLM) {
+				newsRecyclerViewLM) {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount, RecyclerView recyclerView) {
-				onLoadMoreNewsHeaders(page, totalItemsCount, recyclerView);
+				presenter.uploadMoreNewsHeaders();
 			}
 		};
-		// Initialize headers
-		articleHeaders = new ArrayList<>();
 
 		// Create adapter passing in the sample user data
 		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(this, getContext(),
-			articleHeaders);
+				presenter);
 		// Attach the adapter to the recyclerview to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
 		newsRecyclerView.setLayoutManager(newsRecyclerViewLM);
 		// That's all!
 		RecyclerView.ItemDecoration itemDecoration = new
-			DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
 		newsRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
 	}
 
-	private void onLoadMoreNewsHeaders(int page, int totalItemsCount, RecyclerView recyclerView) {
-		presenter.loadMoreNewsHeaders(articleHeaders.get(articleHeaders.size() - 1).getServerId());
+
+	@Override
+	public void addNewsHeader(int prevSize) {
+		newsTapeRecyclerViewAdapter.addNewsHeader(prevSize);
 	}
 
 	@Override
-	public void addNewsHeader(NewsHeaderBusinessModel news) {
-		newsTapeRecyclerViewAdapter.addNewsHeader(news);
-	}
-
-	@Override
-	public void clearTape() {
-		newsTapeRecyclerViewAdapter.clear();
+	public void clearTape(int oldSize) {
+		newsTapeRecyclerViewAdapter.clear(oldSize);
 		endlessRecyclerViewScrollListener.resetState();
 	}
 
@@ -144,12 +136,12 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	}
 
 	@Override
-	public void newsSelected(int position) {
-		NewsHeaderBusinessModel newsArticleUIModel = articleHeaders.get(position);
+	public void onNewsSelected(int position) {
+		NewsHeaderBusinessModel newsArticleUIModel = presenter.getNewsHeader(position);
 
 		// сформировать список id'ов для листания свайпом
 		ArrayList articlesArray = new ArrayList();
-		for (NewsHeaderBusinessModel a : articleHeaders) {
+		for (NewsHeaderBusinessModel a : presenter.getNewsHeaders()) {
 			articlesArray.add(a.getServerId());
 		}
 

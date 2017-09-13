@@ -36,7 +36,7 @@ public class NewsWatcherRepositoryImpl implements INewsWatcherRepository {
 	 * @return
 	 */
 	@Override
-	public Single<NewsArticleDataModel> createNewsArticleStreamRemoteCached(String serverId) {
+	public Single<NewsArticleDataModel> createNewsArticleRemoteCachedStream(String serverId) {
 		final long requestId = System.currentTimeMillis();
 		NewsWatcherRetrofitService netService = retrofiService.getNewsWatcherService();
 		// connectable (run if more than 1 subscriber)

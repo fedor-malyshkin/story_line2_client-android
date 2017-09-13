@@ -7,20 +7,20 @@ import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusine
 public interface INewsTapeInteractor {
 
 	/**
-	 * Создать основной поток новостей. <p> По указанному потоку возвращаются как первоначальные,
-	 * так и обновлнные данны.
+	 * Создать основной поток новостей. <p> По указанному потоку возвращаются как первоначальные, так
+	 * и обновлнные данны.
 	 *
 	 * @return поток данных
-	 * @param sourceDomain
 	 */
-	Observable<NewsHeaderBusinessModel> createNewsHeaderStream(String sourceDomain);
+	Observable<NewsHeaderBusinessModel> createNewsHeaderRemoteCachedStream(String sourceDomain);
 
 	/**
 	 * Создать поток новостей "дозагрузки".
 	 *
-	 * @param lastNewsId идентификатор последней новости для дозагрузки (нужны новости после неё).*
+	 * @param lastNewsHeaderServerId идентификатор последней новости для дозагрузки (нужны новости
+	 * после неё).*
 	 * @return поток данных
 	 */
-	Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderStream(
-		String sourceDomain, Long lastNewsId);
+	Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderRemoteCachedStream(
+			String sourceDomain, String lastNewsHeaderServerId);
 }

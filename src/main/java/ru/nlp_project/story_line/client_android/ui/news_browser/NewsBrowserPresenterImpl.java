@@ -6,12 +6,13 @@ import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_browser.INewsBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsBrowserScope;
-import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.ui.news_watcher.NewsWatcherFragment;
 
 @NewsBrowserScope
 public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 
+	@Inject
+	INewsBrowserInteractor interactor;
 	private INewsBrowserView view;
 	private List<String> articleServerIds;
 	private int articlePos;
@@ -19,9 +20,6 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 	@Inject
 	public NewsBrowserPresenterImpl() {
 	}
-
-	@Inject
-	INewsBrowserInteractor interactor;
 
 	@Override
 	public int getFragmentsCount() {

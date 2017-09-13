@@ -11,13 +11,13 @@ public interface INewsTapeView  {
 	 * Активировать/деактивировать индикатор загрузки новостей.
 	 */
 	void showUpdateIndicator(boolean show);
-	void addNewsHeader(NewsHeaderBusinessModel news);
+	void addNewsHeader(int prevSize);
 
 	/**
 	 * Выполнить очистку списка новостей.
 	 */
-	void clearTape();
-	void newsSelected(int position);
+	void clearTape(int oldSize);
+	void onNewsSelected(int position);
 	/**
 	 * Активировать/деактивировать подкачку новостей при прокрутке в конец.
 	 */

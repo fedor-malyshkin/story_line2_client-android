@@ -52,7 +52,7 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createCombinedSourcePreferencesStream() {
+	public Observable<SourceBusinessModel> createCombinedSourcePreferencesRemoteCachedStream() {
 		Map<String, SourceDataModel> remoteLocalMap = new HashMap<>();
 		Observable<SourceDataModel> source = Observable.wrap(repository.createSourceStreamRemote());
 		// подстраховываемся локальным источником при проблемах с  сетью
