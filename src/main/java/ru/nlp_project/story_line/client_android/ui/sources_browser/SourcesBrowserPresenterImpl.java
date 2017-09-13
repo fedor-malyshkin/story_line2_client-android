@@ -39,8 +39,6 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public void initialize() {
-		// checkAndUpdateSources(interactor.createSourceStreamFromCache());
-		// checkAndUpdateSources(interactor.createSourceStream());
 	}
 
 	@Override
@@ -115,5 +113,10 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 		sources.clear();
 		sources.addAll(newSources);
 		view.finishSourcesUpdates();
+	}
+
+	@Override
+	public List<SourceBusinessModel> getSources() {
+		return sources;
 	}
 }

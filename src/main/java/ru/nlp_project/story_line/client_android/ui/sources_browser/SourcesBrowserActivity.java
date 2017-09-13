@@ -3,9 +3,7 @@ package ru.nlp_project.story_line.client_android.ui.sources_browser;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -13,11 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import javax.inject.Inject;
@@ -26,23 +25,26 @@ import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
 import ru.nlp_project.story_line.client_android.ui.utils.ZoomOutPageTransformer;
 
-public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView,
-		OnNavigationItemSelectedListener {
+public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
 	@Inject
 	public ISourcesBrowserPresenter presenter;
-	@BindView(R.id.sources_browser_view_pager)
+	@BindView(R.id.activity_sources_browser_view_pager)
 	ViewPager viewPager;
-	@BindView(R.id.sources_browser_toolbar)
+	@BindView(R.id.activity_sources_browser_toolbar)
 	Toolbar toolbar;
-	@BindView(R.id.sources_browser_drawer_layout)
+	@BindView(R.id.activity_sources_browser_drawer_layout)
 	DrawerLayout drawerLayout;
-	@BindView(R.id.sources_browser_navigation_view)
+	@BindView(R.id.activity_sources_browser_navigation_view)
 	NavigationView navigationView;
-	private SourcesPageAdapter adapterViewPager;
+	@BindView(R.id.activity_sources_browser_navigation_recycler_view)
+	RecyclerView navigationRecyclerView;
+
+	private SourcesPageAdapter sourcesPageAdapter;
 	// Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
 	// The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
 	private ActionBarDrawerToggle drawerToggle;
+	private NavigationMenuManager navigationMenuManager;
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -71,11 +73,18 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		presenter.bindView(this);
 
 		initializeToolbar();
-		initializeDrawer();
+		initializeNavigationMenu();
+		initializeDrawerLayout();
 
 		initializeViewPager();
 		// last step - after full interface initilization
 		presenter.initialize();
+	}
+
+	private void initializeNavigationMenu() {
+		navigationMenuManager = new NavigationMenuManager(presenter, this,
+				navigationRecyclerView);
+		navigationMenuManager.initialize();
 	}
 
 	@Override
@@ -103,7 +112,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		presenter.unbindView();
 	}
 
-	private void initializeDrawer() {
+	private void initializeDrawerLayout() {
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
 				R.string.drawer_open, R.string.drawer_close) {
 
@@ -114,40 +123,27 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
-				prepareNavigationViewMenuOnOpenDrawer(drawerView);
+				prepareNavigationViewMenuOnOpenDrawer();
 				super.onDrawerOpened(drawerView);
 			}
 		};
 
 		// Set the drawer toggle as the DrawerListener
 		drawerLayout.addDrawerListener(drawerToggle);
-		navigationView.setNavigationItemSelectedListener(this);
 	}
 
 	/**
 	 * Подготовить меню NavigationView перед открытием DrawerLayout.
 	 */
-	private void prepareNavigationViewMenuOnOpenDrawer(View drawerView) {
-		navigationView.getMenu().clear();
-		navigationView.inflateMenu(R.menu.menu_sources_browser_drawer);
-		Menu menu = navigationView.getMenu();
-		MenuItem findMenuItem = menu.findItem(R.id.menu_sources_browser_item_sources);
-		SubMenu subMenu = findMenuItem.getSubMenu();
-
-		MenuItem test1 = subMenu
-				.add(R.id.menu_sources_browser_group_navigation, Menu.NONE, 0, "test1");
-		MenuItem test2 = subMenu
-				.add(R.id.menu_sources_browser_group_navigation, Menu.NONE, 0, "test2");
-
+	private void prepareNavigationViewMenuOnOpenDrawer() {
+		navigationMenuManager.prepareMenu();
 	}
-
 
 	private void initializeViewPager() {
-		adapterViewPager = new SourcesPageAdapter(getSupportFragmentManager());
-		viewPager.setAdapter(adapterViewPager);
+		sourcesPageAdapter = new SourcesPageAdapter(getSupportFragmentManager());
+		viewPager.setAdapter(sourcesPageAdapter);
 		viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 	}
-
 
 	@Override
 	public Context getContext() {
@@ -183,7 +179,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 	@Override
 	public void startSourcesUpdates() {
-		adapterViewPager.startUpdate(viewPager);
+		sourcesPageAdapter.startUpdate(viewPager);
 	}
 
 	@Override
@@ -191,29 +187,8 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		if (viewPager.getCurrentItem() > presenter.getFragmentsCount()) {
 			viewPager.setCurrentItem(0);
 		}
-		adapterViewPager.finishUpdate(viewPager);
-		adapterViewPager.notifyDataSetChanged();
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.menu_sources_browser_item_settings: {
-				presenter.openSettings();
-				drawerLayout.closeDrawers();
-				// не выделяем выбранный элемент - looks ugly
-				return false;
-			}
-			case R.id.menu_sources_browser_item_help: {
-				presenter.openSources();
-				drawerLayout.closeDrawers();
-				// не выделяем выбранный элемент - looks ugly
-				return false;
-			}
-
-			default:
-				return true;
-		}
+		sourcesPageAdapter.finishUpdate(viewPager);
+		sourcesPageAdapter.notifyDataSetChanged();
 	}
 
 	public class SourcesPageAdapter extends FragmentStatePagerAdapter {
@@ -247,5 +222,35 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		public int getItemPosition(Object object) {
 			return POSITION_NONE;
 		}
+	}
+
+	@Override
+	public void onMenuItemSearch(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemSearch", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemHelp(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemHelp", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemAbout(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemAbout", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemFeedback(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemFeedback", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemSource(int i) {
+		viewPager.setCurrentItem(i);
+		drawerLayout.closeDrawers();
 	}
 }

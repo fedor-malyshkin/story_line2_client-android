@@ -4,7 +4,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/sources_browser_drawer_layout"
+  android:id="@+id/activity_sources_browser_drawer_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:fitsSystemWindows="true"
@@ -12,13 +12,13 @@
 
 
   <!-- main container -->
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-      android:id="@+id/sources_browser_toolbar"
+      android:id="@+id/activity_sources_browser_toolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:fitsSystemWindows="true"
@@ -26,12 +26,12 @@
       />
 
     <android.support.v4.view.ViewPager
-      android:id="@+id/sources_browser_view_pager"
+      android:id="@+id/activity_sources_browser_view_pager"
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
 
       <android.support.v4.view.PagerTabStrip
-        android:id="@+id/sources_browser_pager_header"
+        android:id="@+id/activity_sources_browser_pager_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -39,13 +39,23 @@
         android:paddingBottom="4dp"/>
 
     </android.support.v4.view.ViewPager>
-  </LinearLayout>
+  </android.support.v7.widget.LinearLayoutCompat>
 
   <!-- The navigation drawer that comes from the left -->
   <android.support.design.widget.NavigationView
-    android:id="@+id/sources_browser_navigation_view"
+    android:id="@+id/activity_sources_browser_navigation_view"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_gravity="start"/>
+    android:layout_gravity="start"
+    app:headerLayout="@layout/view_sources_browser_navigation_header" >
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/activity_sources_browser_navigation_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingTop="120dp"/>
+
+  </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>

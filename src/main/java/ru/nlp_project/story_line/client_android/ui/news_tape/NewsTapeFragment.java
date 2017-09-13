@@ -33,9 +33,9 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Inject
 	public INewsTapePresenter presenter;
 
-	@BindView(R.id.news_tape_recycler_view)
+	@BindView(R.id.fragment_news_tape_recycler_view)
 	RecyclerView newsRecyclerView;
-	@BindView(R.id.news_tape_swipe_сontainer)
+	@BindView(R.id.fragment_news_tape_swipe_сontainer)
 	SwipeRefreshLayout swipeLayout;
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
