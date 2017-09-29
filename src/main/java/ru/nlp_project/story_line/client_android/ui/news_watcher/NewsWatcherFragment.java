@@ -1,8 +1,10 @@
 package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherComponent;
+import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
 
 public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
@@ -23,14 +25,16 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@Inject
 	public INewsWatcherPresenter presenter;
+	@Inject
+	public IImageDownloader imageDownloader;
 
 	@BindView(R.id.news_watcher_content)
-	TextView newsContent;
+	TextView newsContentTextView;
 	@BindView(R.id.news_watcher_title)
-	TextView newsTitle;
+	TextView newsTitleTextView;
 
 	@BindView(R.id.news_watcher_image)
-	ImageView newsImage;
+	ImageView newsImageImageView;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -43,7 +47,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_news_watcher, container, false);
 		ButterKnife.bind(this, view);
@@ -77,10 +81,15 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	@Override
-	public void setContent(String title, String content, String imageUrl) {
-		newsContent.setText(content);
-		newsTitle.setText(title);
-		Picasso.with(getContext()).load(imageUrl).into(newsImage);
+	public void setContent(String newsArticleId, String title, String content) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			newsContentTextView.setText(Html.fromHtml(content,
+					Html.FROM_HTML_MODE_COMPACT | Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH));
+		} else {
+			newsContentTextView.setText(Html.fromHtml(content));
+		}
+		newsTitleTextView.setText(title);
+		imageDownloader.loadImageInto(newsArticleId, getContext(), newsImageImageView);
 	}
 
 }

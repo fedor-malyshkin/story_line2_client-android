@@ -46,8 +46,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	public void loadContent() {
 		interactor.createNewsArticleRemoteCachedStream(newsArticleServerId).observeOn(uiScheduler)
 			.subscribe(newsArticle -> {
-				view.setContent(newsArticle.getTitle(), newsArticle.getContent(), newsArticle
-					.getImageUrl());
+				view.setContent(newsArticle.getServerId(), newsArticle.getTitle(), newsArticle.getContent());
 			});
 	}
 }

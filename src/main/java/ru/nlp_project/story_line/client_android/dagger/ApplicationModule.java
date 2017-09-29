@@ -19,6 +19,8 @@ import ru.nlp_project.story_line.client_android.data.utils.DatabaseHelper;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.LocalDBStorageImpl;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
+import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
+import ru.nlp_project.story_line.client_android.ui.utils.ImageDownloaderImpl;
 
 /**
  * Created by fedor on 11.01.17.
@@ -27,10 +29,10 @@ import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
 @Module
 public class ApplicationModule {
 
-	private Context context;
 	public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
 	public static final String DATABASE_NAME = "story_line.db";
 	public static final int DATABASE_VERSION = 1;
+	private Context context;
 
 	public ApplicationModule(Context context) {
 		this.context = context;
@@ -39,7 +41,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public INewsWatcherRepository provideNewsWatcherRepository(NewsWatcherRepositoryImpl
-		implementation) {
+			implementation) {
 		return implementation;
 	}
 
@@ -53,7 +55,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ISourcesBrowserRepository provideSourcesBrowserModuleRepository
-		(SourcesBrowserRepositoryImpl implementation) {
+			(SourcesBrowserRepositoryImpl implementation) {
 		return implementation;
 	}
 
@@ -61,7 +63,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ICategoriesBrowserRepository provideCateriesBrowserModuleRepository(
-		CategoriesBrowserRepositoryImpl instance) {
+			CategoriesBrowserRepositoryImpl instance) {
 		return instance;
 	}
 
@@ -98,4 +100,11 @@ public class ApplicationModule {
 	public ILocalDBStorage provideLocalDBStorage(LocalDBStorageImpl instance) {
 		return instance;
 	}
+
+	@Provides
+	@Singleton
+	public IImageDownloader provideImageDownloader() {
+		return new ImageDownloaderImpl(BASE_URL);
+	}
 }
+
