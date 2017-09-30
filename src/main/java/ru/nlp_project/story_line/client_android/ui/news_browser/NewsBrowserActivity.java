@@ -58,7 +58,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	private void initializeViewPager(int articlePos) {
 		adapterViewPager = new NewsArticlesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(adapterViewPager);
-		viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 		viewPager.setCurrentItem(articlePos, true);
 	}
 

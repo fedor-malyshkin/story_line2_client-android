@@ -1,8 +1,11 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
+import android.content.Context;
+import android.text.format.DateUtils;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
@@ -18,7 +21,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 	@Inject
 	@SchedulerType(SchedulerType.ui)
-	public Scheduler uiScheduler;
+	Scheduler uiScheduler;
 	@Inject
 	INewsTapeInteractor interactor;
 	private String sourceName;
@@ -57,7 +60,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 					view.addNewsHeader(newsHeaders.size());
 					newsHeaders.add(news);
 				},
-				e -> e.printStackTrace(),
+				Throwable::printStackTrace,
 				() -> {
 					view.showUpdateIndicator(false);
 					view.enableNewsUploading(true);
@@ -85,7 +88,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 					view.addNewsHeader(newsHeaders.size());
 					newsHeaders.add(news);
 				},
-				e -> e.printStackTrace(),
+				Throwable::printStackTrace,
 				() -> {
 					view.showUpdateIndicator(false);
 					view.enableNewsUploading(true);
@@ -106,5 +109,18 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	@Override
 	public List<NewsHeaderBusinessModel> getNewsHeaders() {
 		return newsHeaders;
+	}
+
+
+	@Override
+	public String getPublicationDatePresentation(Context context, Date date) {
+		if (null == date) return "";
+		return DateUtils.getRelativeDateTimeString(context, date.getTime(), 60, 60 * 60 * 24 * 7,
+				(int) DateUtils.SECOND_IN_MILLIS & DateUtils.FORMAT_24HOUR).toString();
+	}
+
+	@Override
+	public String getSourceTitleShort() {
+		return sourceTitleShort;
 	}
 }

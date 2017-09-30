@@ -45,7 +45,7 @@ public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 				Observable<NewsHeaderDataModel> upstream) {
 			return upstream.map(
 					data -> new NewsHeaderBusinessModel(data.getTitle(), data.getSource(),
-							data.getDate(),
+							data.getPublicationDate(),
 							data.getServerId()));
 		}
 	}

@@ -17,20 +17,20 @@ public class NewsHeaderDataModel {
 	private String title;
 	@JsonProperty("source")
 	private String source;
-	@JsonProperty("date")
-	private Date date;
+	@JsonProperty("publication_date")
+	private Date publicationDate;
 	/**
 	 * id for server side identification (mongodb/elasticsearch)
 	 */
 	@JsonProperty("_id")
 	private String serverId;
 
-	public NewsHeaderDataModel(Long _id, String title, String source, Date date,
+	public NewsHeaderDataModel(Long _id, String title, String source, Date publicationDate,
 			String serverId) {
 		this._id = _id;
 		this.title = title;
 		this.source = source;
-		this.date = date;
+		this.publicationDate = publicationDate;
 		this.serverId = serverId;
 	}
 
@@ -50,8 +50,8 @@ public class NewsHeaderDataModel {
 		return source;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getPublicationDate() {
+		return publicationDate;
 	}
 
 	public String getServerId() {

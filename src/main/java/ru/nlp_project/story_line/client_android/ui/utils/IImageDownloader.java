@@ -6,4 +6,7 @@ import android.widget.ImageView;
 public interface IImageDownloader {
 
 	void loadImageInto(String newsArticleId, Context context, ImageView target);
+
+	void loadImageInto(String newsArticleId, Context context, ImageView target, Integer height,
+			Integer width);
 }

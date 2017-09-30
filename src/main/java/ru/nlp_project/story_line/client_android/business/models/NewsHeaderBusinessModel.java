@@ -10,8 +10,9 @@ public class NewsHeaderBusinessModel {
 
 	private String title;
 	private String source;
-	private Date date;
+	private Date publicationDate;
 	private String serverId;
+	private String imageUrl;
 
 	public String getTitle() {
 		return title;
@@ -21,19 +22,19 @@ public class NewsHeaderBusinessModel {
 		return source;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getPublicationDate() {
+		return publicationDate;
 	}
 
 	public String getServerId() {
 		return serverId;
 	}
 
-	public NewsHeaderBusinessModel(String title, String source, Date date,
+	public NewsHeaderBusinessModel(String title, String source, Date publicationDate,
 		String serverId) {
 		this.title = title;
 		this.source = source;
-		this.date = date;
+		this.publicationDate = publicationDate;
 		this.serverId = serverId;
 	}
 

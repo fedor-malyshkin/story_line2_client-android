@@ -22,10 +22,12 @@
       android:id="@+id/news_watcher_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
       />
     <TextView
       android:id="@+id/news_watcher_content"
       android:layout_width="match_parent"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
       android:layout_height="wrap_content"/>
   </android.support.v7.widget.LinearLayoutCompat>
 </ScrollView>

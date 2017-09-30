@@ -32,6 +32,31 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		picasso.load(url).into(target, new LoadingCallback(url));
 	}
 
+	@Override
+	public void loadImageInto(String newsArticleId, Context context, ImageView target, Integer height,
+			Integer width) {
+		Picasso picasso = getPicasso(context);
+		// Picasso picasso = Picasso.with(context);
+		// picasso.setIndicatorsEnabled(true);
+		String url = formatUrl(newsArticleId, height, width);
+		picasso.load(url).into(target, new LoadingCallback(url));
+	}
+
+	private String formatUrl(String newsArticleId, Integer height, Integer width) {
+		if (height != null && width != null) {
+			return String
+					.format("%s/news_articles/%s/images?h=%d&w=%d", baseUrl, newsArticleId, height.intValue(),
+							width.intValue());
+		} else if (height != null) {
+			return String
+					.format("%s/news_articles/%s/images?h=%d", baseUrl, newsArticleId, height.intValue());
+		} else if (width != null) {
+			return String
+					.format("%s/news_articles/%s/images?w=%d", baseUrl, newsArticleId, width.intValue());
+		}
+		return formatUrl(newsArticleId);
+	}
+
 	private synchronized Picasso getPicasso(Context context) {
 		if (picassoInstance != null) {
 			return picassoInstance;

@@ -142,7 +142,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	private void initializeViewPager() {
 		sourcesPageAdapter = new SourcesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(sourcesPageAdapter);
-		viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 	}
 
 	@Override

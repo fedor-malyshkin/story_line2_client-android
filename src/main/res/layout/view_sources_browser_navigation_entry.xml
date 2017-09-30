@@ -14,10 +14,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="4sp"
     android:text="@string/activity_startup_title"
-    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+    android:textAppearance="@style/Base.TextAppearance.AppCompat.Menu"
     android:layout_alignParentStart="true"
-    android:layout_centerVertical="true"
-
-    />
+    android:layout_centerVertical="true"/>
 
 </RelativeLayout>

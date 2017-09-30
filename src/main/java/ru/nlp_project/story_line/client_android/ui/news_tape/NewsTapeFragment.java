@@ -21,6 +21,7 @@ import ru.nlp_project.story_line.client_android.business.models.SourceBusinessMo
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeComponent;
 import ru.nlp_project.story_line.client_android.ui.news_browser.NewsBrowserActivity;
+import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
 
 public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
@@ -37,6 +38,9 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	RecyclerView newsRecyclerView;
 	@BindView(R.id.fragment_news_tape_swipe_сontainer)
 	SwipeRefreshLayout swipeLayout;
+	@Inject
+	IImageDownloader imageDownloader;
+
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
@@ -100,14 +104,16 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 		// Create adapter passing in the sample user data
 		newsTapeRecyclerViewAdapter = new NewsTapeRecyclerViewAdapter(this, getContext(),
-				presenter);
-		// Attach the adapter to the recyclerview to populate items
+				presenter, imageDownloader);
+		// Attach the adapter to the recyclerView to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
 		newsRecyclerView.setLayoutManager(newsRecyclerViewLM);
+		/*
 		// That's all!
 		RecyclerView.ItemDecoration itemDecoration = new
 				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
+		*/
 		newsRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
 	}
 
