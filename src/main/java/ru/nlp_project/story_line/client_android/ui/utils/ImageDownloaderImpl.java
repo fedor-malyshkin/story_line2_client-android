@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.ui.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
@@ -33,26 +34,30 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	}
 
 	@Override
-	public void loadImageInto(String newsArticleId, Context context, ImageView target, Integer height,
-			Integer width) {
+	public void loadImageIntoCrop(String newsArticleId, Context context, ImageView target,
+			Integer width, Integer height) {
 		Picasso picasso = getPicasso(context);
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleId, height, width);
+		String url = formatUrl(newsArticleId, width, height, "crop");
 		picasso.load(url).into(target, new LoadingCallback(url));
 	}
 
-	private String formatUrl(String newsArticleId, Integer height, Integer width) {
+	@SuppressLint("DefaultLocale")
+	private String formatUrl(String newsArticleId, Integer width, Integer height,
+			String operation) {
 		if (height != null && width != null) {
 			return String
-					.format("%s/news_articles/%s/images?h=%d&w=%d", baseUrl, newsArticleId, height.intValue(),
-							width.intValue());
+					.format("%s/news_articles/%s/images?h=%d&w=%d&op=%s", baseUrl, newsArticleId, height,
+							width, operation);
 		} else if (height != null) {
 			return String
-					.format("%s/news_articles/%s/images?h=%d", baseUrl, newsArticleId, height.intValue());
+					.format("%s/news_articles/%s/images?h=%d&op=%s", baseUrl, newsArticleId, height,
+							operation);
 		} else if (width != null) {
 			return String
-					.format("%s/news_articles/%s/images?w=%d", baseUrl, newsArticleId, width.intValue());
+					.format("%s/news_articles/%s/images?w=%d&op=%s", baseUrl, newsArticleId, width,
+							operation);
 		}
 		return formatUrl(newsArticleId);
 	}
@@ -63,7 +68,7 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		}
 		Builder builder = new Builder(context);
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(context);
-		LruCache cache = new LruCache(5 * 1_024);
+		LruCache cache = new LruCache(5 * 1_024 * 1_024);
 		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(true)
 				.memoryCache(cache).build();
 		return picassoInstance;

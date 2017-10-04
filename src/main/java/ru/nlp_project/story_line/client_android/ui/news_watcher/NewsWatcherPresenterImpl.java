@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
+import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
 
 @NewsWatcherScope
 public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
@@ -12,18 +13,14 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	@Inject
 	@SchedulerType(SchedulerType.ui)
 	public Scheduler uiScheduler;
-
+	@Inject
+	INewsWatcherInteractor interactor;
 	private String newsArticleServerId;
+	private INewsWatcherView view;
 
 	@Inject
 	public NewsWatcherPresenterImpl() {
 	}
-
-	@Inject
-	INewsWatcherInteractor interactor;
-
-	private INewsWatcherView view;
-
 
 	@Override
 	public void bindView(INewsWatcherView view) {
@@ -45,8 +42,10 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	@Override
 	public void loadContent() {
 		interactor.createNewsArticleRemoteCachedStream(newsArticleServerId).observeOn(uiScheduler)
-			.subscribe(newsArticle -> {
-				view.setContent(newsArticle.getServerId(), newsArticle.getTitle(), newsArticle.getContent());
-			});
+				.subscribe(newsArticle -> {
+					view.setContent(newsArticle.getServerId(), "",
+							StringUtils.dateDatePresentation(view.getContext(), newsArticle.getPublicationDate()),
+							newsArticle.getTitle(), newsArticle.getContent());
+				});
 	}
 }

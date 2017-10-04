@@ -1,7 +1,5 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
-import android.content.Context;
-import java.util.Date;
 import java.util.List;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.ui.IPresenter;
@@ -39,8 +37,6 @@ public interface INewsTapePresenter extends IPresenter<INewsTapeView> {
 	 * @return все заголовки новостей
 	 */
 	List<NewsHeaderBusinessModel> getNewsHeaders();
-
-	String getPublicationDatePresentation(Context context, Date date);
 
 	String getSourceTitleShort();
 }

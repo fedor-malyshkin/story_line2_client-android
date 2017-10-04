@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -23,7 +24,6 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
-import ru.nlp_project.story_line.client_android.ui.utils.ZoomOutPageTransformer;
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
@@ -33,6 +33,8 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	ViewPager viewPager;
 	@BindView(R.id.activity_sources_browser_toolbar)
 	Toolbar toolbar;
+	@BindView(R.id.activity_sources_browser_tab_layout)
+	TabLayout tabLayout;
 	@BindView(R.id.activity_sources_browser_drawer_layout)
 	DrawerLayout drawerLayout;
 	@BindView(R.id.activity_sources_browser_navigation_view)
@@ -142,6 +144,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	private void initializeViewPager() {
 		sourcesPageAdapter = new SourcesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(sourcesPageAdapter);
+		tabLayout.setupWithViewPager(viewPager, true);
 		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 	}
 
@@ -191,6 +194,36 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		sourcesPageAdapter.notifyDataSetChanged();
 	}
 
+	@Override
+	public void onMenuItemSearch(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemSearch", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemHelp(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemHelp", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemAbout(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemAbout", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemFeedback(View view) {
+		drawerLayout.closeDrawers();
+		Toast.makeText(getContext(), "onMenuItemFeedback", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onMenuItemSource(int i) {
+		viewPager.setCurrentItem(i);
+		drawerLayout.closeDrawers();
+	}
+
 	public class SourcesPageAdapter extends FragmentStatePagerAdapter {
 
 		SourcesPageAdapter(FragmentManager fragmentManager) {
@@ -222,35 +255,5 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		public int getItemPosition(Object object) {
 			return POSITION_NONE;
 		}
-	}
-
-	@Override
-	public void onMenuItemSearch(View view) {
-		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemSearch", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onMenuItemHelp(View view) {
-		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemHelp", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onMenuItemAbout(View view) {
-		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemAbout", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onMenuItemFeedback(View view) {
-		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemFeedback", Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public void onMenuItemSource(int i) {
-		viewPager.setCurrentItem(i);
-		drawerLayout.closeDrawers();
 	}
 }

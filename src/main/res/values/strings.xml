@@ -13,16 +13,17 @@
   <string name="menu_item_share_content">Поделиться содержанием</string>
   <string name="menu_item_share_url">Поделиться ссылкой</string>
   <string name="menu_item_sources">Источники</string>
-  <string name="preferences_category_update_title">preferences_category_update_title</string>
-  <string name="preferences_category_notification_title">preferences_category_notification_title</string>
-  <string name="preferences_category_presentation_title">preferences_category_presentation_title</string>
-  <string name="preferences_screen_sources_key">preferences_screen_sources_key</string>
-  <string name="preferences_screen_sources_title">preferences_screen_sources_title</string>
-  <string name="preferences_screen_sources_summary">preferences_screen_sources_summary</string>
+  <string name="preferences_category_update_title">Обновление</string>
+  <string name="preferences_category_notification_title">Уведомления</string>
+  <string name="preferences_category_presentation_title">Оформление</string>
+  <string name="preferences_screen_sources_title">Источники данных</string>
+  <string name="preferences_screen_sources_summary">Выбор интересующих источников данных</string>
   <string name="drawer_close">drawer_close</string>
   <string name="drawer_open">drawer_open</string>
   <string name="menu_sources_browser_item_search">Поиск</string>
   <string name="menu_sources_browser_item_settings">Настройки</string>
   <string name="menu_sources_browser_item_help">Помощь</string>
   <string name="menu_sources_browser_item_feedback">Обратная связь</string>
+  <string name="preferences_dark_theme_title">Тёмная тема</string>
+  <string name="preferences_load_images_title">Загружать изображения</string>
 </resources>

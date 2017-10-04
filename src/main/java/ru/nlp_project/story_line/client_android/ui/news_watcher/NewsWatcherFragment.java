@@ -3,11 +3,15 @@ package ru.nlp_project.story_line.client_android.ui.news_watcher;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -28,13 +32,16 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	@Inject
 	public IImageDownloader imageDownloader;
 
-	@BindView(R.id.news_watcher_content)
-	TextView newsContentTextView;
-	@BindView(R.id.news_watcher_title)
-	TextView newsTitleTextView;
-
-	@BindView(R.id.news_watcher_image)
-	ImageView newsImageImageView;
+	@BindView(R.id.news_watcher_news_article_content)
+	TextView newsArticleContentTextView;
+	@BindView(R.id.news_watcher_news_article_source)
+	TextView newsArticleSourceTextView;
+	@BindView(R.id.news_watcher_news_article_publication_date)
+	TextView newsArticlePublicationDateTextView;
+	@BindView(R.id.news_watcher_news_article_title)
+	TextView newsArticleTitleTextView;
+	@BindView(R.id.news_watcher_news_article_image)
+	ImageView newsArticleImageView;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -58,8 +65,18 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
+
+		initializeFAB(container);
+
 		presenter.initialize(serverId);
 		return view;
+	}
+
+	private void initializeFAB(ViewGroup container) {
+		FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.activity_news_browser_fab);
+		CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+		layoutParams.setAnchorId(R.id.news_watcher_news_article_image);
+		layoutParams.anchorGravity = Gravity.BOTTOM | Gravity.RIGHT;
 	}
 
 	@Override
@@ -81,15 +98,20 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	@Override
-	public void setContent(String newsArticleId, String title, String content) {
+	public void setContent(String newsArticleId, String sourceTitleShort,
+			String publicationDatePresentation, String title, String content) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			newsContentTextView.setText(Html.fromHtml(content,
+			newsArticleContentTextView.setText(Html.fromHtml(content,
 					Html.FROM_HTML_MODE_COMPACT | Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH));
 		} else {
-			newsContentTextView.setText(Html.fromHtml(content));
+			newsArticleContentTextView.setText(Html.fromHtml(content));
 		}
-		newsTitleTextView.setText(title);
-		imageDownloader.loadImageInto(newsArticleId, getContext(), newsImageImageView);
+		newsArticleTitleTextView.setText(title);
+		imageDownloader.loadImageInto(newsArticleId, getContext(), newsArticleImageView);
+		newsArticlePublicationDateTextView.setText(publicationDatePresentation);
+		newsArticleSourceTextView.setText(sourceTitleShort);
 	}
+
+
 
 }

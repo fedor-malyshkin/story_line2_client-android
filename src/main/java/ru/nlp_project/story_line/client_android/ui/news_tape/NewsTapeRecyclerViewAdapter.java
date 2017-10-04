@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
+import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
 
 
 class NewsTapeRecyclerViewAdapter extends
@@ -33,11 +35,11 @@ class NewsTapeRecyclerViewAdapter extends
 		this.imageDownloader = imageDownloader;
 	}
 
-	public void addNewsHeader(int prevSize) {
+	void addNewsHeader(int prevSize) {
 		notifyItemInserted(prevSize);
 	}
 
-	public void clear(int oldSize) {
+	void clear(int oldSize) {
 		notifyItemRangeRemoved(0, oldSize);
 	}
 
@@ -62,15 +64,16 @@ class NewsTapeRecyclerViewAdapter extends
 			int position) {
 		// Get the data model based on position
 		NewsHeaderBusinessModel header = presenter.getNewsHeader(position);
-
+		int height = holder.newsArticleContainerLayout.getLayoutParams().height;
 		holder.newsArticleSourceTextView.setText(presenter.getSourceTitleShort());
 		holder.newsArticleTitleTextView.setText(header.getTitle());
 		holder.newsArticlePubDateTextView
 				.setText(
-						presenter.getPublicationDatePresentation(holder.context, header.getPublicationDate()));
+						StringUtils.getRelativeDatePresentation(holder.context, header.getPublicationDate()));
 		imageDownloader
-				.loadImageInto(header.getServerId(), holder.context, holder.newsArticleImageView, null,
-						convertDpToPixel(holder.width, holder.context));
+				.loadImageIntoCrop(header.getServerId(), holder.context, holder.newsArticleImageView,
+						convertDpToPixel(holder.width, holder.context),
+						convertDpToPixel(height, holder.context));
 	}
 
 	@Override
@@ -78,7 +81,7 @@ class NewsTapeRecyclerViewAdapter extends
 		return presenter.getNewsHeaderCount();
 	}
 
-	public int convertDpToPixel(int dp, Context context) {
+	private int convertDpToPixel(int dp, Context context) {
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -91,6 +94,10 @@ class NewsTapeRecyclerViewAdapter extends
 		private final int width;
 		// Your holder should contain a member variable
 		// for any view that will be set as you render a row
+
+		@BindView(R.id.news_article_container_layout)
+		RelativeLayout newsArticleContainerLayout;
+
 		@BindView(R.id.news_article_title)
 		TextView newsArticleTitleTextView;
 		@BindView(R.id.news_article_source)
@@ -103,7 +110,7 @@ class NewsTapeRecyclerViewAdapter extends
 
 		// We also create a constructor that accepts the entire item row
 		// and does the view lookups to find each subview
-		public ViewHolder(Context context, View itemView, int width) {
+		ViewHolder(Context context, View itemView, int width) {
 			// Stores the itemView in a public final member variable that can be used
 			// to access the context from any ViewHolder instance.
 			super(itemView);

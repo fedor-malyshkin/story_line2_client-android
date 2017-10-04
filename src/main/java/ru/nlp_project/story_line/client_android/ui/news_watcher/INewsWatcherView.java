@@ -1,8 +1,11 @@
 package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
-import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
-
+import android.content.Context;
 
 public interface INewsWatcherView {
-	void setContent(String title, String content, String imageUrl);
+
+	void setContent(String newsArticleId, String sourceTitleShort,
+			String publicationDatePresentation, String title, String content);
+
+	Context getContext();
 }

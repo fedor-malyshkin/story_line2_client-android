@@ -29,8 +29,7 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 
 	@Override
 	public void onNavigateToScreen(PreferenceScreen preferenceScreen) {
-		String sourcesKey = getResources().getString(R.string.preferences_screen_sources_key);
-		if (preferenceScreen.getKey().equalsIgnoreCase(sourcesKey)) {
+		if (preferenceScreen.getKey().equalsIgnoreCase("preferences_screen_sources_key")) {
 			Intent intent = new Intent(getContext(), PreferencesActivity.class);
 			intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.SOURCES_SETTINGS);
 			startActivity(intent);

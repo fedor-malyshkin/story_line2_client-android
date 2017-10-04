@@ -113,13 +113,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 
 	@Override
-	public String getPublicationDatePresentation(Context context, Date date) {
-		if (null == date) return "";
-		return DateUtils.getRelativeDateTimeString(context, date.getTime(), 60, 60 * 60 * 24 * 7,
-				(int) DateUtils.SECOND_IN_MILLIS & DateUtils.FORMAT_24HOUR).toString();
-	}
-
-	@Override
 	public String getSourceTitleShort() {
 		return sourceTitleShort;
 	}

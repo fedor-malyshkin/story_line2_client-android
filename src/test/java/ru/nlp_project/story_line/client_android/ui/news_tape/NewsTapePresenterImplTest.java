@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
 
 @RunWith(RobolectricTestRunner.class)
 public class NewsTapePresenterImplTest {
@@ -22,19 +23,10 @@ public class NewsTapePresenterImplTest {
 		testable = new NewsTapePresenterImpl();
 	}
 
-
-	@Test
-	@Ignore
-	public void testGetPublicationDatePresentation_SameDate() {
-		Date date = new Date();
-		String presentation = testable.getPublicationDatePresentation(context, date);
-		Assertions.assertThat(presentation).isNotNull().isNotBlank().isEqualTo("11:24PM, 11:24PM");
-	}
-
 	@Test
 	public void testGetPublicationDatePresentation_Null() {
 		Date date = new Date();
-		String presentation = testable.getPublicationDatePresentation(context, null);
+		String presentation = StringUtils.getRelativeDatePresentation(context, null);
 		Assertions.assertThat(presentation).isNotNull().isEmpty();
 	}
 

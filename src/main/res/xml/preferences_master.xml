@@ -14,14 +14,16 @@
 
   <PreferenceCategory
     android:title="@string/preferences_category_presentation_title">
+    <CheckBoxPreference android:title="@string/preferences_dark_theme_title"/>
+    <CheckBoxPreference
+      android:title="@string/preferences_load_images_title"
+      android:checked="true"/>
   </PreferenceCategory>
 
   <PreferenceScreen
-    android:key="@string/preferences_screen_sources_key"
+    android:key="preferences_screen_sources_key"
     android:title="@string/preferences_screen_sources_title"
     android:summary="@string/preferences_screen_sources_summary">
-
-    <EditTextPreference android:key="q"/>
   </PreferenceScreen>
 
 

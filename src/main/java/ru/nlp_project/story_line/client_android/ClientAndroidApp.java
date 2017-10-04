@@ -16,4 +16,5 @@ public class ClientAndroidApp extends Application {
 		DaggerBuilder.inintialize(applicationContext);
 //		Stetho.initializeWithDefaults(this);
 	}
+
 }

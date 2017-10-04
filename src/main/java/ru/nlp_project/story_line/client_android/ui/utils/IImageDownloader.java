@@ -7,6 +7,6 @@ public interface IImageDownloader {
 
 	void loadImageInto(String newsArticleId, Context context, ImageView target);
 
-	void loadImageInto(String newsArticleId, Context context, ImageView target, Integer height,
-			Integer width);
+	void loadImageIntoCrop(String serverId, Context context, ImageView newsArticleImageView,
+			Integer width, Integer height);
 }
