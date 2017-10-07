@@ -33,14 +33,18 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 	}
 
 	@Override
-	public void initialize(ArrayList<String> articleServerIds, int articlePos) {
-		this.articleServerIds = articleServerIds;
-		this.articlePos = articlePos;
+	public void initialize() {
 	}
 
 	@Override
 	public CharSequence getFragmentTitleByIndex(int position) {
 		return "" + position;
+	}
+
+	@Override
+	public void setData(ArrayList<String> articleServerIds, int articlePos) {
+		this.articleServerIds = articleServerIds;
+		this.articlePos = articlePos;
 	}
 
 	@Override

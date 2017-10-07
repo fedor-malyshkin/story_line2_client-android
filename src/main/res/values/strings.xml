@@ -26,4 +26,8 @@
   <string name="menu_sources_browser_item_feedback">Обратная связь</string>
   <string name="preferences_dark_theme_title">Тёмная тема</string>
   <string name="preferences_load_images_title">Загружать изображения</string>
+  <string name="activity_news_browser_share_text_fab_title">Поделиться текстом новости</string>
+  <string name="activity_news_browser_share_image_fab_title">Поделиться картинкой</string>
+  <string name="activity_news_browser_share_news_fab_title">Поделиться новостью</string>
+  <string name="activity_news_browser_goto_source_fab_title">Перейти к источнику</string>
 </resources>

@@ -45,7 +45,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 				.subscribe(newsArticle -> {
 					view.setContent(newsArticle.getServerId(), "",
 							StringUtils.dateDatePresentation(view.getContext(), newsArticle.getPublicationDate()),
-							newsArticle.getTitle(), newsArticle.getContent());
+							newsArticle.getTitle(), newsArticle.getContent(), newsArticle.getUrl(), newsArticle.getImageUrl());
 				});
 	}
 }

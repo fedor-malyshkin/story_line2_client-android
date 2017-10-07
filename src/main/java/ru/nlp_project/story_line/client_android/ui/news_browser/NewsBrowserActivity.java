@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.ui.news_browser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsBrowserComponent;
+import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherView;
 
 public class NewsBrowserActivity extends AppCompatActivity implements INewsBrowserView {
 
@@ -27,6 +31,20 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	ViewPager viewPager;
 	@BindView(R.id.activity_news_browser_toolbar)
 	Toolbar toolbar;
+
+	@BindView(R.id.activity_news_browser_fab)
+	FloatingActionButton fab;
+	@BindView(R.id.activity_news_browser_goto_source_fab_layout)
+	LinearLayout gotoSourceFABLayout;
+	@BindView(R.id.activity_news_browser_share_text_fab_layout)
+	LinearLayout shareTextFABLayout;
+	@BindView(R.id.activity_news_browser_share_image_fab_layout)
+	LinearLayout shareImageFABLayout;
+	@BindView(R.id.activity_news_browser_share_news_fab_layout)
+	LinearLayout shareNewsFABLayout;
+	@BindView(R.id.activity_news_browser_share_url_fab_layout)
+	LinearLayout shareURLFABLayout;
+
 
 	private NewsArticlesPageAdapter adapterViewPager;
 
@@ -51,10 +69,11 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		int articlePos = intent.getIntExtra(NewsBrowserActivity.INTENT_KEY_POSITION, 0);
 		ArrayList<String> articleServerIds = intent
 				.getStringArrayListExtra(NewsBrowserActivity.INTENT_KEY_ARTICLES);
-		presenter.initialize(articleServerIds, articlePos);
+		presenter.setData(articleServerIds, articlePos);
 
 		initializeToolbar();
 		initializeViewPager(articlePos);
+		presenter.initialize();
 	}
 
 	@Override
@@ -77,6 +96,46 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		viewPager.setAdapter(adapterViewPager);
 		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 		viewPager.setCurrentItem(articlePos, true);
+	}
+
+	@Override
+	public FloatingActionButton getFAB() {
+		return fab;
+	}
+
+	@Override
+	public ViewGroup getShareNewsLayout() {
+		return shareNewsFABLayout;
+	}
+
+	@Override
+	public void onBackPressed() {
+		int currentItem = viewPager.getCurrentItem();
+		INewsWatcherView fragment = (INewsWatcherView) adapterViewPager.getItem(currentItem);
+		if (fragment.processBackPressed()) {
+			return;
+		}
+		super.onBackPressed();
+	}
+
+	@Override
+	public ViewGroup getShareImageLayout() {
+		return shareImageFABLayout;
+	}
+
+	@Override
+	public ViewGroup getShareTextLayout() {
+		return shareTextFABLayout;
+	}
+
+	@Override
+	public ViewGroup getShareURLLayout() {
+		return shareURLFABLayout;
+	}
+
+	@Override
+	public ViewGroup getGotoSourceLayout() {
+		return gotoSourceFABLayout;
 	}
 
 	public class NewsArticlesPageAdapter extends FragmentStatePagerAdapter {
@@ -102,6 +161,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		public CharSequence getPageTitle(int position) {
 			return presenter.getFragmentTitleByIndex(position);
 		}
+
 
 	}
 }
