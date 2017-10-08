@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
+import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
@@ -224,7 +225,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		drawerLayout.closeDrawers();
 	}
 
-	public class SourcesPageAdapter extends FragmentStatePagerAdapter {
+	public class SourcesPageAdapter extends CacheableFragmentStatePageAdapter {
 
 		SourcesPageAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);

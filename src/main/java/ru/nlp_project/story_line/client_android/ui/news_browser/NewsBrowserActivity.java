@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +20,7 @@ import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsBrowserComponent;
 import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherView;
+import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
 
 public class NewsBrowserActivity extends AppCompatActivity implements INewsBrowserView {
 
@@ -95,7 +96,10 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		adapterViewPager = new NewsArticlesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(adapterViewPager);
 		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+		OnPageChangeListener pageListener = new NewsBrowserOnPageChangeListener(this);
+		viewPager.addOnPageChangeListener(pageListener);
 		viewPager.setCurrentItem(articlePos, true);
+
 	}
 
 	@Override
@@ -111,7 +115,8 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	@Override
 	public void onBackPressed() {
 		int currentItem = viewPager.getCurrentItem();
-		INewsWatcherView fragment = (INewsWatcherView) adapterViewPager.getItem(currentItem);
+		INewsWatcherView fragment = (INewsWatcherView) adapterViewPager
+				.getRegisteredFragment(currentItem);
 		if (fragment.processBackPressed()) {
 			return;
 		}
@@ -138,7 +143,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		return gotoSourceFABLayout;
 	}
 
-	public class NewsArticlesPageAdapter extends FragmentStatePagerAdapter {
+	public class NewsArticlesPageAdapter extends CacheableFragmentStatePageAdapter {
 
 		public NewsArticlesPageAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);
@@ -163,5 +168,37 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		}
 
 
+	}
+
+
+	private class NewsBrowserOnPageChangeListener implements OnPageChangeListener {
+
+		private final NewsBrowserActivity activity;
+
+		public NewsBrowserOnPageChangeListener(NewsBrowserActivity newsBrowserActivity) {
+			this.activity = newsBrowserActivity;
+		}
+
+		@Override
+		public void onPageScrolled(int position,
+				float positionOffset,
+				int positionOffsetPixels) {
+			// need to call only whe  positionOffsetPixels == 0
+			if (positionOffsetPixels == 0) {
+				INewsWatcherView fragment = (INewsWatcherView) adapterViewPager
+						.getRegisteredFragment(position);
+				fragment.viewShowToUser(activity);
+			}
+
+		}
+
+		@Override
+		public void onPageSelected(int currentItem) {
+			// not called when select programmaticaly - use "onPageScrolled"
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int i) {
+		}
 	}
 }

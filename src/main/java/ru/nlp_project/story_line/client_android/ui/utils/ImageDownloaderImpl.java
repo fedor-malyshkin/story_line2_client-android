@@ -2,6 +2,11 @@ package ru.nlp_project.story_line.client_android.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 import com.squareup.picasso.Callback;
@@ -9,6 +14,9 @@ import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso.Builder;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ImageDownloaderImpl implements IImageDownloader {
 
@@ -25,21 +33,21 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	}
 
 	@Override
-	public void loadImageInto(String newsArticleId, Context context, ImageView target) {
+	public void loadImageInto(String newsArticleServerId, Context context, ImageView target) {
 		Picasso picasso = getPicasso(context);
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleId);
+		String url = formatUrl(newsArticleServerId);
 		picasso.load(url).into(target, new LoadingCallback(url));
 	}
 
 	@Override
-	public void loadImageIntoCrop(String newsArticleId, Context context, ImageView target,
+	public void loadImageIntoCrop(String newsArticleServerId, Context context, ImageView target,
 			Integer width, Integer height) {
 		Picasso picasso = getPicasso(context);
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleId, width, height, "crop");
+		String url = formatUrl(newsArticleServerId, width, height, "crop");
 		picasso.load(url).into(target, new LoadingCallback(url));
 	}
 
@@ -72,6 +80,42 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(true)
 				.memoryCache(cache).build();
 		return picassoInstance;
+	}
+
+	@Override
+	public String saveImageViewToFile(Context context, ImageView imageView) {
+		// Extract Bitmap from ImageView drawable
+		Drawable drawable = imageView.getDrawable();
+		Bitmap bmp = null;
+		if (drawable instanceof BitmapDrawable) {
+			bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+		} else {
+			Log.e(TAG, "!(drawable instanceof BitmapDrawable)");
+			return null;
+		}
+		// Store image to default external storage directory
+		Uri bmpUri = null;
+		try {
+			// Use methods on Context to access package-specific directories on external storage.
+			// This way, you don't need to request external read/write permission.
+			// See https://youtu.be/5xVh-7ywKpE?t=25m25s
+			File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+					"share_image.png");
+			file.mkdirs();
+			if (file.exists()) {
+				file.delete();
+			}
+
+			FileOutputStream out = new FileOutputStream(file);
+			bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+			out.flush();
+			out.close();
+			return file.toString();
+		} catch (IOException e) {
+			Log.e(TAG, "Error while storing image: " + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	static class LoadingCallback implements Callback {

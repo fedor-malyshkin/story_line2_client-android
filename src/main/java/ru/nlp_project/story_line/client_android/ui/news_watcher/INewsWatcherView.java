@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
 import android.content.Context;
+import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserView;
 
 public interface INewsWatcherView {
 
@@ -16,4 +17,11 @@ public interface INewsWatcherView {
 	 * @return выполнена обработка (что-то сделано) или нет
 	 */
 	boolean processBackPressed();
+
+	/**
+	 * Called when this view shownToUser (in ViewPager)
+	 * @param activity
+	 */
+	void viewShowToUser(
+			INewsBrowserView activity);
 }

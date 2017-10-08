@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,6 +44,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+	private Context storedAppContext;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
@@ -59,6 +61,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		storedAppContext = getActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
 		return view;

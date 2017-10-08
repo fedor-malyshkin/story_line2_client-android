@@ -4,13 +4,15 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +61,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	private ViewGroup shareTextFABLayout;
 	private ViewGroup shareURLFABLayout;
 	private ViewGroup gotoSourceFABLayout;
+	private Context storedAppContext;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -70,41 +73,36 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	@Override
+	public Context getContext() {
+		return storedAppContext;
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		System.out.println("onCreateView.this = " + this);
+		storedAppContext = getActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_news_watcher, container, false);
 		ButterKnife.bind(this, view);
-		// args
-		Bundle arguments = getArguments();
-		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
 
-		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
-		builder.inject(this);
-		presenter.bindView(this);
-
-		initializeFAB(container);
-
-		presenter.initialize(serverId);
 		return view;
 	}
 
-	private void initializeFAB(ViewGroup container) {
-		FragmentActivity activity = getActivity();
-		if (activity != null) {
-			INewsBrowserView browserView = (INewsBrowserView) activity;
-			this.mainFAB = browserView.getFAB();
-			this.mainFAB.setOnClickListener(e -> onPressMainFAB(e));
-			this.shareNewsFABLayout = browserView.getShareNewsLayout();
-			this.shareNewsFABLayout.setOnClickListener(e -> onPressShareNewsFABLayout(e));
-			this.shareImageFABLayout = browserView.getShareImageLayout();
-			this.shareImageFABLayout.setOnClickListener(e -> onPressShareImageFABLayout(e));
-			this.shareTextFABLayout = browserView.getShareTextLayout();
-			this.shareTextFABLayout.setOnClickListener(e -> onPressShareTextFABLayout(e));
-			this.shareURLFABLayout = browserView.getShareURLLayout();
-			this.shareURLFABLayout.setOnClickListener(e -> onPressShareURLFABLayout(e));
-			this.gotoSourceFABLayout = browserView.getGotoSourceLayout();
-			this.gotoSourceFABLayout.setOnClickListener(e -> onPressGotoSourceFABLayout(e));
+	private void initializeFAB(INewsBrowserView view) {
+		if (view != null) {
+			this.mainFAB = view.getFAB();
+			this.mainFAB.setOnClickListener(this::onPressMainFAB);
+			this.shareNewsFABLayout = view.getShareNewsLayout();
+			this.shareNewsFABLayout.setOnClickListener(this::onPressShareNewsFABLayout);
+			this.shareImageFABLayout = view.getShareImageLayout();
+			this.shareImageFABLayout.setOnClickListener(this::onPressShareImageFABLayout);
+			this.shareTextFABLayout = view.getShareTextLayout();
+			this.shareTextFABLayout.setOnClickListener(this::onPressShareTextFABLayout);
+			this.shareURLFABLayout = view.getShareURLLayout();
+			this.shareURLFABLayout.setOnClickListener(this::onPressShareURLFABLayout);
+			this.gotoSourceFABLayout = view.getGotoSourceLayout();
+			this.gotoSourceFABLayout.setOnClickListener(this::onPressGotoSourceFABLayout);
 
 		}
 	}
@@ -115,6 +113,10 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	private void gotoSource() {
+		Intent viewIntent = new Intent();
+		viewIntent.setAction(Intent.ACTION_VIEW);
+		viewIntent.setData(Uri.parse(newsArticleURL));
+		startActivity(viewIntent);
 	}
 
 	private void onPressShareURLFABLayout(View e) {
@@ -164,8 +166,9 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 			}
 		};
 		List<AnimatorSet> sets = new ArrayList<>();
+		Context context = getContext();
 		for (ViewGroup gr : viewGroups) {
-			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
+			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context,
 					R.animator.animator_fab_menu_hide);
 			set.setTarget(gr);
 			set.addListener(listener);
@@ -188,24 +191,45 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleContentTextView.getText());
 		sendIntent.putExtra(Intent.EXTRA_TITLE, newsArticleTitleTextView.getText());
 		sendIntent.putExtra(Intent.EXTRA_HTML_TEXT, newsArticleHtmlContent);
-		sendIntent.setType("text/html");
+		sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(newsArticleImageURL));
+		sendIntent.setType("*/*");
 		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
 	}
 
 	private void shareImage() {
-		Intent sendIntent = new Intent();
-		sendIntent.setAction(Intent.ACTION_SEND);
-		sendIntent.putExtra(Intent.EXTRA_STREAM, newsArticleImageURL);
-		sendIntent.setType("image/*");
-		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
+		String imageName = imageDownloader.saveImageViewToFile(getContext(), newsArticleImageView);
+		if (imageName == null) {
+			return;
+		}
+
+		// see this recommendation - https://developer.android.com/training/sharing/send.html#send-binary-content
+		MediaScannerConnection
+				.scanFile(getContext(), new String[]{imageName}, new String[]{"image/jpg", "image/png"},
+						new MediaScannerConnection.OnScanCompletedListener() {
+							public void onScanCompleted(String path, Uri uri) {
+								Intent sendIntent = new Intent();
+								sendIntent.setAction(Intent.ACTION_SEND);
+								sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+								sendIntent.setType("image/png");
+								startActivity(
+										Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
+							}
+						});
 	}
 
 	private void shareURL() {
 		Intent sendIntent = new Intent();
 		sendIntent.setAction(Intent.ACTION_SEND);
-		sendIntent.putExtra(Intent.EXTRA_REFERRER, newsArticleURL);
-		sendIntent.setType("text/url");
+		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleURL);
+		sendIntent.putExtra(Intent.EXTRA_TITLE, newsArticleTitleTextView.getText());
+		sendIntent.putExtra(Intent.EXTRA_HTML_TEXT,
+				formatUrlString(newsArticleURL, newsArticleTitleTextView.getText().toString()));
+		sendIntent.setType("text/plain");
 		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
+	}
+
+	private String formatUrlString(String url, String title) {
+		return String.format("<a href=\"%s\">%s</a>", url, title);
 	}
 
 	private void shareText() {
@@ -213,7 +237,6 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		sendIntent.setAction(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleContentTextView.getText());
 		sendIntent.putExtra(Intent.EXTRA_TITLE, newsArticleTitleTextView.getText());
-		sendIntent.putExtra(Intent.EXTRA_HTML_TEXT, newsArticleHtmlContent);
 		sendIntent.setType("text/plain");
 		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
 	}
@@ -250,8 +273,9 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		};
 
 		List<AnimatorSet> sets = new ArrayList<>();
+		Context context = getContext();
 		for (ViewGroup gr : viewGroups) {
-			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
+			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context,
 					R.animator.animator_fab_menu_show);
 			set.setTarget(gr);
 			set.addListener(listener);
@@ -272,6 +296,14 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
+		builder.inject(this);
+		presenter.bindView(this);
+
+		// args
+		Bundle arguments = getArguments();
+		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
+		presenter.initialize(serverId);
 		presenter.loadContent();
 	}
 
@@ -310,4 +342,12 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		}
 		return false;
 	}
+
+	@Override
+	public void viewShowToUser(
+			INewsBrowserView view) {
+		System.out.println("viewShowToUser.this = " + this);
+		initializeFAB(view);
+	}
+
 }
