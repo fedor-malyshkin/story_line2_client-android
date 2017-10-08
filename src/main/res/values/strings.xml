@@ -8,10 +8,7 @@
   <string name="categories_browser_category_settings_title">Настройки</string>
   <string name="categories_browser_category_about_title">О приложении</string>
   <string name="activity_news_browser_title">Просмотр новости</string>
-  <string name="menu_item_favorite">Избранное</string>
   <string name="menu_item_settings">Настройки</string>
-  <string name="menu_item_share_content">Поделиться содержанием</string>
-  <string name="menu_item_share_url">Поделиться ссылкой</string>
   <string name="menu_item_sources">Источники</string>
   <string name="preferences_category_update_title">Обновление</string>
   <string name="preferences_category_notification_title">Уведомления</string>

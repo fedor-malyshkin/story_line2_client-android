@@ -32,7 +32,6 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	ViewPager viewPager;
 	@BindView(R.id.activity_news_browser_toolbar)
 	Toolbar toolbar;
-
 	@BindView(R.id.activity_news_browser_fab)
 	FloatingActionButton fab;
 	@BindView(R.id.activity_news_browser_goto_source_fab_layout)
@@ -87,7 +86,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_sources_browser_toolbar, menu);
+		getMenuInflater().inflate(R.menu.menu_news_browser_toolbar, menu);
 		return true;
 	}
 
@@ -187,7 +186,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 			if (positionOffsetPixels == 0) {
 				INewsWatcherView fragment = (INewsWatcherView) adapterViewPager
 						.getRegisteredFragment(position);
-				fragment.viewShowToUser(activity);
+				fragment.viewShownToUser(activity);
 			}
 
 		}

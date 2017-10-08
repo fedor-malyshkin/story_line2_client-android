@@ -19,9 +19,9 @@ public interface INewsWatcherView {
 	boolean processBackPressed();
 
 	/**
-	 * Called when this view shownToUser (in ViewPager)
-	 * @param activity
+	 * Called when this view is shown To User (in ViewPager)
+	 * @param activity activity with viewPager
 	 */
-	void viewShowToUser(
+	void viewShownToUser(
 			INewsBrowserView activity);
 }

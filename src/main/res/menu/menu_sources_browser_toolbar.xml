@@ -1,41 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@+id/menu_item_favorite"
-    android:icon="@android:drawable/btn_star_big_off"
-    android:title="@string/menu_item_favorite"
-    app:showAsAction="always">
-  </item>
-  <item
     android:id="@+id/menu_item_sources"
     android:checkable="false"
-    android:icon="@android:drawable/ic_menu_add"
+    android:icon="@android:drawable/ic_menu_edit"
     android:title="@string/menu_item_sources"
     android:visible="true"
-    app:showAsAction="always|withText">
-  </item>
-  <item
-    android:id="@+id/menu_item_share_content"
-    android:checkable="false"
-    android:icon="@android:drawable/ic_menu_set_as"
-    android:title="@string/menu_item_share_content"
-    android:visible="true"
-    app:showAsAction="ifRoom">
-  </item>
-  <item
-    android:id="@+id/menu_item_share_url"
-    android:checkable="false"
-    android:icon="@android:drawable/ic_menu_share"
-    android:title="@string/menu_item_share_url"
-    android:visible="true"
-    app:showAsAction="ifRoom">
+    app:showAsAction="ifRoom|withText">
   </item>
   <item
     android:id="@+id/menu_item_settings"
     android:checkable="false"
     android:icon="@android:drawable/ic_menu_preferences"
     android:title="@string/menu_item_settings"
-    android:visible="true"
     app:showAsAction="ifRoom">
   </item>
 </menu>

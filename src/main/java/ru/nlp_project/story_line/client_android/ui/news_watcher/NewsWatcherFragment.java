@@ -6,6 +6,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -13,8 +14,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -51,9 +54,14 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	TextView newsArticleTitleTextView;
 	@BindView(R.id.news_watcher_news_article_image)
 	ImageView newsArticleImageView;
+	@BindView(R.id.news_watcher_news_article_scroll_view)
+	NestedScrollView nestedScrollView;
+
+
 	private FloatingActionButton mainFAB;
 	private ViewGroup shareNewsFABLayout;
 	private boolean isFABMenuExpanded = false;
+	private boolean isFABMenuShown = true;
 	private String newsArticleHtmlContent;
 	private String newsArticleURL;
 	private String newsArticleImageURL;
@@ -81,7 +89,6 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		System.out.println("onCreateView.this = " + this);
 		storedAppContext = getActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_news_watcher, container, false);
 		ButterKnife.bind(this, view);
@@ -92,24 +99,32 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	private void initializeFAB(INewsBrowserView view) {
 		if (view != null) {
 			this.mainFAB = view.getFAB();
-			this.mainFAB.setOnClickListener(this::onPressMainFAB);
+			this.mainFAB.setOnTouchListener(this::onPressMainFAB);
 			this.shareNewsFABLayout = view.getShareNewsLayout();
-			this.shareNewsFABLayout.setOnClickListener(this::onPressShareNewsFABLayout);
+			this.shareNewsFABLayout.setOnTouchListener(this::onPressShareNewsFABLayout);
 			this.shareImageFABLayout = view.getShareImageLayout();
-			this.shareImageFABLayout.setOnClickListener(this::onPressShareImageFABLayout);
+			this.shareImageFABLayout.setOnTouchListener(this::onPressShareImageFABLayout);
 			this.shareTextFABLayout = view.getShareTextLayout();
-			this.shareTextFABLayout.setOnClickListener(this::onPressShareTextFABLayout);
+			this.shareTextFABLayout.setOnTouchListener(this::onPressShareTextFABLayout);
 			this.shareURLFABLayout = view.getShareURLLayout();
-			this.shareURLFABLayout.setOnClickListener(this::onPressShareURLFABLayout);
+			this.shareURLFABLayout.setOnTouchListener(this::onPressShareURLFABLayout);
 			this.gotoSourceFABLayout = view.getGotoSourceLayout();
-			this.gotoSourceFABLayout.setOnClickListener(this::onPressGotoSourceFABLayout);
+			this.gotoSourceFABLayout.setOnTouchListener(this::onPressGotoSourceFABLayout);
 
+			// collapse in any case
+			collapseFABMenuFast();
+			showFABMenu();
 		}
 	}
 
-	private void onPressGotoSourceFABLayout(View e) {
+	private boolean onPressGotoSourceFABLayout(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
 		gotoSource();
 		collapseFABMenu();
+		// consume event
+		return true;
 	}
 
 	private void gotoSource() {
@@ -119,25 +134,73 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		startActivity(viewIntent);
 	}
 
-	private void onPressShareURLFABLayout(View e) {
+	private boolean onPressShareURLFABLayout(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
+
 		shareURL();
 		collapseFABMenu();
+		// consume event
+		return true;
 	}
 
-	private void onPressShareTextFABLayout(View e) {
+	private boolean onPressShareTextFABLayout(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
+
 		shareText();
 		collapseFABMenu();
+		// consume event
+		return true;
 	}
 
-	private void onPressShareImageFABLayout(View e) {
+	private boolean onPressShareImageFABLayout(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
+
 		shareImage();
 		collapseFABMenu();
+		// consume event
+		return true;
 	}
 
-	private void onPressShareNewsFABLayout(View e) {
+	private boolean onPressShareNewsFABLayout(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
+
 		shareNews();
 		collapseFABMenu();
+		// consume event
+		return true;
 	}
+
+	private void collapseFABMenuFast() {
+		mainFAB.setVisibility(View.VISIBLE);
+		List<ViewGroup> viewGroups = Arrays
+				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
+						gotoSourceFABLayout);
+		for (ViewGroup gr : viewGroups) {
+			gr.setVisibility(View.GONE);
+		}
+		isFABMenuExpanded = false;
+	}
+
+
+	private void expandFABMenuFast() {
+		mainFAB.setVisibility(View.GONE);
+		List<ViewGroup> viewGroups = Arrays
+				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
+						gotoSourceFABLayout);
+		for (ViewGroup gr : viewGroups) {
+			gr.setVisibility(View.VISIBLE);
+		}
+		isFABMenuExpanded = true;
+	}
+
 
 	private void collapseFABMenu() {
 		List<ViewGroup> viewGroups = Arrays
@@ -169,7 +232,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		Context context = getContext();
 		for (ViewGroup gr : viewGroups) {
 			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context,
-					R.animator.animator_fab_menu_hide);
+					R.animator.animator_fab_menu_collapse);
 			set.setTarget(gr);
 			set.addListener(listener);
 			sets.add(set);
@@ -180,9 +243,13 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	}
 
-	private void onPressMainFAB(View e) {
+	private boolean onPressMainFAB(View view, MotionEvent motionEvent) {
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
+			return false;
+		}
 		expandFABMenu();
 		isFABMenuExpanded = true;
+		return true;
 	}
 
 	private void shareNews() {
@@ -276,7 +343,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		Context context = getContext();
 		for (ViewGroup gr : viewGroups) {
 			AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(context,
-					R.animator.animator_fab_menu_show);
+					R.animator.animator_fab_menu_expand);
 			set.setTarget(gr);
 			set.addListener(listener);
 			sets.add(set);
@@ -288,23 +355,84 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		presenter.unbindView();
-	}
-
-	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		NewsWatcherComponent builder = DaggerBuilder.createNewsWatcherBuilder();
 		builder.inject(this);
 		presenter.bindView(this);
 
+		initializeImageView();
+		initializeContentTextView();
+		initializeNestedScrollView();
+
 		// args
 		Bundle arguments = getArguments();
 		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
 		presenter.initialize(serverId);
 		presenter.loadContent();
+	}
+
+	private void initializeContentTextView() {
+		newsArticleContentTextView.setOnClickListener(this::onWholeViewClick);
+	}
+
+	private void initializeNestedScrollView() {
+		nestedScrollView.setOnScrollChangeListener(this::onScrollViewScrollChange);
+	}
+
+	private void onScrollViewScrollChange(NestedScrollView v, int scrollX, int scrollY,
+			int oldScrollX, int oldScrollY) {
+		int deltaY = scrollY - oldScrollY;
+
+		// if scroll down
+		if (deltaY > 0) {
+			if (isFABMenuShown) {
+				collapseFABMenuFast();
+				hideFABMenu();
+			}
+		} else {
+			if (!isFABMenuShown) {
+				showFABMenu();
+			}
+		}
+	}
+
+	private void onWholeViewClick(View view) {
+		// FAB menu
+		if (isFABMenuExpanded) {
+			collapseFABMenu();
+		}
+		// FAB
+		if (isFABMenuShown) {
+			hideFABMenu();
+		} else {
+			showFABMenu();
+		}
+	}
+
+	private void showFABMenu() {
+		AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
+				R.animator.animator_fab_menu_show);
+		set.setTarget(mainFAB);
+		set.start();
+		isFABMenuShown = true;
+	}
+
+	private void hideFABMenu() {
+		AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
+				R.animator.animator_fab_menu_hide);
+		set.setTarget(mainFAB);
+		set.start();
+		isFABMenuShown = false;
+	}
+
+	/**
+	 * Среди прочего выполнить инициализацию размера View maxHeight = 2/3 of display screen height
+	 */
+	private void initializeImageView() {
+		int displayHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+		newsArticleImageView.setMaxHeight(displayHeight * 2 / 3);
+		newsArticleImageView.setOnClickListener(this::onWholeViewClick);
 	}
 
 	@Override
@@ -344,9 +472,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	@Override
-	public void viewShowToUser(
+	public void viewShownToUser(
 			INewsBrowserView view) {
-		System.out.println("viewShowToUser.this = " + this);
 		initializeFAB(view);
 	}
 
