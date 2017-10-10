@@ -18,6 +18,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	private String newsArticleServerId;
 	private INewsWatcherView view;
 
+
 	@Inject
 	public NewsWatcherPresenterImpl() {
 	}
@@ -45,7 +46,81 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 				.subscribe(newsArticle -> {
 					view.setContent(newsArticle.getServerId(), "",
 							StringUtils.dateDatePresentation(view.getContext(), newsArticle.getPublicationDate()),
-							newsArticle.getTitle(), newsArticle.getContent(), newsArticle.getUrl(), newsArticle.getImageUrl());
+							newsArticle.getTitle(), newsArticle.getContent(), newsArticle.getUrl(),
+							newsArticle.getImageUrl());
 				});
 	}
+
+	@Override
+	public void onShownToUser() {
+		// collapse in any case
+		view.collapseFABMenuFast();
+		view.showFABMenu();
+	}
+
+	@Override
+	public String formatUrlString(String url, String title) {
+		return String.format("<a href=\"%s\">%s</a>", url, title);
+	}
+
+	@Override
+	public void onScrollViewDown() {
+		if (view.isFABMenuShown()) {
+			view.collapseFABMenuFast();
+			view.hideFABMenu();
+		}
+	}
+
+	@Override
+	public void onScrollViewUp() {
+		if (!view.isFABMenuShown()) {
+			view.showFABMenu();
+		}
+
+	}
+
+	@Override
+	public boolean processBackPressed() {
+		if (view.isFABMenuExpanded()) {
+			view.collapseFABMenu();
+			return true;
+		}
+		return false;
+
+	}
+
+	@Override
+	public void onPressShareNewsFABLayout() {
+		view.shareNews();
+		view.collapseFABMenu();
+	}
+
+	@Override
+	public void onPressShareImageFABLayout() {
+		view.shareImage();
+		view.collapseFABMenu();
+
+	}
+
+	@Override
+	public void onPressShareURLFABLayout() {
+		view.shareURL();
+		view.collapseFABMenu();
+
+	}
+
+	@Override
+	public void onPressShareTextFABLayout() {
+		view.shareText();
+		view.collapseFABMenu();
+
+	}
+
+	@Override
+	public void onPressGotoSourceFABLayout() {
+		view.gotoSource();
+		view.collapseFABMenu();
+
+	}
+
 }

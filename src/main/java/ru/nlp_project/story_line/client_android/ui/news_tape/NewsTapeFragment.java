@@ -64,6 +64,10 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		storedAppContext = getActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_news_tape, container, false);
 		ButterKnife.bind(this, view);
+
+		NewsTapeComponent builder = DaggerBuilder.createNewsTapeBuilder();
+		builder.inject(this);
+		presenter.bindView(this);
 		return view;
 	}
 
@@ -76,9 +80,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		NewsTapeComponent builder = DaggerBuilder.createNewsTapeBuilder();
-		builder.inject(this);
-		presenter.bindView(this);
 		initializeRecyclerView();
 		initializeSwipeUpdate();
 		// arguments
@@ -111,12 +112,12 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		// Attach the adapter to the recyclerView to populate items
 		newsRecyclerView.setAdapter(newsTapeRecyclerViewAdapter);
 		newsRecyclerView.setLayoutManager(newsRecyclerViewLM);
-		/*
+
 		// That's all!
 		RecyclerView.ItemDecoration itemDecoration = new
 				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		newsRecyclerView.addItemDecoration(itemDecoration);
-		*/
+
 		newsRecyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
 	}
 

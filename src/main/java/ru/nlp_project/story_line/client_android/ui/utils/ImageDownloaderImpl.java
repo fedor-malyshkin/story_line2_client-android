@@ -2,12 +2,15 @@ package ru.nlp_project.story_line.client_android.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.LruCache;
@@ -38,17 +41,41 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
 		String url = formatUrl(newsArticleServerId);
-		picasso.load(url).into(target, new LoadingCallback(url));
+		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
 
 	@Override
-	public void loadImageIntoCrop(String newsArticleServerId, Context context, ImageView target,
-			Integer width, Integer height) {
+	public void loadImageIntoCrop(String newsArticleServerId, Context context,
+			ImageView target,
+			Integer widthDP, Integer heightDP) {
 		Picasso picasso = getPicasso(context);
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleServerId, width, height, "crop");
-		picasso.load(url).into(target, new LoadingCallback(url));
+		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP, context),
+				convertDpToPixel(heightDP, context),
+				"crop");
+		picasso.load(url).into(target, new LoadingCallback(url, target));
+	}
+
+	@Override
+	public void loadImageIntoScale(String newsArticleServerId, Context context, ImageView target,
+			Integer widthDP, Integer heightDP) {
+		Picasso picasso = getPicasso(context);
+		// Picasso picasso = Picasso.with(context);
+		// picasso.setIndicatorsEnabled(true);
+		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP, context),
+				convertDpToPixel(heightDP, context),
+				"scale");
+		picasso.load(url).into(target, new LoadingCallback(url, target));
+	}
+
+	private int convertDpToPixel(Integer dp, Context context) {
+		if (dp == null || dp == 0) {
+			return dp;
+		}
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
 	}
 
 	@SuppressLint("DefaultLocale")
@@ -120,10 +147,12 @@ public class ImageDownloaderImpl implements IImageDownloader {
 
 	static class LoadingCallback implements Callback {
 
+		private final ImageView target;
 		private String url = null;
 
-		LoadingCallback(String url) {
+		LoadingCallback(String url, ImageView target) {
 			this.url = url;
+			this.target = target;
 		}
 
 		@Override
@@ -133,6 +162,7 @@ public class ImageDownloaderImpl implements IImageDownloader {
 
 		@Override
 		public void onError() {
+			target.setVisibility(View.GONE);
 			Log.e(TAG, String.format("Error while loading image at url :'%s'.", url));
 		}
 	}

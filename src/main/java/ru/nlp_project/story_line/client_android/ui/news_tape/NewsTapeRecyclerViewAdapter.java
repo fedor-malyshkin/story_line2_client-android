@@ -1,14 +1,12 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +53,7 @@ class NewsTapeRecyclerViewAdapter extends
 				.inflate(R.layout.view_news_tape_entry, parent, false);
 
 		// Return a new holder instance
-		return new ViewHolder(context, articleHeaderView, parent.getWidth());
+		return new ViewHolder(context, articleHeaderView);
 	}
 
 
@@ -64,16 +62,17 @@ class NewsTapeRecyclerViewAdapter extends
 			int position) {
 		// Get the data model based on position
 		NewsHeaderBusinessModel header = presenter.getNewsHeader(position);
-		int height = holder.newsArticleContainerLayout.getLayoutParams().height;
+		int width = holder.newsArticleImageView.getLayoutParams().width;
 		holder.newsArticleSourceTextView.setText(presenter.getSourceTitleShort());
 		holder.newsArticleTitleTextView.setText(header.getTitle());
 		holder.newsArticlePubDateTextView
 				.setText(
 						StringUtils.getRelativeDatePresentation(holder.context, header.getPublicationDate()));
+		// square image
 		imageDownloader
 				.loadImageIntoCrop(header.getServerId(), holder.context, holder.newsArticleImageView,
-						convertDpToPixel(holder.width, holder.context),
-						convertDpToPixel(height, holder.context));
+						width, width);
+
 	}
 
 	@Override
@@ -81,22 +80,13 @@ class NewsTapeRecyclerViewAdapter extends
 		return presenter.getNewsHeaderCount();
 	}
 
-	private int convertDpToPixel(int dp, Context context) {
-		Resources resources = context.getResources();
-		DisplayMetrics metrics = resources.getDisplayMetrics();
-		return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-	}
 
 	// Provide a direct reference to each of the views within a data item
 	// Used to cache the views within the item layout for fast access
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		private final int width;
-		// Your holder should contain a member variable
-		// for any view that will be set as you render a row
-
 		@BindView(R.id.news_article_container_layout)
-		RelativeLayout newsArticleContainerLayout;
+		LinearLayout newsArticleContainerLayout;
 
 		@BindView(R.id.news_article_title)
 		TextView newsArticleTitleTextView;
@@ -110,13 +100,12 @@ class NewsTapeRecyclerViewAdapter extends
 
 		// We also create a constructor that accepts the entire item row
 		// and does the view lookups to find each subview
-		ViewHolder(Context context, View itemView, int width) {
+		ViewHolder(Context context, View itemView) {
 			// Stores the itemView in a public final member variable that can be used
 			// to access the context from any ViewHolder instance.
 			super(itemView);
 			// Store the context
 			this.context = context;
-			this.width = width;
 			ButterKnife.bind(this, itemView);
 			// Attach a click listener to the entire row view
 			itemView.setOnClickListener(this);

@@ -5,6 +5,33 @@ import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserView
 
 public interface INewsWatcherView {
 
+
+	void gotoSource();
+
+	void collapseFABMenuFast();
+
+	void expandFABMenuFast();
+
+	void collapseFABMenu();
+
+	void shareNews();
+
+	void shareImage();
+
+	void shareURL();
+
+	void shareText();
+
+	void expandFABMenu();
+
+	boolean isFABMenuExpanded();
+
+	boolean isFABMenuShown();
+
+	void showFABMenu();
+
+	void hideFABMenu();
+
 	void setContent(String newsArticleId, String sourceTitleShort,
 			String publicationDatePresentation, String title, String content, String url,
 			String imageUrl);
@@ -20,6 +47,7 @@ public interface INewsWatcherView {
 
 	/**
 	 * Called when this view is shown To User (in ViewPager)
+	 *
 	 * @param activity activity with viewPager
 	 */
 	void viewShownToUser(

@@ -110,10 +110,6 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 			this.shareURLFABLayout.setOnTouchListener(this::onPressShareURLFABLayout);
 			this.gotoSourceFABLayout = view.getGotoSourceLayout();
 			this.gotoSourceFABLayout.setOnTouchListener(this::onPressGotoSourceFABLayout);
-
-			// collapse in any case
-			collapseFABMenuFast();
-			showFABMenu();
 		}
 	}
 
@@ -121,13 +117,13 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-		gotoSource();
-		collapseFABMenu();
+		presenter.onPressGotoSourceFABLayout();
 		// consume event
 		return true;
 	}
 
-	private void gotoSource() {
+	@Override
+	public void gotoSource() {
 		Intent viewIntent = new Intent();
 		viewIntent.setAction(Intent.ACTION_VIEW);
 		viewIntent.setData(Uri.parse(newsArticleURL));
@@ -138,9 +134,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-
-		shareURL();
-		collapseFABMenu();
+		presenter.onPressShareURLFABLayout();
 		// consume event
 		return true;
 	}
@@ -149,9 +143,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-
-		shareText();
-		collapseFABMenu();
+		presenter.onPressShareTextFABLayout();
 		// consume event
 		return true;
 	}
@@ -161,8 +153,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 			return false;
 		}
 
-		shareImage();
-		collapseFABMenu();
+		presenter.onPressShareImageFABLayout();
 		// consume event
 		return true;
 	}
@@ -171,14 +162,13 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN) {
 			return false;
 		}
-
-		shareNews();
-		collapseFABMenu();
+		presenter.onPressShareNewsFABLayout();
 		// consume event
 		return true;
 	}
 
-	private void collapseFABMenuFast() {
+	@Override
+	public void collapseFABMenuFast() {
 		mainFAB.setVisibility(View.VISIBLE);
 		List<ViewGroup> viewGroups = Arrays
 				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
@@ -190,7 +180,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 
-	private void expandFABMenuFast() {
+	@Override
+	public void expandFABMenuFast() {
 		mainFAB.setVisibility(View.GONE);
 		List<ViewGroup> viewGroups = Arrays
 				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
@@ -202,7 +193,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 
-	private void collapseFABMenu() {
+	@Override
+	public void collapseFABMenu() {
 		List<ViewGroup> viewGroups = Arrays
 				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
 						gotoSourceFABLayout);
@@ -248,11 +240,11 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 			return false;
 		}
 		expandFABMenu();
-		isFABMenuExpanded = true;
 		return true;
 	}
 
-	private void shareNews() {
+	@Override
+	public void shareNews() {
 		Intent sendIntent = new Intent();
 		sendIntent.setAction(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleContentTextView.getText());
@@ -263,7 +255,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
 	}
 
-	private void shareImage() {
+	@Override
+	public void shareImage() {
 		String imageName = imageDownloader.saveImageViewToFile(getContext(), newsArticleImageView);
 		if (imageName == null) {
 			return;
@@ -284,22 +277,20 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 						});
 	}
 
-	private void shareURL() {
+	@Override
+	public void shareURL() {
 		Intent sendIntent = new Intent();
 		sendIntent.setAction(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleURL);
 		sendIntent.putExtra(Intent.EXTRA_TITLE, newsArticleTitleTextView.getText());
 		sendIntent.putExtra(Intent.EXTRA_HTML_TEXT,
-				formatUrlString(newsArticleURL, newsArticleTitleTextView.getText().toString()));
+				presenter.formatUrlString(newsArticleURL, newsArticleTitleTextView.getText().toString()));
 		sendIntent.setType("text/plain");
 		startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.app_name)));
 	}
 
-	private String formatUrlString(String url, String title) {
-		return String.format("<a href=\"%s\">%s</a>", url, title);
-	}
-
-	private void shareText() {
+	@Override
+	public void shareText() {
 		Intent sendIntent = new Intent();
 		sendIntent.setAction(Intent.ACTION_SEND);
 		sendIntent.putExtra(Intent.EXTRA_TEXT, newsArticleContentTextView.getText());
@@ -309,7 +300,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 
-	private void expandFABMenu() {
+	@Override
+	public void expandFABMenu() {
 		List<ViewGroup> viewGroups = Arrays
 				.asList(shareNewsFABLayout, shareImageFABLayout, shareTextFABLayout, shareURLFABLayout,
 						gotoSourceFABLayout);
@@ -380,20 +372,25 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		nestedScrollView.setOnScrollChangeListener(this::onScrollViewScrollChange);
 	}
 
+	@Override
+	public boolean isFABMenuExpanded() {
+		return isFABMenuExpanded;
+	}
+
+	@Override
+	public boolean isFABMenuShown() {
+		return isFABMenuShown;
+	}
+
 	private void onScrollViewScrollChange(NestedScrollView v, int scrollX, int scrollY,
 			int oldScrollX, int oldScrollY) {
 		int deltaY = scrollY - oldScrollY;
 
 		// if scroll down
 		if (deltaY > 0) {
-			if (isFABMenuShown) {
-				collapseFABMenuFast();
-				hideFABMenu();
-			}
+			presenter.onScrollViewDown();
 		} else {
-			if (!isFABMenuShown) {
-				showFABMenu();
-			}
+			presenter.onScrollViewUp();
 		}
 	}
 
@@ -410,7 +407,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		}
 	}
 
-	private void showFABMenu() {
+	@Override
+	public void showFABMenu() {
 		AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
 				R.animator.animator_fab_menu_show);
 		set.setTarget(mainFAB);
@@ -418,7 +416,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		isFABMenuShown = true;
 	}
 
-	private void hideFABMenu() {
+	@Override
+	public void hideFABMenu() {
 		AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(),
 				R.animator.animator_fab_menu_hide);
 		set.setTarget(mainFAB);
@@ -464,17 +463,14 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@Override
 	public boolean processBackPressed() {
-		if (isFABMenuExpanded) {
-			collapseFABMenu();
-			return true;
-		}
-		return false;
+		return presenter.processBackPressed();
 	}
 
 	@Override
 	public void viewShownToUser(
 			INewsBrowserView view) {
 		initializeFAB(view);
+		presenter.onShownToUser();
 	}
 
 }
