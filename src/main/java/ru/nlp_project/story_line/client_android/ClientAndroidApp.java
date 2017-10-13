@@ -13,7 +13,8 @@ public class ClientAndroidApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		Context applicationContext = getApplicationContext();
-		DaggerBuilder.inintialize(applicationContext);
+		// important part to pass context to builder
+		DaggerBuilder.initialize(applicationContext);
 //		Stetho.initializeWithDefaults(this);
 	}
 

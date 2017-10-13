@@ -99,7 +99,7 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 
 	@Override
 	public void sourceChangeEnabled(int position, boolean checked) {
-		presenter.sourceChangeEnabled(position, checked);
+		presenter.onSourceEnabledChanged(position, checked);
 	}
 
 	class SourcesRecyclerViewAdapter extends

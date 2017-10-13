@@ -19,10 +19,5 @@ public class NewsTapeModule {
 		return implementation;
 	}
 
-	@Provides
-	@NewsTapeScope
-	public INewsTapeInteractor provideNewsTapeInteractor(NewsTapeInteractorImpl implementation) {
-		return implementation;
-	}
 
 }

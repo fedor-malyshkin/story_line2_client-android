@@ -5,31 +5,37 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	public DatabaseHelper(Context context, String databaseName, int databaseVersion) {
-		super(context, databaseName, null, databaseVersion);
-	}
+	private static final String TAG = DatabaseHelper.class.getSimpleName();
 
 	static {
 		// register our models
-		cupboard().register(CategoryDataModel.class);
 		cupboard().register(NewsArticleDataModel.class);
 		cupboard().register(NewsHeaderDataModel.class);
 		cupboard().register(SourceDataModel.class);
+	}
+
+	public DatabaseHelper(Context context, String databaseName, int databaseVersion) {
+		super(context, databaseName, null, databaseVersion);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// this will ensure that all tables are created
 		cupboard().withDatabase(db).createTables();
-		// add indexes and other database tweaks in this method if you want
 
+		SQLiteDatabase wdb = this.getWritableDatabase();
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "source"));
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "serverId"));
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsArticleDataModel.class), "serverId"));
 	}
 
 	@Override

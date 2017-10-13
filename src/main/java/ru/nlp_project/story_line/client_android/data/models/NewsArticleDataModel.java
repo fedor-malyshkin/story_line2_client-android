@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
+import ru.nlp_project.story_line.client_android.business.models.NewsArticleBusinessModel;
 
 @JsonInclude(value = Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,7 +29,7 @@ public class NewsArticleDataModel {
 	private String url;
 	@JsonProperty("image_url")
 	private String imageUrl;
-	@JsonProperty("name")
+	@JsonProperty("source")
 	private String source;
 	/**
 	 * id for server side identification (mongodb/elasticsearch)
@@ -51,6 +52,11 @@ public class NewsArticleDataModel {
 		this.url = url;
 		this.imageUrl = imageUrl;
 		this.serverId = serverId;
+	}
+
+	public NewsArticleBusinessModel convert() {
+		return new NewsArticleBusinessModel(getContent(), getPath(), getTitle(), getPublicationDate(),
+				getSource(), getServerId(), getUrl(), getImageUrl());
 	}
 
 	public Long getId() {
@@ -88,5 +94,4 @@ public class NewsArticleDataModel {
 	public String getImageUrl() {
 		return imageUrl;
 	}
-
 }

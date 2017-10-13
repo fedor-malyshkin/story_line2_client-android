@@ -4,11 +4,9 @@ import android.support.v4.app.Fragment;
 import java.util.List;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.ui.IPresenter;
-import ru.nlp_project.story_line.client_android.ui.categories_browser.ICategoriesBrowserView.ICategorySelectionListener;
 
 
-public interface ISourcesBrowserPresenter extends IPresenter<ISourcesBrowserView>,
-		ICategorySelectionListener {
+public interface ISourcesBrowserPresenter extends IPresenter<ISourcesBrowserView> {
 
 	List<SourceBusinessModel> getSources();
 

@@ -10,7 +10,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="5sp">
+    >
+
 
     <!--adjustViewBounds="true"  is important to maxHeight -->
     <ImageView
@@ -25,14 +26,14 @@
       android:id="@+id/news_watcher_news_article_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textStyle="bold"
       android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-
+      android:layout_margin="5sp"
       />
     <RelativeLayout
       android:id="@+id/news_watcher_news_article_details"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_margin="5sp"
       >
       <TextView
         android:id="@+id/news_watcher_news_article_publication_date"
@@ -57,6 +58,7 @@
     </RelativeLayout>
 
     <TextView
+      android:layout_margin="5sp"
       android:id="@+id/news_watcher_news_article_content"
       android:layout_width="match_parent"
       android:textAppearance="@style/TextAppearance.AppCompat.Medium"

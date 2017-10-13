@@ -13,5 +13,5 @@ public interface IPreferencesPresenter  extends IPresenter<ISourcePreferencesVie
 
 	void saveSources();
 
-	void sourceChangeEnabled(int position, boolean checked);
+	void onSourceEnabledChanged(int position, boolean checked);
 }

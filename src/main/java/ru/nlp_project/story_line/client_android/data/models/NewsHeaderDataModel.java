@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
+import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsHeaderDataModel {
@@ -56,6 +57,12 @@ public class NewsHeaderDataModel {
 
 	public String getServerId() {
 		return serverId;
+	}
+
+	public NewsHeaderBusinessModel convert() {
+		return new NewsHeaderBusinessModel(getTitle(), getSource(),
+				getPublicationDate(),
+				getServerId());
 	}
 
 }

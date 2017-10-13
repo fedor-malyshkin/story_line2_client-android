@@ -17,11 +17,4 @@ public class NewsBrowserModule {
 		return implementation;
 	}
 
-	@Provides
-	@NewsBrowserScope
-	public INewsBrowserInteractor provideNewsBrowserInteractor(NewsBrowserInteractorImpl
-		implementation) {
-		return implementation;
-	}
-
 }

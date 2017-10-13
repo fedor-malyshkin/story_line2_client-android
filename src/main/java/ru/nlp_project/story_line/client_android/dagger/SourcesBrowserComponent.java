@@ -1,7 +1,6 @@
 package ru.nlp_project.story_line.client_android.dagger;
 
 import dagger.Subcomponent;
-import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
 import ru.nlp_project.story_line.client_android.ui.sources_browser.SourcesBrowserActivity;
 
 /**
@@ -11,5 +10,6 @@ import ru.nlp_project.story_line.client_android.ui.sources_browser.SourcesBrowse
 @Subcomponent(modules = SourcesBrowserModule.class)
 @SourcesBrowserScope
 public abstract class SourcesBrowserComponent {
+
 	public abstract void inject(SourcesBrowserActivity fragment);
 }

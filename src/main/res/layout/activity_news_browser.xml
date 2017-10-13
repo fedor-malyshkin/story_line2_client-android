@@ -15,6 +15,7 @@
       android:id="@+id/activity_news_browser_toolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:background="?attr/colorPrimaryDark"
       app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
   </android.support.design.widget.AppBarLayout>

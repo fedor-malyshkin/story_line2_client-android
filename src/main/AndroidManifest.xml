@@ -16,6 +16,7 @@
       android:excludeFromRecents="true"
       android:label="@string/activity_startup_title"
       android:name=".ui.StartupActivity"
+      android:theme="@style/SplashTheme"
       android:noHistory="true"
       >
       <intent-filter>

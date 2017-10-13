@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceDataModel {
@@ -37,21 +38,6 @@ public class SourceDataModel {
 		this._order = order;
 	}
 
-	public void updatePresentationData(SourceDataModel other) {
-		if (null == other) {
-			throw new IllegalArgumentException("SourceDataModel 'other' must be not null.");
-		}
-		this.title = other.title;
-		this.titleShort = other.titleShort;
-	}
-
-	public void updateSystemData(SourceDataModel other) {
-		if (null == other) {
-			throw new IllegalArgumentException("SourceDataModel 'other' must be not null.");
-		}
-		this.enabled = other.enabled;
-		this._order = other._order;
-	}
 
 	public String getName() {
 		return name;
@@ -101,6 +87,24 @@ public class SourceDataModel {
 	public void setId(Long _id) {
 		this._id = _id;
 	}
+
+	public SourceBusinessModel convert() {
+		return new SourceBusinessModel(getId(), getName(), getTitle(), getTitleShort(), isEnabled(),
+				getOrder());
+	}
+
+
+	/**
+	 * see analogious {@link SourceBusinessModel#updatePresentationData(SourceBusinessModel)}
+	 */
+	public void updatePresentationData(SourceDataModel other) {
+		if (null == other) {
+			throw new IllegalArgumentException("SourceDataModel 'other' must be not null.");
+		}
+		this.title = other.title;
+		this.titleShort = other.titleShort;
+	}
+
 }
 
 

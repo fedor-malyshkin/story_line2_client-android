@@ -8,7 +8,6 @@ import io.reactivex.Observable;
 import java.util.List;
 import javax.inject.Inject;
 import nl.qbusict.cupboard.DatabaseCompartment;
-import ru.nlp_project.story_line.client_android.data.models.CategoryDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
@@ -26,42 +25,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public void initialize() {
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsHeaderDataModel.source ON "
-				+ "NewsHeaderDataModel (source);");
-		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsHeaderDataModel.serverId ON "
-				+ "NewsHeaderDataModel (serverId);");
-		wdb.execSQL("CREATE INDEX IF NOT EXISTS NewsArticleDataModel.serverId ON "
-				+ "NewsArticleDataModel (serverId);");
-		// wdb.close();
 	}
-
-
-	@Override
-	// TODO: обновлять в соотвествии с ключевым полем
-	public void addCategoryToCache(CategoryDataModel dataModel) {
-
-		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
-		// delete all categories
-		// cupboard().withDatabase(wdb).delete(CategoryDataModel.class, "", "");
-		cupboard().withDatabase(wdb).put(dataModel);
-		// wdb.close();
-	}
-
-	@Override
-	public Observable<CategoryDataModel> createCategoryStream() {
-
-		return Observable.fromCallable(
-				() -> {
-					SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
-					// rdb.close();
-					return cupboard().withDatabase(rdb)
-							.query(CategoryDataModel.class)
-							.list();
-				}
-		).flatMap(Observable::fromIterable);
-	}
-
 
 	@Override
 	public void addSourceToCache(SourceDataModel dataModel) {

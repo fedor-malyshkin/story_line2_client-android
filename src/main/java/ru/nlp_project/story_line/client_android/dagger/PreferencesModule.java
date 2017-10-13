@@ -2,8 +2,6 @@ package ru.nlp_project.story_line.client_android.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.nlp_project.story_line.client_android.business.preferences.IPreferencesInteractor;
-import ru.nlp_project.story_line.client_android.business.preferences.PreferencesInteractorImpl;
 import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesPresenterImpl;
 
@@ -16,13 +14,6 @@ public class PreferencesModule {
 	@Provides
 	@PreferencesScope
 	public IPreferencesPresenter providePreferencesPresenter(PreferencesPresenterImpl
-			implementation) {
-		return implementation;
-	}
-
-	@Provides
-	@PreferencesScope
-	public IPreferencesInteractor providePreferencesInteractor(PreferencesInteractorImpl
 			implementation) {
 		return implementation;
 	}

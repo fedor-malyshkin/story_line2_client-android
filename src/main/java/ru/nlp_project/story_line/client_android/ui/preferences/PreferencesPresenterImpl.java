@@ -78,7 +78,7 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 	}
 
 	@Override
-	public void sourceChangeEnabled(int position, boolean checked) {
+	public void onSourceEnabledChanged(int position, boolean checked) {
 		SourceBusinessModel model = sources.get(position);
 		model.setEnabled(checked);
 	}

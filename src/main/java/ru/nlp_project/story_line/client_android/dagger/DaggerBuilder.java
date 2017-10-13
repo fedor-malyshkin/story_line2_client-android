@@ -10,12 +10,11 @@ public class DaggerBuilder {
 
 	private static ApplicationComponent createApplicationBuilder() {
 		return DaggerApplicationComponent.builder()
-			.applicationModule(new ApplicationModule(appContext))
-
-			.build();
+				.applicationModule(new ApplicationModule(appContext))
+				.build();
 	}
 
-	private synchronized static ApplicationComponent getApplicationBuilder() {
+	public synchronized static ApplicationComponent getApplicationBuilder() {
 		if (applicationBuilder == null) {
 			applicationBuilder = createApplicationBuilder();
 		}
@@ -30,12 +29,8 @@ public class DaggerBuilder {
 		return getApplicationBuilder().addToGraph(new SourcesBrowserModule());
 	}
 
-	public static void inintialize(Context applicationContext) {
+	public static void initialize(Context applicationContext) {
 		appContext = applicationContext;
-	}
-
-	public static CategoriesBrowserComponent createCategoriesBrowserBuilder() {
-		return getApplicationBuilder().addToGraph(new CategoriesBrowserModule());
 	}
 
 	public static NewsBrowserComponent createNewsBrowserBuilder() {

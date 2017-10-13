@@ -88,12 +88,6 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 		this.view = null;
 	}
 
-	@Override
-	public void categorySelected(String category) {
-
-	}
-
-
 	private void checkAndUpdateSources(Observable<SourceBusinessModel> stream) {
 		Iterable<SourceBusinessModel> models = stream.blockingIterable();
 		List<SourceBusinessModel> newSources = new ArrayList<>();

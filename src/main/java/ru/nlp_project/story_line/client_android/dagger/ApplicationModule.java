@@ -7,18 +7,31 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import javax.inject.Singleton;
-import ru.nlp_project.story_line.client_android.data.categories_browser.CategoriesBrowserRepositoryImpl;
-import ru.nlp_project.story_line.client_android.data.categories_browser.ICategoriesBrowserRepository;
-import ru.nlp_project.story_line.client_android.data.news_tape.INewsTapeRepository;
-import ru.nlp_project.story_line.client_android.data.news_tape.NewsTapeRepositoryImpl;
-import ru.nlp_project.story_line.client_android.data.news_watcher.INewsWatcherRepository;
-import ru.nlp_project.story_line.client_android.data.news_watcher.NewsWatcherRepositoryImpl;
-import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
-import ru.nlp_project.story_line.client_android.data.sources_browser.SourcesBrowserRepositoryImpl;
+import ru.nlp_project.story_line.client_android.BuildConfig;
+import ru.nlp_project.story_line.client_android.business.IStartupInteractor;
+import ru.nlp_project.story_line.client_android.business.StartupInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_browser.INewsBrowserInteractor;
+import ru.nlp_project.story_line.client_android.business.news_browser.NewsBrowserInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
+import ru.nlp_project.story_line.client_android.business.news_tape.NewsTapeInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
+import ru.nlp_project.story_line.client_android.business.news_watcher.NewsWatcherInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.preferences.IPreferencesInteractor;
+import ru.nlp_project.story_line.client_android.business.preferences.PreferencesInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
+import ru.nlp_project.story_line.client_android.business.sources_browser.SourcesBrowserInteractorImpl;
+import ru.nlp_project.story_line.client_android.data.IStartupRepository;
+import ru.nlp_project.story_line.client_android.data.StartupRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.news_article.INewsArticlesRepository;
+import ru.nlp_project.story_line.client_android.data.news_article.NewsArticlesRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.news_header.INewsHeadersRepository;
+import ru.nlp_project.story_line.client_android.data.news_header.NewsHeadersRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.data.source.SourcesRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.utils.DatabaseHelper;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.LocalDBStorageImpl;
-import ru.nlp_project.story_line.client_android.data.utils.RetrofiService;
+import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
 import ru.nlp_project.story_line.client_android.ui.utils.ImageDownloaderImpl;
 
@@ -31,7 +44,7 @@ public class ApplicationModule {
 
 	public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
 	public static final String DATABASE_NAME = "story_line.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = BuildConfig.VERSION_CODE;
 	private Context context;
 
 	public ApplicationModule(Context context) {
@@ -40,32 +53,26 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public INewsWatcherRepository provideNewsWatcherRepository(NewsWatcherRepositoryImpl
+	public INewsArticlesRepository provideNewsArticlesRepository(NewsArticlesRepositoryImpl
 			implementation) {
 		return implementation;
 	}
 
 	@Provides
 	@Singleton
-	public INewsTapeRepository provideNewsTapeRepository(NewsTapeRepositoryImpl implementation) {
+	public INewsHeadersRepository provideNewsHeadersRepository(
+			NewsHeadersRepositoryImpl implementation) {
 		return implementation;
 	}
 
 
 	@Provides
 	@Singleton
-	public ISourcesBrowserRepository provideSourcesBrowserModuleRepository
-			(SourcesBrowserRepositoryImpl implementation) {
+	public ISourcesRepository provideSourcesRepository
+			(SourcesRepositoryImpl implementation) {
 		return implementation;
 	}
 
-
-	@Provides
-	@Singleton
-	public ICategoriesBrowserRepository provideCateriesBrowserModuleRepository(
-			CategoriesBrowserRepositoryImpl instance) {
-		return instance;
-	}
 
 	@Singleton
 	@Provides
@@ -89,8 +96,8 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public RetrofiService provideRetrofiService() {
-		RetrofiService service = new RetrofiService(BASE_URL);
+	public RetrofitService provideRetrofitService() {
+		RetrofitService service = new RetrofitService(BASE_URL);
 		service.build();
 		return service;
 	}
@@ -98,6 +105,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ILocalDBStorage provideLocalDBStorage(LocalDBStorageImpl instance) {
+		instance.initialize();
 		return instance;
 	}
 
@@ -106,5 +114,56 @@ public class ApplicationModule {
 	public IImageDownloader provideImageDownloader() {
 		return new ImageDownloaderImpl(BASE_URL);
 	}
+
+
+	@Provides
+	@Singleton
+	public IStartupInteractor provideStartupInteractor(StartupInteractorImpl implementation) {
+		return implementation;
+	}
+
+
+	@Provides
+	@Singleton
+	public IStartupRepository provideStartupRepository(StartupRepositoryImpl implementation) {
+		return implementation;
+	}
+
+	@Provides
+	@Singleton
+	public ISourcesBrowserInteractor provideSourcesBrowserInteractor(SourcesBrowserInteractorImpl
+			implementation) {
+		implementation.initialize();
+		return implementation;
+	}
+
+	@Provides
+	@Singleton
+	public INewsBrowserInteractor provideNewsBrowserInteractor(NewsBrowserInteractorImpl
+			implementation) {
+		return implementation;
+	}
+
+	@Provides
+	@Singleton
+	public INewsTapeInteractor provideNewsTapeInteractor(NewsTapeInteractorImpl implementation) {
+		return implementation;
+	}
+
+	@Provides
+	@Singleton
+	public IPreferencesInteractor providePreferencesInteractor(PreferencesInteractorImpl
+			implementation) {
+		return implementation;
+	}
+
+	@Provides
+	@Singleton
+	public INewsWatcherInteractor provideNewsWatcherInteractor(NewsWatcherInteractorImpl
+			implementation) {
+		return implementation;
+	}
+
+
 }
 

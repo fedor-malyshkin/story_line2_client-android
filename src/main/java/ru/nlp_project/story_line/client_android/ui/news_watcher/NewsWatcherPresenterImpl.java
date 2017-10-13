@@ -3,6 +3,7 @@ package ru.nlp_project.story_line.client_android.ui.news_watcher;
 import io.reactivex.Scheduler;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
+import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
@@ -15,6 +16,10 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	public Scheduler uiScheduler;
 	@Inject
 	INewsWatcherInteractor interactor;
+	@Inject
+	ISourcesBrowserInteractor sourcesBrowserInteractor;
+
+
 	private String newsArticleServerId;
 	private INewsWatcherView view;
 
@@ -44,7 +49,8 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	public void loadContent() {
 		interactor.createNewsArticleRemoteCachedStream(newsArticleServerId).observeOn(uiScheduler)
 				.subscribe(newsArticle -> {
-					view.setContent(newsArticle.getServerId(), "",
+					view.setContent(newsArticle.getServerId(),
+							sourcesBrowserInteractor.getSourceTitleShortCached(newsArticle.getSource()),
 							StringUtils.dateDatePresentation(view.getContext(), newsArticle.getPublicationDate()),
 							newsArticle.getTitle(), newsArticle.getContent(), newsArticle.getUrl(),
 							newsArticle.getImageUrl());

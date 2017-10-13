@@ -3,19 +3,19 @@ package ru.nlp_project.story_line.client_android.business.sources_browser;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import java.util.HashMap;
+import java.util.Map;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
-import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
-import ru.nlp_project.story_line.client_android.data.sources_browser.ISourcesBrowserRepository;
+import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
 
-@SourcesBrowserScope
+
 public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 
 	@Inject
-	ISourcesBrowserRepository repository;
-	private ObservableTransformer<SourceDataModel,
-			SourceBusinessModel> transformer = new DataToBusinessModelTransformer();
+	ISourcesRepository repository;
+	private Map<String, SourceBusinessModel> sourcesCache = new HashMap<>();
 
 
 	@Inject
@@ -23,26 +23,44 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createSourceStream() {
-		return repository.createSourceRemoteCachedStream().compose(transformer);
+	public void initialize() {
+		Map<String, SourceBusinessModel> newSources = new HashMap<>();
+		createSourceStreamRemoteCached().subscribe(
+				// onNext
+				s -> {
+					newSources.put(s.getName(), s);
+				},
+				// onError
+				e -> {
+				},
+				// onComplete
+				() -> {
+					sourcesCache.clear();
+					sourcesCache.putAll(newSources);
+				});
+	}
+
+	@Override
+	public Observable<SourceBusinessModel> createSourceStreamRemoteCached() {
+		return repository.createSourceRemoteCachedStream();
 	}
 
 	@Override
 	public Observable<SourceBusinessModel> createSourceStreamFromCache() {
-		return repository.createSourceStreamLocal().compose(transformer);
+		return repository.createSourceLocalStream();
 	}
 
-	private class DataToBusinessModelTransformer implements
-			ObservableTransformer<SourceDataModel,
-					SourceBusinessModel> {
-
-		@Override
-		public ObservableSource<SourceBusinessModel> apply(
-				Observable<SourceDataModel> upstream) {
-			return upstream.map(
-					data -> new SourceBusinessModel(data.getId(), data.getName(), data.getTitle(), data
-							.getTitleShort(), data.isEnabled(), data.getOrder())
-			);
+	@Override
+	public String getSourceTitleShortCached(String sourceName) {
+		if (sourceName == null) {
+			return "";
 		}
+		SourceBusinessModel model = sourcesCache.get(sourceName);
+		if (model == null) {
+			return "";
+		}
+		return model.getTitleShort();
 	}
+
+
 }

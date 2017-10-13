@@ -5,6 +5,11 @@ import ru.nlp_project.story_line.client_android.business.models.SourceBusinessMo
 
 public interface ISourcesBrowserInteractor {
 
-	Observable<SourceBusinessModel> createSourceStream();
+	void initialize();
+
+	Observable<SourceBusinessModel> createSourceStreamRemoteCached();
+
 	Observable<SourceBusinessModel> createSourceStreamFromCache();
+
+	String getSourceTitleShortCached(String source);
 }

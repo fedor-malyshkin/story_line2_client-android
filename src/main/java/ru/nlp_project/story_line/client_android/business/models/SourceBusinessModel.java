@@ -1,5 +1,10 @@
 package ru.nlp_project.story_line.client_android.business.models;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
+
 public class SourceBusinessModel {
 
 	private Long id;
@@ -39,6 +44,24 @@ public class SourceBusinessModel {
 		this.order = order;
 	}
 
+	public static List<SourceDataModel> convertList(List<SourceBusinessModel> in) {
+		List<SourceDataModel> result = null;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+			result = in.stream().map(
+					s -> new SourceDataModel(s.getId(), s.getName(), s.getTitle(), s.getTitleShort(),
+							s.isEnabled(),
+							s.getOrder())).collect(Collectors.toList());
+		} else {
+			result = new ArrayList<>();
+			for (SourceBusinessModel s : in) {
+				result.add(new SourceDataModel(s.getId(), s.getName(), s.getTitle(), s.getTitleShort(),
+						s.isEnabled(),
+						s.getOrder()));
+			}
+		}
+		return result;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -56,10 +79,17 @@ public class SourceBusinessModel {
 		return enabled;
 	}
 
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public int getOrder() {
 		return order;
 	}
 
+	public void setOrder(int order) {
+		this.order = order;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -114,16 +144,33 @@ public class SourceBusinessModel {
 		return sb.toString();
 	}
 
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public void setOrder(int order) {
-		this.order = order;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Long getId() {
 		return id;
 	}
+
+
+	/**
+	 * see analogious {@link SourceDataModel#updatePresentationData(SourceDataModel)}
+ 	 */
+
+	public void updatePresentationData(SourceBusinessModel other) {
+		if (null == other) {
+			throw new IllegalArgumentException("SourceBusinessModel 'other' must be not null.");
+		}
+		this.title = other.title;
+		this.titleShort = other.titleShort;
+	}
+
+	public void updateSystemData(SourceBusinessModel other) {
+		if (null == other) {
+			throw new IllegalArgumentException("SourceBusinessModel 'other' must be not null.");
+		}
+		this.enabled = other.enabled;
+		this.setOrder(other.getOrder());
+	}
+
 }

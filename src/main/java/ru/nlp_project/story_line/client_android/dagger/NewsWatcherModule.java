@@ -17,11 +17,5 @@ public class NewsWatcherModule {
 		return implementation;
 	}
 
-	@Provides
-	@NewsWatcherScope
-	public INewsWatcherInteractor provideNewsWatcherInteractor(NewsWatcherInteractorImpl
-			implementation) {
-		return implementation;
-	}
 
 }

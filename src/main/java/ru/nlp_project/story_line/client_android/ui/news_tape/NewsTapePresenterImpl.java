@@ -1,15 +1,13 @@
 package ru.nlp_project.story_line.client_android.ui.news_tape;
 
-import android.content.Context;
-import android.text.format.DateUtils;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
+import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 
@@ -24,6 +22,10 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	Scheduler uiScheduler;
 	@Inject
 	INewsTapeInteractor interactor;
+
+	@Inject
+	ISourcesBrowserInteractor sourcesBrowserInteractor;
+
 	private String sourceName;
 	private String sourceTitle;
 	private String sourceTitleShort;
@@ -110,7 +112,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	public List<NewsHeaderBusinessModel> getNewsHeaders() {
 		return newsHeaders;
 	}
-
 
 	@Override
 	public String getSourceTitleShort() {

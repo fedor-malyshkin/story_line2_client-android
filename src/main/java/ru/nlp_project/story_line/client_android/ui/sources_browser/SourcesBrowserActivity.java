@@ -7,7 +7,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -154,11 +153,6 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		return getBaseContext();
 	}
 
-
-	@Override
-	public void categorySelected(String category) {
-		presenter.categorySelected(category);
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
