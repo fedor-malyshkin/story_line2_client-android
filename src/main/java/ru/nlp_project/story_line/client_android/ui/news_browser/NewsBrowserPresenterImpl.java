@@ -33,7 +33,7 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializePresenter() {
 	}
 
 	@Override

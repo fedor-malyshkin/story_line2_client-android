@@ -17,7 +17,7 @@
     <CheckBoxPreference android:title="@string/preferences_dark_theme_title"/>
     <CheckBoxPreference
       android:title="@string/preferences_load_images_title"
-      android:checked="true"/>
+      android:defaultValue="true"/>
   </PreferenceCategory>
 
   <PreferenceScreen

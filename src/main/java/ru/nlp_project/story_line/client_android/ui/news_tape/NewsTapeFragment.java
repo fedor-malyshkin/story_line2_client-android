@@ -28,8 +28,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 
 	public static final String TAG = NewsTapeFragment.class.getName();
 
-	private static final String FRAGMENT_ARG_SOURCE_TITLE_SHORT = "sourceTitleShort";
-	private static final String FRAGMENT_ARG_SOURCE_TITLE = "sourceTitle";
 	private static final String FRAGMENT_ARG_SOURCE_NAME = "sourceName";
 
 	@Inject
@@ -50,8 +48,6 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
 		NewsTapeFragment fragment = new NewsTapeFragment();
 		Bundle args = new Bundle();
-		args.putString(FRAGMENT_ARG_SOURCE_TITLE_SHORT, source.getTitleShort());
-		args.putString(FRAGMENT_ARG_SOURCE_TITLE, source.getTitle());
 		args.putString(FRAGMENT_ARG_SOURCE_NAME, source.getName());
 		fragment.setArguments(args);
 		return fragment;
@@ -83,11 +79,10 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		initializeRecyclerView();
 		initializeSwipeUpdate();
 		// arguments
-		String sourceTitleShort = getArguments().getString(FRAGMENT_ARG_SOURCE_TITLE_SHORT);
-		String sourceTitle = getArguments().getString(FRAGMENT_ARG_SOURCE_TITLE);
 		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
 
-		presenter.initialize(sourceName, sourceTitle, sourceTitleShort);
+		presenter.setSourceName(sourceName);
+		presenter.initializePresenter();
 	}
 
 	private void initializeSwipeUpdate() {

@@ -56,4 +56,8 @@ public class NewsHeadersRepositoryImpl implements INewsHeadersRepository {
 				.compose(Converters.toNewsHeaderBusinessModel);
 	}
 
+	@Override
+	public void initializeRepository() {
+
+	}
 }

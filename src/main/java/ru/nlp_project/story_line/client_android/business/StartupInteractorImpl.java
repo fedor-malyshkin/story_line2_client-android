@@ -11,17 +11,25 @@ public class StartupInteractorImpl implements IStartupInteractor {
 	IStartupRepository repository;
 	@Inject
 	ISourcesBrowserInteractor sourcesBrowserPresenter;
+	private IStartupPresenter presenter;
 
 	@Inject
 	public StartupInteractorImpl() {
 	}
 
-	@Override
-	public void initialize(IStartupPresenter presenter) {
-		// do something
-		repository.initialize();
-		// sourcesBrowserPresenter is initialized in Dagger2
 
-		presenter.startApplication();
+	@Override
+	public void initializeInteractor() {
+
+	}
+
+	@Override
+	public void bindPresenter(IStartupPresenter presenter) {
+		this.presenter = presenter;
+	}
+
+
+	@Override
+	public void startupInitialization() {
 	}
 }

@@ -80,7 +80,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 		initializeViewPager();
 		// last step - after full interface initilization
-		presenter.initialize();
+		presenter.initializePresenter();
 	}
 
 	private void initializeNavigationMenu() {

@@ -40,9 +40,13 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 
 
 	@Override
-	public void initialize(String newsArticleServerId) {
-		this.newsArticleServerId = newsArticleServerId;
+	public void initializePresenter() {
+		loadContent();
+	}
 
+	@Override
+	public void setNewsArticleServerId(String newsArticleServerId) {
+		this.newsArticleServerId = newsArticleServerId;
 	}
 
 	@Override

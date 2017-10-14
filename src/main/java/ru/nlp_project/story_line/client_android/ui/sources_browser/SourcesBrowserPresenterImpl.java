@@ -38,7 +38,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializePresenter() {
 	}
 
 	@Override

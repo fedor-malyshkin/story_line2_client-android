@@ -360,8 +360,8 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		// args
 		Bundle arguments = getArguments();
 		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
-		presenter.initialize(serverId);
-		presenter.loadContent();
+		presenter.setNewsArticleServerId(serverId);
+		presenter.initializePresenter();
 	}
 
 	private void initializeContentTextView() {

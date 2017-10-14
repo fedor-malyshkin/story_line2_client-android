@@ -4,6 +4,7 @@ import io.reactivex.Single;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsArticleBusinessModel;
 import ru.nlp_project.story_line.client_android.data.news_article.INewsArticlesRepository;
+import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherPresenter;
 
 public class NewsWatcherInteractorImpl implements INewsWatcherInteractor {
 
@@ -22,4 +23,13 @@ public class NewsWatcherInteractorImpl implements INewsWatcherInteractor {
 	}
 
 
+	@Override
+	public void initializeInteractor() {
+
+	}
+
+	@Override
+	public void bindPresenter(INewsWatcherPresenter presenter) {
+
+	}
 }

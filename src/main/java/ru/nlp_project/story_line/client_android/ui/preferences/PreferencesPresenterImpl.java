@@ -38,7 +38,7 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializePresenter() {
 		loadSources();
 	}
 

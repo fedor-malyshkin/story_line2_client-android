@@ -55,6 +55,7 @@ public class ApplicationModule {
 	@Singleton
 	public INewsArticlesRepository provideNewsArticlesRepository(NewsArticlesRepositoryImpl
 			implementation) {
+		implementation.initializeRepository();
 		return implementation;
 	}
 
@@ -62,6 +63,7 @@ public class ApplicationModule {
 	@Singleton
 	public INewsHeadersRepository provideNewsHeadersRepository(
 			NewsHeadersRepositoryImpl implementation) {
+		implementation.initializeRepository();
 		return implementation;
 	}
 
@@ -70,6 +72,7 @@ public class ApplicationModule {
 	@Singleton
 	public ISourcesRepository provideSourcesRepository
 			(SourcesRepositoryImpl implementation) {
+		implementation.initializeRepository();
 		return implementation;
 	}
 
@@ -105,7 +108,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public ILocalDBStorage provideLocalDBStorage(LocalDBStorageImpl instance) {
-		instance.initialize();
+		instance.initializeDBStorage();
 		return instance;
 	}
 
@@ -119,6 +122,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public IStartupInteractor provideStartupInteractor(StartupInteractorImpl implementation) {
+		implementation.initializeInteractor();
 		return implementation;
 	}
 
@@ -126,6 +130,7 @@ public class ApplicationModule {
 	@Provides
 	@Singleton
 	public IStartupRepository provideStartupRepository(StartupRepositoryImpl implementation) {
+		implementation.initializeRepository();
 		return implementation;
 	}
 
@@ -133,7 +138,7 @@ public class ApplicationModule {
 	@Singleton
 	public ISourcesBrowserInteractor provideSourcesBrowserInteractor(SourcesBrowserInteractorImpl
 			implementation) {
-		implementation.initialize();
+		implementation.initializeInteractor();
 		return implementation;
 	}
 
@@ -141,12 +146,14 @@ public class ApplicationModule {
 	@Singleton
 	public INewsBrowserInteractor provideNewsBrowserInteractor(NewsBrowserInteractorImpl
 			implementation) {
+		implementation.initializeInteractor();
 		return implementation;
 	}
 
 	@Provides
 	@Singleton
 	public INewsTapeInteractor provideNewsTapeInteractor(NewsTapeInteractorImpl implementation) {
+		implementation.initializeInteractor();
 		return implementation;
 	}
 
@@ -154,6 +161,7 @@ public class ApplicationModule {
 	@Singleton
 	public IPreferencesInteractor providePreferencesInteractor(PreferencesInteractorImpl
 			implementation) {
+		implementation.initializeInteractor();
 		return implementation;
 	}
 
@@ -161,6 +169,7 @@ public class ApplicationModule {
 	@Singleton
 	public INewsWatcherInteractor provideNewsWatcherInteractor(NewsWatcherInteractorImpl
 			implementation) {
+		implementation.initializeInteractor();
 		return implementation;
 	}
 

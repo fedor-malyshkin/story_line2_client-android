@@ -61,7 +61,7 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 		builder.inject(this);
 		presenter.bindView(this);
 		initializeRecyclerView();
-		presenter.initialize();
+		presenter.initializePresenter();
 	}
 
 	@Override

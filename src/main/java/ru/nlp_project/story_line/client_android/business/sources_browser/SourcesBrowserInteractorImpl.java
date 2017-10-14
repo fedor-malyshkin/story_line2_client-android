@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.ui.IPresenter;
+import ru.nlp_project.story_line.client_android.ui.sources_browser.ISourcesBrowserPresenter;
 
 
 public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
@@ -23,7 +25,7 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializeInteractor() {
 		Map<String, SourceBusinessModel> newSources = new HashMap<>();
 		createSourceStreamRemoteCached().subscribe(
 				// onNext
@@ -62,5 +64,8 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 		return model.getTitleShort();
 	}
 
+	@Override
+	public void bindPresenter(ISourcesBrowserPresenter presenter) {
 
+	}
 }

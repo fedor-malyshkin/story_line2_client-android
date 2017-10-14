@@ -33,22 +33,22 @@
 ## Порядок инициализации компонентов
 - **Activity/Fragment**:
  - создаётся Android (non-singletone, w/ scope)
- - инициализируется в методах `onCreate()` (с завершением в `onViewCreated()` для `Fragment`)
- - Presenter внутри присваивается ч/з Dagger2
- - инициализация Presenter внутри осуществляется в указанных методах (`onCreate()`,с завершением в `onViewCreated()` для `Fragment`)
+ - инициализируется в методах `View#onCreate()` (с завершением в `Fragment#onViewCreated()` для `Fragment`)
+ - Presenter внутри _присваивается_ ч/з Dagger2
+ - инициализация Presenter внутри осуществляется в указанных методах (`View#onCreate()`,с завершением в `Fragment#onViewCreated()` для `Fragment`)
 - **Presenter**:
  - создаётся через Dagger2 (non-singletone, w/ scope)
- - инициализируется в методе `initialize()`, вызываемой View
- - View присваивается самим View, ч/з `bindView()`
- - Interactor внутри присваивается/присваивается ч/з Dagger2
- - создание связи Interactor->Presenter выполняется в методе `initialize()`
+ - инициализируется в методе `Presenter#initializePresenter()`, вызываемой View (потому что инициализацию нужно делать в подходящий момент, после инициализации View)
+ - View присваивается самим View, ч/з `Presenter#bindView()`
+ - Interactor внутри _присваивается_/_инициализируется_ ч/з Dagger2
+ - создание связи Interactor->Presenter выполняется в методе `Presenter#initializePresenter()` (ч/з `Interactor#bindPresenter` и другие методы `Interactor`'а для Rx-инициализации)
 - **Interactor**:
  - создаётся через Dagger2 (singletone, w/o scope)
- - инициализируется через Dagger2
- - Repository внутри присваивается/инициализируется ч/з Dagger2
+ - _инициализируется_ через Dagger2 (`Interactor#initializeInteractor`)
+ - Repository внутри _присваивается_/_инициализируется_ ч/з Dagger2
 - **Repository**:
  - создаётся через Dagger2 (singletone, w/o scope)
- - инициализируется через Dagger2
+ - _инициализируется_ через Dagger2 (`Repository#initializeRepository`)
 
 ## Объекты для обмена данных
 - на текущий момент используются 2 типа сущностей `data`/`business+ui`

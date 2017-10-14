@@ -24,7 +24,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializeDBStorage() {
 	}
 
 	@Override

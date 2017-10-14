@@ -11,8 +11,6 @@ public interface INewsBrowserPresenter extends IPresenter<INewsBrowserView> {
 
 	Fragment getFragmentByIndex(int position);
 
-	void initialize();
-
 	CharSequence getFragmentTitleByIndex(int position);
 
 	void setData(ArrayList<String> articleServerIds, int articlePos);

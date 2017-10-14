@@ -11,7 +11,7 @@ public interface INewsTapePresenter extends IPresenter<INewsTapeView> {
 	 */
 	void reloadNewsHeaders();
 
-	void initialize(String sourceName, String sourceTitle, String sourceTitleShort);
+void setSourceName(String sourceName);
 
 	/**
 	 * Выполнить подзагрузку заголовков новостей и добавить их в интерфейс.

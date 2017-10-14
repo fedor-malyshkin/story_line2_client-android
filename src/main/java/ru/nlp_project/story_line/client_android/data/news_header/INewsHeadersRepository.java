@@ -2,9 +2,10 @@ package ru.nlp_project.story_line.client_android.data.news_header;
 
 import io.reactivex.Observable;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
+import ru.nlp_project.story_line.client_android.data.IRepository;
 
 
-public interface INewsHeadersRepository {
+public interface INewsHeadersRepository extends IRepository {
 
 	/**
 	 * Получить заголовки новостей.

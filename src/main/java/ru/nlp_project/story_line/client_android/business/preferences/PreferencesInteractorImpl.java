@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 
 public class PreferencesInteractorImpl implements IPreferencesInteractor {
 
@@ -57,4 +58,13 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 		);
 	}
 
+	@Override
+	public void initializeInteractor() {
+
+	}
+
+	@Override
+	public void bindPresenter(IPreferencesPresenter presenter) {
+
+	}
 }

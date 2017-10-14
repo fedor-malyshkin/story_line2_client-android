@@ -3,8 +3,9 @@ package ru.nlp_project.story_line.client_android.data.source;
 import io.reactivex.Observable;
 import java.util.List;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
+import ru.nlp_project.story_line.client_android.data.IRepository;
 
-public interface ISourcesRepository {
+public interface ISourcesRepository extends IRepository {
 
 	Observable<SourceBusinessModel> createSourceLocalStream();
 

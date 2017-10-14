@@ -73,7 +73,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 
 		initializeToolbar();
 		initializeViewPager(articlePos);
-		presenter.initialize();
+		presenter.initializePresenter();
 	}
 
 	@Override

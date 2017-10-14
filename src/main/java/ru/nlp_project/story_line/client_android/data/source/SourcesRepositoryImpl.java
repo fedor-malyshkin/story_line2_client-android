@@ -79,4 +79,9 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 				.compose(Converters.toSourceBusinessModel).doOnError(t -> Log.e
 						(TAG, t.getMessage(), t));
 	}
+
+	@Override
+	public void initializeRepository() {
+
+	}
 }

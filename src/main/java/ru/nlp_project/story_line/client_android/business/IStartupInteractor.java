@@ -3,7 +3,9 @@ package ru.nlp_project.story_line.client_android.business;
 import ru.nlp_project.story_line.client_android.ui.IStartupPresenter;
 import ru.nlp_project.story_line.client_android.ui.StartupPresenter;
 
-public interface IStartupInteractor {
+public interface IStartupInteractor extends  IInteractor<IStartupPresenter>{
 
-	void initialize(IStartupPresenter presenter);
+	void bindPresenter(IStartupPresenter presenter);
+
+	void startupInitialization();
 }

@@ -9,4 +9,6 @@ public interface IPresenter<T> {
 	void bindView(T view);
 
 	void unbindView();
+
+	void initializePresenter();
 }

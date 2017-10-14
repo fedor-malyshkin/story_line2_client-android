@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.data.news_header.INewsHeadersRepository;
+import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserPresenter;
 
 public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 
@@ -29,4 +30,13 @@ public class NewsTapeInteractorImpl implements INewsTapeInteractor {
 	}
 
 
+	@Override
+	public void initializeInteractor() {
+
+	}
+
+	@Override
+	public void bindPresenter(INewsBrowserPresenter presenter) {
+
+	}
 }

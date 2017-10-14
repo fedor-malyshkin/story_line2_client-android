@@ -16,7 +16,7 @@ public class StartupRepositoryImpl implements IStartupRepository {
 	}
 
 	@Override
-	public void initialize() {
+	public void initializeRepository() {
 
 	}
 }

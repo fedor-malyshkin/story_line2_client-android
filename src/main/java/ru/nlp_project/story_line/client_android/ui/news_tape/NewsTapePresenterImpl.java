@@ -27,8 +27,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	ISourcesBrowserInteractor sourcesBrowserInteractor;
 
 	private String sourceName;
-	private String sourceTitle;
-	private String sourceTitleShort;
 	private List<NewsHeaderBusinessModel> newsHeaders;
 	private INewsTapeView view;
 
@@ -45,6 +43,11 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	@Override
 	public void unbindView() {
 		this.view = null;
+	}
+
+	@Override
+	public void initializePresenter() {
+		reloadNewsHeaders();
 	}
 
 
@@ -70,11 +73,9 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	}
 
 	@Override
-	public void initialize(String sourceName, String sourceTitle, String sourceTitleShort) {
+	public void setSourceName(String sourceName) {
 		this.sourceName = sourceName;
-		this.sourceTitle = sourceTitle;
-		this.sourceTitleShort = sourceTitleShort;
-		reloadNewsHeaders();
+
 	}
 
 	@Override
@@ -115,6 +116,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 	@Override
 	public String getSourceTitleShort() {
-		return sourceTitleShort;
+		return sourcesBrowserInteractor.getSourceTitleShortCached(sourceName);
 	}
 }

@@ -55,4 +55,9 @@ public class NewsArticlesRepositoryImpl implements INewsArticlesRepository {
 				.switchIfEmpty(localStream);
 		return stream.singleOrError().compose(Converters.toNewsArticleBusinessModel);
 	}
+
+	@Override
+	public void initializeRepository() {
+
+	}
 }

@@ -14,8 +14,6 @@ public interface ISourcesBrowserPresenter extends IPresenter<ISourcesBrowserView
 
 	Fragment getFragmentByIndex(int position);
 
-	void initialize();
-
 	CharSequence getFragmentTitleByIndex(int position);
 
 	boolean openSettings();

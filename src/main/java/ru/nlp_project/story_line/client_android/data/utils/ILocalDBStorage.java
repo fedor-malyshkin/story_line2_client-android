@@ -9,7 +9,7 @@ import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 
 public interface ILocalDBStorage {
 
-	void initialize();
+	void initializeDBStorage();
 
 	void addSourceToCache(SourceDataModel sourceDataModel);
 
