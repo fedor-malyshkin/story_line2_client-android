@@ -123,4 +123,17 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		withDatabase.delete(SourceDataModel.class, "_id > 0");
 		withDatabase.put(list);
 	}
+
+	@Override
+	public void updateSourceState(String sourceName, boolean checked) {
+		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
+		SourceDataModel existing = withDatabase.query(SourceDataModel.class)
+				.withSelection("name = ?",
+						sourceName).get();
+		if (existing != null) {
+			existing.setEnabled(checked);
+			withDatabase.put(existing);
+		}
+	}
 }

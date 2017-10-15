@@ -45,7 +45,7 @@ public class PreferencesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcePreferencesRemoteCachedStream();
+				.createCombinedSourcesStream();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -85,7 +85,7 @@ public class PreferencesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcePreferencesRemoteCachedStream();
+				.createCombinedSourcesStream();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -128,7 +128,7 @@ public class PreferencesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcePreferencesRemoteCachedStream();
+				.createCombinedSourcesStream();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -171,7 +171,7 @@ public class PreferencesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcePreferencesRemoteCachedStream();
+				.createCombinedSourcesStream();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();

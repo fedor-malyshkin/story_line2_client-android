@@ -20,7 +20,6 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 	public Scheduler uiScheduler;
 	@Inject
 	IPreferencesInteractor interactor;
-	private List<SourceBusinessModel> sources = new ArrayList<>();
 	private ISourcePreferencesView view;
 
 	@Inject
@@ -39,18 +38,19 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 
 	@Override
 	public void initializePresenter() {
-		loadSources();
+
 	}
 
-	private void loadSources() {
-		Observable<SourceBusinessModel> stream = interactor.createCombinedSourcePreferencesRemoteCachedStream();
+	@Override
+	public List<SourceBusinessModel> getAllSources() {
+		Observable<SourceBusinessModel> stream = interactor
+				.createCombinedSourcesStream();
+		List<SourceBusinessModel> sources = new ArrayList<>();
 		Iterable<SourceBusinessModel> models = stream.blockingIterable();
-
-		view.startUpdates();
-		sources.clear();
-		for (SourceBusinessModel m : models) {
-			sources.add(m);
+		for (SourceBusinessModel model : models) {
+			sources.add(model);
 		}
+
 		Collections.sort(sources, new Comparator<SourceBusinessModel>() {
 			@Override
 			public int compare(SourceBusinessModel o1, SourceBusinessModel o2) {
@@ -58,28 +58,11 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 						o1.getOrder() - o2.getOrder();
 			}
 		});
-
-		view.finishUpdates();
+		return sources;
 	}
 
 	@Override
-	public SourceBusinessModel getSource(int position) {
-		return sources.get(position);
-	}
-
-	@Override
-	public int getSourcesCount() {
-		return sources.size();
-	}
-
-	@Override
-	public void saveSources() {
-		interactor.upsetSources(sources);
-	}
-
-	@Override
-	public void onSourceEnabledChanged(int position, boolean checked) {
-		SourceBusinessModel model = sources.get(position);
-		model.setEnabled(checked);
+	public void updateSourceState(String key, boolean checked) {
+		interactor.updateSourceState(key, checked);
 	}
 }

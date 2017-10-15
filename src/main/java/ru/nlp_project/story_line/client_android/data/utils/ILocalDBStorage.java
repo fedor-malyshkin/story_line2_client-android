@@ -28,4 +28,6 @@ public interface ILocalDBStorage {
 	 * Add/Update
 	 */
 	void upsetSources(List<SourceDataModel> list);
+
+	void updateSourceState(String sourceName, boolean checked);
 }

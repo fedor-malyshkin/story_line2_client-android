@@ -12,6 +12,7 @@
   <string name="menu_item_sources">Источники</string>
   <string name="preferences_category_update_title">Обновление</string>
   <string name="preferences_category_notification_title">Уведомления</string>
+  <string name="preferences_category_sources_title">Источники данных</string>
   <string name="preferences_category_presentation_title">Оформление</string>
   <string name="preferences_screen_sources_title">Источники данных</string>
   <string name="preferences_screen_sources_summary">Выбор интересующих источников данных</string>

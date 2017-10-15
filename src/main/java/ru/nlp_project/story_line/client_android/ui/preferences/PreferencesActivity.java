@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import javax.inject.Inject;
-import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
-import ru.nlp_project.story_line.client_android.dagger.PreferencesComponent;
 
 public class PreferencesActivity extends AppCompatActivity  {
 
@@ -27,7 +24,7 @@ public class PreferencesActivity extends AppCompatActivity  {
 				break;
 			}
 			case SOURCES_SETTINGS: {
-				fragment = SourcesEditorPreferencesFragment.newInstance();
+				fragment = SourcesPreferencesFragment.newInstance();
 				break;
 			}
 			default:

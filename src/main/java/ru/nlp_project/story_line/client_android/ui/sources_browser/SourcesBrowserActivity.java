@@ -92,7 +92,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	@Override
 	protected void onResume() {
 		super.onResume();
-		presenter.updateSources();
+		presenter.refreshSourcesList();
 	}
 
 	@Override

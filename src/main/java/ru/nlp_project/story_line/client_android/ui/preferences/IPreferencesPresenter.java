@@ -1,15 +1,14 @@
 package ru.nlp_project.story_line.client_android.ui.preferences;
 
+import java.util.List;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.ui.IPresenter;
 
-public interface IPreferencesPresenter  extends IPresenter<ISourcePreferencesView> {
+public interface IPreferencesPresenter extends IPresenter<ISourcePreferencesView> {
 
-	SourceBusinessModel getSource(int position);
+	String SHARED_PREFERENCES_SOURCES_NAME = "sources";
 
-	int getSourcesCount();
+	List<SourceBusinessModel> getAllSources();
 
-	void saveSources();
-
-	void onSourceEnabledChanged(int position, boolean checked);
+	void updateSourceState(String key, boolean checked);
 }

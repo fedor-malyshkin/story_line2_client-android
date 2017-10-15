@@ -24,6 +24,10 @@
     android:key="preferences_screen_sources_key"
     android:title="@string/preferences_screen_sources_title"
     android:summary="@string/preferences_screen_sources_summary">
+
+    <Preference
+      android:key="stub"
+      android:title="stub"/>
   </PreferenceScreen>
 
 

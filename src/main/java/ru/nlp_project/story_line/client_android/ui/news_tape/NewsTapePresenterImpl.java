@@ -23,9 +23,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	@Inject
 	INewsTapeInteractor interactor;
 
-	@Inject
-	ISourcesBrowserInteractor sourcesBrowserInteractor;
-
 	private String sourceName;
 	private List<NewsHeaderBusinessModel> newsHeaders;
 	private INewsTapeView view;
@@ -116,6 +113,6 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 
 	@Override
 	public String getSourceTitleShort() {
-		return sourcesBrowserInteractor.getSourceTitleShortCached(sourceName);
+		return interactor.getSourceTitleShortCached(sourceName);
 	}
 }

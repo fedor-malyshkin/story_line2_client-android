@@ -14,4 +14,6 @@ public interface ISourcesRepository extends IRepository {
 	Observable<SourceBusinessModel> createSourceRemoteCachedStream();
 
 	void upsetSources(List<SourceBusinessModel> list);
+
+	void updateSourceState(String sourceName, boolean checked);
 }

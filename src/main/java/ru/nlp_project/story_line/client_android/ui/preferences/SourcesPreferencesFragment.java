@@ -1,44 +1,134 @@
 package ru.nlp_project.story_line.client_android.ui.preferences;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceScreen;
+import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.PreferencesComponent;
 
-public class SourcesEditorPreferencesFragment extends Fragment implements ISourcePreferencesView {
+/**
+ * Preferences screen for sources.
+ *
+ * see: https://medium.com/@arasthel92/dynamically-creating-preferences-on-android-ecc56e4f0789
+ */
+public class SourcesPreferencesFragment extends PreferenceFragmentCompat implements
+		ISourcePreferencesView {
 
 	@Inject
 	IPreferencesPresenter presenter;
-	@BindView(R.id.sources_editor_recycler_view)
-	RecyclerView recyclerView;
-	private SourcesRecyclerViewAdapter recyclerViewAdapter;
+	private Context themeContext = null;
 
 
-	public SourcesEditorPreferencesFragment() {
+	public SourcesPreferencesFragment() {
 	}
 
 	static Fragment newInstance() {
-		return new SourcesEditorPreferencesFragment();
+		return new SourcesPreferencesFragment();
 	}
 
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		PreferencesComponent builder = DaggerBuilder
+				.createPreferencesBuilder();
+		builder.inject(this);
+		presenter.bindView(this);
+		presenter.initializePresenter();
+		super.onCreate(savedInstanceState); // call during onCreatePreferences
+	}
+
+	@Override
+	public void onCreatePreferences(Bundle bundle, String s) {
+		getPreferenceManager()
+				.setSharedPreferencesName(IPreferencesPresenter.SHARED_PREFERENCES_SOURCES_NAME);
+
+		// The activity is already attached at this point, so you can use getActivity();
+		Context activityContext = getActivity();
+		// We need to ask the PreferenceManager to create a PreferenceScreen for us
+		PreferenceScreen rootPreferenceScreen = getPreferenceManager()
+				.createPreferenceScreen(activityContext);
+		setPreferenceScreen(rootPreferenceScreen);
+		// We need to set a TypedValue instance that will be used to retrieve the theme id
+		TypedValue themeTypedValue = new TypedValue();
+		// We load our 'preferenceTheme' Theme attr into themeTypedValue
+		activityContext.getTheme().resolveAttribute(R.attr.preferenceTheme, themeTypedValue, true);
+		// We create a ContextWrapper which holds a reference to out Preference Theme
+		themeContext = new ContextThemeWrapper(activityContext,
+				themeTypedValue.resourceId);
+
+		PreferenceCategory preferenceCategory = createSourcesCategory();
+		// It's REALLY IMPORTANT to add Preferences with child Preferences to the Preference Hierarchy first
+		// Otherwise, the PreferenceManager will fail to load their keys
+
+		// First we add the category to the root PreferenceScreen
+		getPreferenceScreen().addPreference(preferenceCategory);
+
+		List<Preference> sourcePreferences = createSourcePreferences();
+		// Then their child to it
+		for (Preference sourcePreference : sourcePreferences) {
+			preferenceCategory.addPreference(sourcePreference);
+		}
+	}
+
+	/**
+	 * @param preference The changed Preference.
+	 * @param newValue The new value of the Preference.
+	 * @return True to update the state of the Preference with the new value.
+	 */
+	private boolean onPreferenceChange(Preference preference, Object newValue) {
+		CheckBoxPreference pref = (CheckBoxPreference) preference;
+		String key = pref.getKey();
+		presenter.updateSourceState(key, (Boolean) newValue);
+		return true;
+	}
+
+	/**
+	 * Создать необходимые элемены управления.
+	 *
+	 * Note: одновременно применяем данные имеющиеся в БД в хранилище, т.к. по разщным причинам
+	 * возможны несоотвествия того, что БД и SharedPreferences.
+	 */
+	private List<Preference> createSourcePreferences() {
+		SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+		Editor editor = preferences.edit();
+		List<Preference> result = new ArrayList<>();
+		for (SourceBusinessModel sourceBusinessModel : presenter.getAllSources()) {
+			CheckBoxPreference pref = new CheckBoxPreference(themeContext);
+			pref.setChecked(sourceBusinessModel.isEnabled());
+			pref.setKey(sourceBusinessModel.getName());
+			pref.setTitle(sourceBusinessModel.getTitleShort());
+			pref.setSummary(sourceBusinessModel.getTitle());
+			editor.putBoolean(sourceBusinessModel.getName(), sourceBusinessModel.isEnabled());
+			pref.setOnPreferenceChangeListener(
+					this::onPreferenceChange);
+			result.add(pref);
+		}
+		editor.apply();
+
+		return result;
+	}
+
+	private PreferenceCategory createSourcesCategory() {
+		PreferenceCategory preferenceCategory = new PreferenceCategory(themeContext);
+		preferenceCategory.setTitle(R.string.preferences_category_sources_title);
+		return preferenceCategory;
+	}
+
+/*
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,6 +137,7 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 		ButterKnife.bind(this, view);
 		return view;
 	}
+*/
 
 	@Override
 	public void onDestroy() {
@@ -54,6 +145,7 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 		presenter.unbindView();
 	}
 
+/*
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -63,14 +155,10 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 		initializeRecyclerView();
 		presenter.initializePresenter();
 	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		presenter.saveSources();
-	}
+*/
 
 
+/*
 	private void initializeRecyclerView() {
 		// Set layout manager to position the items
 		LinearLayoutManager recyclerViewLM = new LinearLayoutManager(getContext());
@@ -87,29 +175,31 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 				DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
 		recyclerView.addItemDecoration(itemDecoration);
 	}
+*/
 
-	@Override
-	public void startUpdates() {
-	}
-
+/*
 	@Override
 	public void finishUpdates() {
 		recyclerViewAdapter.notifyDataSetChanged();
 	}
+*/
 
+/*
 	@Override
 	public void sourceChangeEnabled(int position, boolean checked) {
 		presenter.onSourceEnabledChanged(position, checked);
 	}
+*/
 
+/*
 	class SourcesRecyclerViewAdapter extends
 			RecyclerView.Adapter<SourcesRecyclerViewAdapter.SourceViewHolder> {
 
 		private final IPreferencesPresenter presenter;
-		private final SourcesEditorPreferencesFragment parentFragmen;
+		private final SourcesPreferencesFragment parentFragmen;
 
 		SourcesRecyclerViewAdapter(
-				SourcesEditorPreferencesFragment sourcesPreferencesFragment, Context context,
+				SourcesPreferencesFragment sourcesPreferencesFragment, Context context,
 				IPreferencesPresenter presenter) {
 			this.parentFragmen = sourcesPreferencesFragment;
 			this.presenter = presenter;
@@ -171,12 +261,14 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 				sourceEnabledCheckBox.setOnCheckedChangeListener(this);
 			}
 
-			/**
-			 * Called when the checked state of a compound button has changed.
-			 *
-			 * @param buttonView The compound button view whose state has changed.
-			 * @param isChecked The new checked state of buttonView.
-			 */
+			*/
+/**
+ * Called when the checked state of a compound button has changed.
+ *
+ * @param buttonView The compound button view whose state has changed.
+ * @param isChecked The new checked state of buttonView.
+ *//*
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				int position = getAdapterPosition(); // gets item position
@@ -188,5 +280,6 @@ public class SourcesEditorPreferencesFragment extends Fragment implements ISourc
 			}
 		}
 	}
+*/
 }
 

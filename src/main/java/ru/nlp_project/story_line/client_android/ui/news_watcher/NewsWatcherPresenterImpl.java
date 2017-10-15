@@ -16,8 +16,6 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	public Scheduler uiScheduler;
 	@Inject
 	INewsWatcherInteractor interactor;
-	@Inject
-	ISourcesBrowserInteractor sourcesBrowserInteractor;
 
 
 	private String newsArticleServerId;
@@ -54,7 +52,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 		interactor.createNewsArticleRemoteCachedStream(newsArticleServerId).observeOn(uiScheduler)
 				.subscribe(newsArticle -> {
 					view.setContent(newsArticle.getServerId(),
-							sourcesBrowserInteractor.getSourceTitleShortCached(newsArticle.getSource()),
+							interactor.getSourceTitleShortCached(newsArticle.getSource()),
 							StringUtils.dateDatePresentation(view.getContext(), newsArticle.getPublicationDate()),
 							newsArticle.getTitle(), newsArticle.getContent(), newsArticle.getUrl(),
 							newsArticle.getImageUrl());

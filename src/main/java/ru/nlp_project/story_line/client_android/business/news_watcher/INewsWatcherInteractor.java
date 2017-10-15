@@ -7,4 +7,6 @@ import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherPres
 
 public interface INewsWatcherInteractor extends IInteractor<INewsWatcherPresenter> {
 	Single<NewsArticleBusinessModel> createNewsArticleRemoteCachedStream(String newsArticleServerId);
+
+	String getSourceTitleShortCached(String source);
 }

@@ -74,7 +74,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	}
 
 	@Override
-	public void updateSources() {
+	public void refreshSourcesList() {
 		checkAndUpdateSources(interactor.createSourceStreamFromCache());
 	}
 

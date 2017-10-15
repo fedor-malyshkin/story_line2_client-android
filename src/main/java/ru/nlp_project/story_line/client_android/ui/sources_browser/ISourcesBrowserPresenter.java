@@ -20,5 +20,5 @@ public interface ISourcesBrowserPresenter extends IPresenter<ISourcesBrowserView
 
 	boolean openSources();
 
-	void updateSources();
+	void refreshSourcesList();
 }

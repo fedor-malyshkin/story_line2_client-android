@@ -25,7 +25,9 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 	@Override
 	public void onCreatePreferences(@Nullable Bundle bundle, String s) {
 		setPreferencesFromResource(R.xml.preferences_master, s);
+		getPreferenceManager();
 	}
+
 
 	@Override
 	public void onNavigateToScreen(PreferenceScreen preferenceScreen) {
@@ -36,4 +38,5 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 		}
 		super.onNavigateToScreen(preferenceScreen);
 	}
+
 }

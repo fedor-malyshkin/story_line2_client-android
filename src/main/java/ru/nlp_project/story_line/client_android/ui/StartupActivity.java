@@ -15,6 +15,7 @@ public class StartupActivity extends AppCompatActivity implements IStartupView {
 		super.onCreate(savedInstanceState);
 		// тут создание осуществляется не ч/з Dagger
 		presenter = new StartupPresenter();
+		presenter.bindView(this);
 		presenter.initializePresenter();
 		presenter.startupInitialization();
 	}
@@ -28,6 +29,7 @@ public class StartupActivity extends AppCompatActivity implements IStartupView {
 
 	@Override
 	public Context getContext() {
-		return getContext();
+		return getBaseContext();
 	}
+
 }

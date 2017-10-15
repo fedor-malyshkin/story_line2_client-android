@@ -12,4 +12,8 @@ public interface ISourcesBrowserInteractor extends IInteractor<ISourcesBrowserPr
 	Observable<SourceBusinessModel> createSourceStreamFromCache();
 
 	String getSourceTitleShortCached(String sourceName);
+
+	Observable<SourceBusinessModel> createCombinedSourcesRemoteCachedStream();
+
+	void updateSourceState(String sourceName, boolean checked);
 }

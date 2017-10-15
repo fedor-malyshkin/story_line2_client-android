@@ -25,4 +25,6 @@ public interface INewsTapeInteractor extends IInteractor<INewsBrowserPresenter> 
 	 */
 	Observable<NewsHeaderBusinessModel> createAdditionNewsHeaderRemoteCachedStream(
 			String sourceDomain, String lastNewsHeaderServerId);
+
+	String getSourceTitleShortCached(String sourceName);
 }

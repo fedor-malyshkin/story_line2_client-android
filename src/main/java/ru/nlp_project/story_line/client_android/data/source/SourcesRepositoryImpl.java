@@ -66,6 +66,11 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 	}
 
 	@Override
+	public void updateSourceState(String sourceName, boolean checked) {
+		localDBStorage.updateSourceState(sourceName, checked);
+	}
+
+	@Override
 	public Observable<SourceBusinessModel> createSourceLocalStream() {
 		return localDBStorage.createSourceStream().subscribeOn(bckgScheduler)
 				.compose(Converters.toSourceBusinessModel);
