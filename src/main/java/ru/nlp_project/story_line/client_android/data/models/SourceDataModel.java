@@ -105,6 +105,19 @@ public class SourceDataModel {
 		this.titleShort = other.titleShort;
 	}
 
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("SourceDataModel{");
+		sb.append("_id=").append(_id);
+		sb.append(", name='").append(name).append('\'');
+		sb.append(", title='").append(title).append('\'');
+		sb.append(", titleShort='").append(titleShort).append('\'');
+		sb.append(", enabled=").append(enabled);
+		sb.append(", _order=").append(_order);
+		sb.append('}');
+		return sb.toString();
+	}
 }
 
 

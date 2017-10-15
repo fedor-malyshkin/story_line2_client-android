@@ -102,6 +102,11 @@ public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
 	}
 
 	@Override
+	public long getActiveSourcesCount() {
+		return repository.getActiveSourcesCount();
+	}
+
+	@Override
 	public void bindPresenter(ISourcesBrowserPresenter presenter) {
 
 	}

@@ -16,4 +16,6 @@ public interface IPreferencesInteractor extends IInteractor<IPreferencesPresente
 	Observable<SourceBusinessModel> createCombinedSourcesStream();
 
 	void updateSourceState(String key, boolean checked);
+
+	long getActiveSourcesCount();
 }

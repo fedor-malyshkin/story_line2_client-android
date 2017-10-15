@@ -16,4 +16,6 @@ public interface ISourcesRepository extends IRepository {
 	void upsetSources(List<SourceBusinessModel> list);
 
 	void updateSourceState(String sourceName, boolean checked);
+
+	long getActiveSourcesCount();
 }

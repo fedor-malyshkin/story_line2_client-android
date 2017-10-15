@@ -28,14 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// this will ensure that all tables are created
 		cupboard().withDatabase(db).createTables();
-
-		SQLiteDatabase wdb = this.getWritableDatabase();
-		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
-				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "source"));
-		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
-				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "serverId"));
-		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s.%2$s ON "
-				+ "%1$s (%2$s);", cupboard().getTable(NewsArticleDataModel.class), "serverId"));
 	}
 
 	@Override

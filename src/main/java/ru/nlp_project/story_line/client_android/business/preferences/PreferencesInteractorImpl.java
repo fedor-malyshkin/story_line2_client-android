@@ -32,6 +32,11 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 	}
 
 	@Override
+	public long getActiveSourcesCount() {
+		return sourcesBrowserInteractor.getActiveSourcesCount();
+	}
+
+	@Override
 	public void initializeInteractor() {
 
 	}

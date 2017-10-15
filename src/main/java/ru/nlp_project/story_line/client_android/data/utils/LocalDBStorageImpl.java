@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.data.utils;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -25,6 +26,13 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 	@Override
 	public void initializeDBStorage() {
+		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s_%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "source"));
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s_%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsHeaderDataModel.class), "serverId"));
+		wdb.execSQL(String.format("CREATE INDEX IF NOT EXISTS %1$s_%2$s ON "
+				+ "%1$s (%2$s);", cupboard().getTable(NewsArticleDataModel.class), "serverId"));
 	}
 
 	@Override
@@ -136,4 +144,18 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 			withDatabase.put(existing);
 		}
 	}
+
+	@Override
+	public long getSourcesCount(boolean active, boolean notActive) {
+		SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+		/*
+		SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+		http://www.sqlite.org/datatype3.html
+		 */
+		String selector = "enabled = 1";
+		long res = DatabaseUtils
+				.queryNumEntries(rdb, cupboard().getTable(SourceDataModel.class), selector);
+		return res;
+	}
+
 }

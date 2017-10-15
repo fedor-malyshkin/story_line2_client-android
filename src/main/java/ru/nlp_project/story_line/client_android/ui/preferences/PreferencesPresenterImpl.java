@@ -65,4 +65,13 @@ public class PreferencesPresenterImpl implements IPreferencesPresenter {
 	public void updateSourceState(String key, boolean checked) {
 		interactor.updateSourceState(key, checked);
 	}
+
+	@Override
+	public boolean isUpdateSourceStateValid(String key, boolean newValue) {
+		if (!newValue && interactor.getActiveSourcesCount() <= 1) {
+			view.showAtlEastOneSourceActiveWarning();
+			return false;
+		}
+		return true;
+	}
 }

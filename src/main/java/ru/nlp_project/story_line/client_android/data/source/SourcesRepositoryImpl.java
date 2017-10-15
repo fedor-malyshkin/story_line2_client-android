@@ -71,6 +71,11 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 	}
 
 	@Override
+	public long getActiveSourcesCount() {
+		return localDBStorage.getSourcesCount(true, false);
+	}
+
+	@Override
 	public Observable<SourceBusinessModel> createSourceLocalStream() {
 		return localDBStorage.createSourceStream().subscribeOn(bckgScheduler)
 				.compose(Converters.toSourceBusinessModel);

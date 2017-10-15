@@ -16,4 +16,6 @@ public interface ISourcesBrowserInteractor extends IInteractor<ISourcesBrowserPr
 	Observable<SourceBusinessModel> createCombinedSourcesRemoteCachedStream();
 
 	void updateSourceState(String sourceName, boolean checked);
+
+	long getActiveSourcesCount();
 }

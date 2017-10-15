@@ -30,4 +30,6 @@ public interface ILocalDBStorage {
 	void upsetSources(List<SourceDataModel> list);
 
 	void updateSourceState(String sourceName, boolean checked);
+
+	long getSourcesCount(boolean active, boolean notActive);
 }

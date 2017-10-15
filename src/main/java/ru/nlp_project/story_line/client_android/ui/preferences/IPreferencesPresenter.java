@@ -11,4 +11,6 @@ public interface IPreferencesPresenter extends IPresenter<ISourcePreferencesView
 	List<SourceBusinessModel> getAllSources();
 
 	void updateSourceState(String key, boolean checked);
+
+	boolean isUpdateSourceStateValid(String key, boolean newValue);
 }

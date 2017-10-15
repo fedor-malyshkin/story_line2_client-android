@@ -29,4 +29,5 @@
   <string name="activity_news_browser_share_news_fab_title">Поделиться новостью</string>
   <string name="activity_news_browser_goto_source_fab_title">Перейти к источнику</string>
   <string name="activity_news_browser_share_url_fab_title">Поделиться ссылкой</string>
+  <string name="preferences_screen_sources_at_least_one">Минимум один источник должен быть активен</string>
 </resources>
