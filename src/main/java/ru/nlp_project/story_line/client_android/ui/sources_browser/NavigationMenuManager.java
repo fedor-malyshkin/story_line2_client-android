@@ -22,6 +22,9 @@ import ru.nlp_project.story_line.client_android.business.models.SourceBusinessMo
  */
 public class NavigationMenuManager {
 
+	// shift for start sources (first item - "search")
+	private final int MENU_ITEM_SHIFT_FOR_SOURCES = 1;
+
 	private final ISourcesBrowserView sourcesBrowser;
 	private final RecyclerView navigationRecyclerView;
 	private final ISourcesBrowserPresenter presenter;
@@ -31,6 +34,10 @@ public class NavigationMenuManager {
 	private NavigationMenuItem menuItemHelp;
 	private NavigationMenuItem menuItemAbout;
 	private NavigationMenuItem menuItemFeedback;
+	/**
+	 * Текущий выбранный элемент.
+	 */
+	private int currentRecyclerViewSelectedItem = MENU_ITEM_SHIFT_FOR_SOURCES;
 
 	public NavigationMenuManager(ISourcesBrowserPresenter presenter,
 			ISourcesBrowserView sourcesBrowser,
@@ -38,29 +45,6 @@ public class NavigationMenuManager {
 		this.presenter = presenter;
 		this.sourcesBrowser = sourcesBrowser;
 		this.navigationRecyclerView = navigationRecyclerView;
-	}
-
-	public void prepareMenu() {
-		int oldSize = menuItems.size();
-		menuItems.clear();
-		menuItems.add(menuItemSearch);
-
-		for (int i = 0; i < presenter.getSources().size(); i++) {
-			SourceBusinessModel source = presenter.getSources().get(i);
-			int pos = i;
-			menuItems
-					.add(new NavigationMenuItem(source.getTitleShort(),
-							new NavigationMenuItem.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									sourcesBrowser.onMenuItemSource(pos);
-								}
-							}));
-		}
-		menuItems.add(menuItemHelp);
-		menuItems.add(menuItemFeedback);
-		menuItems.add(menuItemAbout);
-		adapter.notifyDataSetChanged();
 	}
 
 	public void initialize() {
@@ -81,6 +65,40 @@ public class NavigationMenuManager {
 				sourcesBrowser::onMenuItemAbout);
 		this.menuItemFeedback = new NavigationMenuItem("Feedback",
 				sourcesBrowser::onMenuItemFeedback);
+	}
+
+	public void startSourcesUpdates() {
+		// do nothing
+	}
+
+	public void setSelectedItem(int i) {
+		currentRecyclerViewSelectedItem = MENU_ITEM_SHIFT_FOR_SOURCES + i;
+// rebuild elements
+		adapter.notifyDataSetChanged();
+	}
+
+	public void finishSourcesUpdates() {
+		menuItems.clear();
+		menuItems.add(menuItemSearch);
+
+		for (int i = 0; i < presenter.getSources().size(); i++) {
+			SourceBusinessModel source = presenter.getSources().get(i);
+			int pos = i;
+			menuItems
+					.add(new NavigationMenuItem(source.getTitleShort(),
+							new NavigationMenuItem.OnClickListener() {
+								@Override
+								public void onClick(View view) {
+									sourcesBrowser.onMenuItemSource(pos);
+								}
+							}));
+		}
+
+		menuItems.add(menuItemHelp);
+		menuItems.add(menuItemFeedback);
+		menuItems.add(menuItemAbout);
+		// rebuild elements
+		adapter.notifyDataSetChanged();
 	}
 
 	private static class NavigationMenuItem {
@@ -121,9 +139,12 @@ public class NavigationMenuManager {
 
 		@Override
 		public void onBindViewHolder(NavigationMenuManager.ViewHolder viewHolder, int pos) {
+			if (currentRecyclerViewSelectedItem == pos) {
+				viewHolder.titleTextView.setTextColor(R.color.primary_text);
+			}
+
 			// Get the data model based on position
 			NavigationMenuItem menuItem = menuItems.get(pos);
-
 			// Set item views based on your views and data model
 			viewHolder.titleTextView.setText(menuItem.title);
 		}

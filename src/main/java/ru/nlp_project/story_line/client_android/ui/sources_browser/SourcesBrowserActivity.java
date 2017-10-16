@@ -3,11 +3,11 @@ package ru.nlp_project.story_line.client_android.ui.sources_browser;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +37,6 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	TabLayout tabLayout;
 	@BindView(R.id.activity_sources_browser_drawer_layout)
 	DrawerLayout drawerLayout;
-	@BindView(R.id.activity_sources_browser_navigation_view)
-	NavigationView navigationView;
 	@BindView(R.id.activity_sources_browser_navigation_recycler_view)
 	RecyclerView navigationRecyclerView;
 
@@ -47,6 +45,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	// The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
 	private ActionBarDrawerToggle drawerToggle;
 	private NavigationMenuManager navigationMenuManager;
+	private SourcesBrowserActivity.SourcesOnPageChangeListener sourcePageChangeListener;
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -77,9 +76,8 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		initializeToolbar();
 		initializeNavigationMenu();
 		initializeDrawerLayout();
-
 		initializeViewPager();
-		// last step - after full interface initilization
+		// last step - after full interface initialization
 		presenter.initializePresenter();
 	}
 
@@ -125,7 +123,6 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
-				prepareNavigationViewMenuOnOpenDrawer();
 				super.onDrawerOpened(drawerView);
 			}
 		};
@@ -134,16 +131,11 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		drawerLayout.addDrawerListener(drawerToggle);
 	}
 
-	/**
-	 * Подготовить меню NavigationView перед открытием DrawerLayout.
-	 */
-	private void prepareNavigationViewMenuOnOpenDrawer() {
-		navigationMenuManager.prepareMenu();
-	}
-
 	private void initializeViewPager() {
+		sourcePageChangeListener = new SourcesOnPageChangeListener(this);
 		sourcesPageAdapter = new SourcesPageAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(sourcesPageAdapter);
+		viewPager.addOnPageChangeListener(sourcePageChangeListener);
 		tabLayout.setupWithViewPager(viewPager, true);
 		// viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 	}
@@ -178,15 +170,18 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	@Override
 	public void startSourcesUpdates() {
 		sourcesPageAdapter.startUpdate(viewPager);
+		navigationMenuManager.startSourcesUpdates();
 	}
 
 	@Override
 	public void finishSourcesUpdates() {
 		if (viewPager.getCurrentItem() > presenter.getFragmentsCount()) {
 			viewPager.setCurrentItem(0);
+			navigationMenuManager.setSelectedItem(0);
 		}
 		sourcesPageAdapter.finishUpdate(viewPager);
 		sourcesPageAdapter.notifyDataSetChanged();
+		navigationMenuManager.finishSourcesUpdates();
 	}
 
 	@Override
@@ -216,6 +211,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	@Override
 	public void onMenuItemSource(int i) {
 		viewPager.setCurrentItem(i);
+		navigationMenuManager.setSelectedItem(i);
 		drawerLayout.closeDrawers();
 	}
 
@@ -249,6 +245,34 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		@Override
 		public int getItemPosition(Object object) {
 			return POSITION_NONE;
+		}
+	}
+
+
+	private class SourcesOnPageChangeListener implements OnPageChangeListener {
+
+		private final SourcesBrowserActivity activity;
+
+		public SourcesOnPageChangeListener(SourcesBrowserActivity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+			// need to call only whe  positionOffsetPixels == 0
+			if (positionOffsetPixels == 0) {
+				navigationMenuManager.setSelectedItem(position);
+			}
+
+		}
+
+		@Override
+		public void onPageSelected(int currentItem) {
+			// not called when select programmaticaly - use "onPageScrolled"
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int i) {
 		}
 	}
 }
