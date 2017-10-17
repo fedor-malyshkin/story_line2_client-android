@@ -2,10 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@+id/menu_item_share_url"
+    android:id="@+id/menu_item_search"
     android:checkable="false"
     android:icon="@android:drawable/ic_menu_search"
-    app:showAsAction="ifRoom"/>
+    android:title="@string/menu_item_search"
+    app:showAsAction="ifRoom">
+  </item>
+  <item
+    android:id="@+id/menu_item_dec_font"
+    android:checkable="false"
+    android:icon="@drawable/ic_menu_dec_font"
+    android:title="@string/menu_item_dec_font"
+    app:showAsAction="ifRoom">
+  </item>
+  <item
+    android:id="@+id/menu_item_inc_font"
+    android:checkable="false"
+    android:icon="@drawable/ic_menu_inc_font"
+    android:title="@string/menu_item_inc_font"
+    app:showAsAction="ifRoom">
+  </item>
   <item
     android:id="@+id/menu_item_settings"
     android:checkable="false"

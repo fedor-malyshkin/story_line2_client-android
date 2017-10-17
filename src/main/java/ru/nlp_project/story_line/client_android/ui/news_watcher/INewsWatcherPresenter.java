@@ -28,4 +28,6 @@ public interface INewsWatcherPresenter extends IPresenter<INewsWatcherView> {
 	void onPressShareTextFABLayout();
 
 	void onPressGotoSourceFABLayout();
+
+	void onWholeViewClick();
 }

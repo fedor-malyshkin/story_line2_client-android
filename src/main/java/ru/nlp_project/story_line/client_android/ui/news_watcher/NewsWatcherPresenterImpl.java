@@ -3,7 +3,6 @@ package ru.nlp_project.story_line.client_android.ui.news_watcher;
 import io.reactivex.Scheduler;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
@@ -64,6 +63,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 		// collapse in any case
 		view.collapseFABMenuFast();
 		view.showFABMenu();
+		view.refreshPresentation();
 	}
 
 	@Override
@@ -128,6 +128,21 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	public void onPressGotoSourceFABLayout() {
 		view.gotoSource();
 		view.collapseFABMenu();
+
+	}
+
+	@Override
+	public void onWholeViewClick() {
+		// FAB menu
+		if (view.isFABMenuExpanded()) {
+			view.collapseFABMenu();
+		}
+		// FAB
+		if (view.isFABMenuShown()) {
+			view.hideFABMenu();
+		} else {
+			view.showFABMenu();
+		}
 
 	}
 

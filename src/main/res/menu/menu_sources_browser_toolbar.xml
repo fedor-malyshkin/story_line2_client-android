@@ -1,6 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
+    android:id="@+id/menu_item_search"
+    android:checkable="false"
+    android:icon="@android:drawable/ic_menu_search"
+    android:title="@string/menu_item_search"
+    app:showAsAction="ifRoom">
+  </item>
+  <item
     android:id="@+id/menu_item_sources"
     android:checkable="false"
     android:icon="@android:drawable/ic_menu_edit"

@@ -14,8 +14,20 @@
 
   <PreferenceCategory
     android:title="@string/preferences_category_presentation_title">
-    <CheckBoxPreference android:title="@string/preferences_dark_theme_title"/>
+
+    <ListPreference
+      android:key="font_size"
+      android:title="@string/preferences_font_size_title"
+      android:dialogTitle="@string/preferences_font_size_title"
+      android:entries="@array/preferences_font_size_captions"
+      android:entryValues="@array/preferences_font_size_values"
+      android:defaultValue="14"/>
+
     <CheckBoxPreference
+      android:key="is_dark_theme"
+      android:title="@string/preferences_dark_theme_title"/>
+    <CheckBoxPreference
+      android:key="is_load_images"
       android:title="@string/preferences_load_images_title"
       android:defaultValue="true"/>
   </PreferenceCategory>

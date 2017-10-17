@@ -30,4 +30,9 @@
   <string name="activity_news_browser_goto_source_fab_title">Перейти к источнику</string>
   <string name="activity_news_browser_share_url_fab_title">Поделиться ссылкой</string>
   <string name="preferences_screen_sources_at_least_one">Минимум один источник должен быть активен</string>
+  <string name="preferences_font_size_title">Размер шрифта</string>
+  <string name="preferences_font_size_default_value">14</string>
+  <string name="menu_item_search">Поиск</string>
+  <string name="menu_item_dec_font">Уменьшить шрифт</string>
+  <string name="menu_item_inc_font">Увеличить шрифт</string>
 </resources>

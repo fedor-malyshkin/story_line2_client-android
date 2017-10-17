@@ -1,6 +1,10 @@
 package ru.nlp_project.story_line.client_android.ui.news_browser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -8,18 +12,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsBrowserComponent;
 import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherView;
+import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
 
 public class NewsBrowserActivity extends AppCompatActivity implements INewsBrowserView {
@@ -53,6 +61,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 	}
 
 	@Override
@@ -85,11 +94,29 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_news_browser_toolbar, menu);
 		return true;
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_item_search: {
+				return presenter.openSearch();
+			}
+			case R.id.menu_item_dec_font: {
+				return presenter.decreaseFont();
+			}
+			case R.id.menu_item_inc_font: {
+				return presenter.increaseFont();
+			}
+			case R.id.menu_item_settings: {
+				return presenter.openSettings();
+			}
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
 	private void initializeViewPager(int articlePos) {
 		adapterViewPager = new NewsArticlesPageAdapter(getSupportFragmentManager());
@@ -140,6 +167,56 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	@Override
 	public ViewGroup getGotoSourceLayout() {
 		return gotoSourceFABLayout;
+	}
+
+	@Override
+	public Context getContext() {
+		return getBaseContext();
+	}
+
+	@Override
+	public void refreshCurrentNewsWatcher() {
+		INewsWatcherView view = (INewsWatcherView) adapterViewPager
+				.getRegisteredFragment(viewPager.getCurrentItem());
+		view.refreshPresentation();
+	}
+
+	@Override
+	public void decreaseFont() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getContext());
+		String fontSizeCurr = prefs
+				.getString(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME,
+						IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_DEFAULT);
+
+		Resources res = getResources();
+		String[] sizes = res.getStringArray(R.array.preferences_font_size_values);
+		int ndx = Arrays.asList(sizes).indexOf(fontSizeCurr);
+
+		if (ndx > 0) {
+			Editor editor = prefs.edit();
+			editor.putString(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME, sizes[ndx - 1]);
+			editor.apply();
+		}
+	}
+
+	@Override
+	public void increaseFont() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getContext());
+		String fontSizeCurr = prefs
+				.getString(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME,
+						IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_DEFAULT);
+
+		Resources res = getResources();
+		String[] sizes = res.getStringArray(R.array.preferences_font_size_values);
+		int ndx = Arrays.asList(sizes).indexOf(fontSizeCurr);
+
+		if (ndx < sizes.length - 1) {
+			Editor editor = prefs.edit();
+			editor.putString(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME, sizes[ndx + 1]);
+			editor.apply();
+		}
 	}
 
 	public class NewsArticlesPageAdapter extends CacheableFragmentStatePageAdapter {

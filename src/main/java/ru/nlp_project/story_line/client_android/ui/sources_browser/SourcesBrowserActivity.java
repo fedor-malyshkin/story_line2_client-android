@@ -104,6 +104,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 	}
 
 	@Override

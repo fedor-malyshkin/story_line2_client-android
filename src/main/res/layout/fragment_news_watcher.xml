@@ -26,7 +26,7 @@
       android:id="@+id/news_watcher_news_article_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+      android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
       android:layout_margin="5sp"
       />
     <RelativeLayout

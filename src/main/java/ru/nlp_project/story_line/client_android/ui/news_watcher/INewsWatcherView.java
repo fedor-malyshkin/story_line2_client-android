@@ -5,6 +5,10 @@ import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserView
 
 public interface INewsWatcherView {
 
+	/**
+	 * Выполнить обновление представления.
+	 */
+	void refreshPresentation();
 
 	void gotoSource();
 

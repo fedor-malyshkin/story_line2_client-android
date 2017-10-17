@@ -6,6 +6,7 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -15,7 +16,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +35,7 @@ import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherComponent;
 import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserView;
+import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 import ru.nlp_project.story_line.client_android.ui.utils.IImageDownloader;
 
 public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
@@ -70,6 +74,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	private ViewGroup shareURLFABLayout;
 	private ViewGroup gotoSourceFABLayout;
 	private Context storedAppContext;
+	private float scaleFactor;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -365,7 +370,23 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	private void initializeContentTextView() {
+		setContentTextSize();
 		newsArticleContentTextView.setOnClickListener(this::onWholeViewClick);
+	}
+
+	private void setContentTextSize() {
+		int size = getFontSizePreference();
+		newsArticleContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+		newsArticleContentTextView.invalidate();
+	}
+
+	private int getFontSizePreference() {
+		SharedPreferences mSharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getContext());
+		String fontSize = mSharedPreferences
+				.getString(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME,
+						IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_DEFAULT);
+		return Integer.parseInt(fontSize);
 	}
 
 	private void initializeNestedScrollView() {
@@ -395,16 +416,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	}
 
 	private void onWholeViewClick(View view) {
-		// FAB menu
-		if (isFABMenuExpanded) {
-			collapseFABMenu();
-		}
-		// FAB
-		if (isFABMenuShown) {
-			hideFABMenu();
-		} else {
-			showFABMenu();
-		}
+		presenter.onWholeViewClick();
 	}
 
 	@Override
@@ -473,4 +485,9 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		presenter.onShownToUser();
 	}
 
+
+	@Override
+	public void refreshPresentation() {
+		setContentTextSize();
+	}
 }
