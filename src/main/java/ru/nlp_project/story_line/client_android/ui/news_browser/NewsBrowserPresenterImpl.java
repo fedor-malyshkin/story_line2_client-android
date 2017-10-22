@@ -80,14 +80,14 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 	@Override
 	public boolean decreaseFont() {
 		view.decreaseFont();
-		view.refreshCurrentNewsWatcher();
+//		view.refreshCurrentNewsWatcher();
 		return true;
 	}
 
 	@Override
 	public boolean increaseFont() {
 		view.increaseFont();
-		view.refreshCurrentNewsWatcher();
+//		view.refreshCurrentNewsWatcher();
 		return false;
 	}
 }

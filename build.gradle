@@ -35,6 +35,8 @@ ext {
 	targetSdkPrjVersion = compileSdkPrjVersion
 	supportLibraryPrjVersion = '25.4.0'
 	buildToolsPrjVersion = '25.0.2'
+	versionPrjCode = 2
+	versionPrjName = "0.1"
 }
 
 android {
@@ -50,8 +52,8 @@ android {
 		// 4.4	KitKat - 19
 		minSdkVersion 19
 		targetSdkVersion targetSdkPrjVersion
-		versionCode 1
-		versionName "0.1"
+		versionCode versionPrjCode
+		versionName versionPrjName
 
 		// Espresso
 		// testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

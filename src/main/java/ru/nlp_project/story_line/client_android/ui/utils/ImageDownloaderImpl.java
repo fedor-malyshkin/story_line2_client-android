@@ -25,10 +25,14 @@ public class ImageDownloaderImpl implements IImageDownloader {
 
 	private static String TAG = ImageDownloaderImpl.class.getSimpleName();
 	private final String baseUrl;
+	private final Context context;
+	private final ErrorPicassoListener errorListener;
 	private Picasso picassoInstance;
 
-	public ImageDownloaderImpl(String baseUrl) {
+	public ImageDownloaderImpl(String baseUrl, Context context) {
 		this.baseUrl = baseUrl;
+		this.context = context;
+		this.errorListener = new ErrorPicassoListener();
 	}
 
 	private String formatUrl(String newsArticleId) {
@@ -36,8 +40,8 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	}
 
 	@Override
-	public void loadImageInto(String newsArticleServerId, Context context, ImageView target) {
-		Picasso picasso = getPicasso(context);
+	public void loadImageInto(String newsArticleServerId, ImageView target) {
+		Picasso picasso = getPicasso();
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
 		String url = formatUrl(newsArticleServerId);
@@ -45,33 +49,33 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	}
 
 	@Override
-	public void loadImageIntoCrop(String newsArticleServerId, Context context,
+	public void loadImageIntoCrop(String newsArticleServerId,
 			ImageView target,
 			Integer widthDP, Integer heightDP) {
-		Picasso picasso = getPicasso(context);
+		Picasso picasso = getPicasso();
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP, context),
-				convertDpToPixel(heightDP, context),
+		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
+				convertDpToPixel(heightDP),
 				"crop");
 		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
 
 	@Override
-	public void loadImageIntoScale(String newsArticleServerId, Context context, ImageView target,
+	public void loadImageIntoScale(String newsArticleServerId, ImageView target,
 			Integer widthDP, Integer heightDP) {
-		Picasso picasso = getPicasso(context);
+		Picasso picasso = getPicasso();
 		// Picasso picasso = Picasso.with(context);
 		// picasso.setIndicatorsEnabled(true);
-		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP, context),
-				convertDpToPixel(heightDP, context),
+		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
+				convertDpToPixel(heightDP),
 				"scale");
 		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
 
-	private int convertDpToPixel(Integer dp, Context context) {
+	private int convertDpToPixel(Integer dp) {
 		if (dp == null || dp == 0) {
-			return dp;
+			return 0;
 		}
 		Resources resources = context.getResources();
 		DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -97,20 +101,22 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		return formatUrl(newsArticleId);
 	}
 
-	private synchronized Picasso getPicasso(Context context) {
+	private synchronized Picasso getPicasso() {
 		if (picassoInstance != null) {
 			return picassoInstance;
 		}
+
 		Builder builder = new Builder(context);
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(context);
 		LruCache cache = new LruCache(5 * 1_024 * 1_024);
 		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(true)
+				.listener(errorListener)
 				.memoryCache(cache).build();
 		return picassoInstance;
 	}
 
 	@Override
-	public String saveImageViewToFile(Context context, ImageView imageView) {
+	public String saveImageViewToFile(ImageView imageView) {
 		// Extract Bitmap from ImageView drawable
 		Drawable drawable = imageView.getDrawable();
 		Bitmap bmp = null;
@@ -162,8 +168,18 @@ public class ImageDownloaderImpl implements IImageDownloader {
 
 		@Override
 		public void onError() {
-			target.setVisibility(View.GONE);
+			// target.setVisibility(View.GONE);
 			Log.e(TAG, String.format("Error while loading image at url :'%s'.", url));
+		}
+	}
+
+	private static class ErrorPicassoListener implements Picasso.Listener {
+
+		@Override
+		public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+			String msg = String
+					.format("Error while loading '%s': %s.", uri.toString(), exception.getMessage());
+			Log.e(TAG, msg, exception);
 		}
 	}
 }

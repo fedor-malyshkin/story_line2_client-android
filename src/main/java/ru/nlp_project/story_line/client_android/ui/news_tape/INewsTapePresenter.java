@@ -39,4 +39,6 @@ void setSourceName(String sourceName);
 	List<NewsHeaderBusinessModel> getNewsHeaders();
 
 	String getSourceTitleShort();
+
+	boolean hasImage(NewsHeaderBusinessModel header);
 }

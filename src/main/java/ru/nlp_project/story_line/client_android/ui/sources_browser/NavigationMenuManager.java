@@ -67,10 +67,6 @@ public class NavigationMenuManager {
 				sourcesBrowser::onMenuItemFeedback);
 	}
 
-	public void startSourcesUpdates() {
-		// do nothing
-	}
-
 	public void setSelectedItem(int i) {
 		currentRecyclerViewSelectedItem = MENU_ITEM_SHIFT_FOR_SOURCES + i;
 // rebuild elements

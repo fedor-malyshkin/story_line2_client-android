@@ -14,4 +14,21 @@
     <item>22</item>
     <item>26</item>
   </string-array>
+
+  <string-array name="preferences_image_cache_size_captions">
+    <item>10</item>
+    <item>25</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+  <string-array name="preferences_image_cache_size_values">
+    <item>10</item>
+    <item>25</item>
+    <item>50</item>
+    <item>100</item>
+    <item>200</item>
+  </string-array>
+
+
 </resources>

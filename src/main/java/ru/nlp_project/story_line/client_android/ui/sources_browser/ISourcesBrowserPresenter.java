@@ -21,4 +21,6 @@ public interface ISourcesBrowserPresenter extends IPresenter<ISourcesBrowserView
 	boolean openSources();
 
 	void refreshSourcesList();
+
+	int getPositionBySourceName(String sourceName);
 }

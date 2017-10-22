@@ -4,7 +4,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
 /**
  * See: https://gist.github.com/nesquena/d09dc68ff07e845cc622 See: http://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView#implementing-with-recyclerview
@@ -13,6 +12,7 @@ import android.util.Log;
 
 abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
+	RecyclerView.LayoutManager mLayoutManager;
 	private boolean enabled = false;
 	// The minimum amount of items to have below your current scroll position
 	// before loading more.
@@ -25,8 +25,6 @@ abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollLi
 	private boolean loading = false;
 	// Sets the starting page index
 	private int startingPageIndex = 0;
-
-	RecyclerView.LayoutManager mLayoutManager;
 
 	public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager) {
 		this.mLayoutManager = layoutManager;
@@ -73,20 +71,16 @@ abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollLi
 
 		if (mLayoutManager instanceof StaggeredGridLayoutManager) {
 			int[] lastVisibleItemPositions = ((StaggeredGridLayoutManager) mLayoutManager)
-				.findLastVisibleItemPositions(null);
+					.findLastVisibleItemPositions(null);
 			// get maximum element within the list
 			lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions);
 		} else if (mLayoutManager instanceof GridLayoutManager) {
 			lastVisibleItemPosition = ((GridLayoutManager) mLayoutManager)
-				.findLastVisibleItemPosition();
+					.findLastVisibleItemPosition();
 		} else if (mLayoutManager instanceof LinearLayoutManager) {
 			lastVisibleItemPosition = ((LinearLayoutManager) mLayoutManager)
-				.findLastVisibleItemPosition();
+					.findLastVisibleItemPosition();
 		}
-
-		Log.d("Endless::onScrolled", "loading: " + loading);
-		Log.d("Endless::onScrolled", totalItemCount + ":" +
-			previousTotalItemCount + ":" + lastVisibleItemPosition);
 
 		// If the total item count is zero and the previous isn't, assume the
 		// list is invalidated and should be reset back to initial state

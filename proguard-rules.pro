@@ -33,3 +33,6 @@
 
 # cupboard
 -keep class ru.nlp_project.story_line.client_android.data.models.** {*;}
+
+# picasso
+-dontwarn com.squareup.okhttp.**

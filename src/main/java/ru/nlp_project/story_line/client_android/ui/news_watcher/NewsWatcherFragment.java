@@ -7,6 +7,7 @@ import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -75,6 +76,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	private ViewGroup gotoSourceFABLayout;
 	private Context storedAppContext;
 	private float scaleFactor;
+	private NewsWatcherFragment.PreferencesListener preferencesListener;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsWatcherFragment newInstance(String serverId) {
@@ -262,7 +264,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@Override
 	public void shareImage() {
-		String imageName = imageDownloader.saveImageViewToFile(getContext(), newsArticleImageView);
+		String imageName = imageDownloader.saveImageViewToFile(newsArticleImageView);
 		if (imageName == null) {
 			return;
 		}
@@ -361,12 +363,21 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		initializeImageView();
 		initializeContentTextView();
 		initializeNestedScrollView();
+		initializePreferencesListener();
 
 		// args
 		Bundle arguments = getArguments();
 		String serverId = arguments.getString(FRAGMENT_ARG_SERVER_ID);
 		presenter.setNewsArticleServerId(serverId);
 		presenter.initializePresenter();
+	}
+
+
+	private void initializePreferencesListener() {
+		preferencesListener = new PreferencesListener();
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getContext());
+		prefs.registerOnSharedPreferenceChangeListener(preferencesListener);
 	}
 
 	private void initializeContentTextView() {
@@ -449,6 +460,13 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		if (preferencesListener != null) {
+			SharedPreferences prefs = PreferenceManager
+					.getDefaultSharedPreferences(getContext());
+			prefs.unregisterOnSharedPreferenceChangeListener(preferencesListener);
+			preferencesListener = null;
+		}
+
 		presenter.unbindView();
 	}
 
@@ -468,7 +486,7 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 			newsArticleContentTextView.setText(Html.fromHtml(content));
 		}
 		newsArticleTitleTextView.setText(title);
-		imageDownloader.loadImageInto(newsArticleId, getContext(), newsArticleImageView);
+		imageDownloader.loadImageInto(newsArticleId, newsArticleImageView);
 		newsArticlePublicationDateTextView.setText(publicationDatePresentation);
 		newsArticleSourceTextView.setText(sourceTitleShort);
 	}
@@ -488,6 +506,16 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 
 	@Override
 	public void refreshPresentation() {
-		setContentTextSize();
+
+	}
+
+	class PreferencesListener implements OnSharedPreferenceChangeListener {
+
+		@Override
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+			if (IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME.equalsIgnoreCase(key)) {
+				setContentTextSize();
+			}
+		}
 	}
 }

@@ -32,6 +32,6 @@ public class StartupInteractorImpl implements IStartupInteractor {
 	@Override
 	public void startupInitialization() {
 		// if not requested previously sources - request it first time
-		sourcesBrowserPresenter.createSourceStreamRemoteCached().subscribe();
+		sourcesBrowserPresenter.createSourceStreamRemoteCached().blockingSubscribe();
 	}
 }

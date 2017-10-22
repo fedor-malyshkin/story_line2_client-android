@@ -11,8 +11,6 @@ public interface ISourcesBrowserView {
 
 	void startActivity(Intent intent);
 
-	void startSourcesUpdates();
-
 	void finishSourcesUpdates();
 
 	void onMenuItemSearch(View view);

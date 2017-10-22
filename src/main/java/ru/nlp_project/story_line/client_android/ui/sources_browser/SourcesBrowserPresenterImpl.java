@@ -46,6 +46,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 		return sources.size();
 	}
 
+
 	@Override
 	public Fragment getFragmentByIndex(int position) {
 		SourceBusinessModel model = sources.get(position);
@@ -79,6 +80,17 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	}
 
 	@Override
+	public int getPositionBySourceName(String sourceName) {
+		int pos = -1;
+		for (int i = 0; i < sources.size(); i++) {
+			if (sources.get(i).getName().equalsIgnoreCase(sourceName)) {
+				pos = i;
+			}
+		}
+		return pos;
+	}
+
+	@Override
 	public void bindView(ISourcesBrowserView view) {
 		this.view = view;
 	}
@@ -102,8 +114,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 			return;
 		}
 
-// refresh main sources
-		view.startSourcesUpdates();
+		// refresh main sources
 		sources.clear();
 		sources.addAll(newSources);
 		view.finishSourcesUpdates();

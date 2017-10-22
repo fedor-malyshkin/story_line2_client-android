@@ -18,6 +18,10 @@ public class NewsHeaderDataModel {
 	private String title;
 	@JsonProperty("source")
 	private String source;
+	@JsonProperty("image_url")
+	private String imageUrl;
+
+
 	@JsonProperty("publication_date")
 	private Date publicationDate;
 	/**
@@ -27,11 +31,13 @@ public class NewsHeaderDataModel {
 	private String serverId;
 
 	public NewsHeaderDataModel(Long _id, String title, String source, Date publicationDate,
+			String imageUrl,
 			String serverId) {
 		this._id = _id;
 		this.title = title;
 		this.source = source;
 		this.publicationDate = publicationDate;
+		this.imageUrl = imageUrl;
 		this.serverId = serverId;
 	}
 
@@ -55,13 +61,17 @@ public class NewsHeaderDataModel {
 		return publicationDate;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
 	public String getServerId() {
 		return serverId;
 	}
 
 	public NewsHeaderBusinessModel convert() {
 		return new NewsHeaderBusinessModel(getTitle(), getSource(),
-				getPublicationDate(),
+				getPublicationDate(), getImageUrl(),
 				getServerId());
 	}
 

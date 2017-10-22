@@ -115,4 +115,10 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	public String getSourceTitleShort() {
 		return interactor.getSourceTitleShortCached(sourceName);
 	}
+
+
+	@Override
+	public boolean hasImage(NewsHeaderBusinessModel header) {
+		return (header.getImageUrl()!=null && !header.getImageUrl().isEmpty());
+	}
 }

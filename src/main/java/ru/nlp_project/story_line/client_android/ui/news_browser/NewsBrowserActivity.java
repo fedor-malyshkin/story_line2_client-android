@@ -175,13 +175,6 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 	}
 
 	@Override
-	public void refreshCurrentNewsWatcher() {
-		INewsWatcherView view = (INewsWatcherView) adapterViewPager
-				.getRegisteredFragment(viewPager.getCurrentItem());
-		view.refreshPresentation();
-	}
-
-	@Override
 	public void decreaseFont() {
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getContext());

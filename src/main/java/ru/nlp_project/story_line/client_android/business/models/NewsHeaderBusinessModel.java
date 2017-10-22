@@ -14,6 +14,15 @@ public class NewsHeaderBusinessModel {
 	private String serverId;
 	private String imageUrl;
 
+	public NewsHeaderBusinessModel(String title, String source, Date publicationDate, String imageUrl,
+			String serverId) {
+		this.title = title;
+		this.source = source;
+		this.publicationDate = publicationDate;
+		this.imageUrl = imageUrl;
+		this.serverId = serverId;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -30,12 +39,8 @@ public class NewsHeaderBusinessModel {
 		return serverId;
 	}
 
-	public NewsHeaderBusinessModel(String title, String source, Date publicationDate,
-		String serverId) {
-		this.title = title;
-		this.source = source;
-		this.publicationDate = publicationDate;
-		this.serverId = serverId;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
 

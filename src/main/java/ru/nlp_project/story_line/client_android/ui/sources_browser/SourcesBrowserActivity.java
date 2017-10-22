@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStateP
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
+	private static final String TAG = SourcesBrowserActivity.class.getSimpleName();
 	@Inject
 	public ISourcesBrowserPresenter presenter;
 	@BindView(R.id.activity_sources_browser_view_pager)
@@ -168,20 +170,15 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		}
 	}
 
-	@Override
-	public void startSourcesUpdates() {
-		sourcesPageAdapter.startUpdate(viewPager);
-		navigationMenuManager.startSourcesUpdates();
-	}
 
 	@Override
 	public void finishSourcesUpdates() {
+		// sourcesPageAdapter.finishUpdate((ViewGroup) viewPager.getParent());
+		sourcesPageAdapter.notifyDataSetChanged();
 		if (viewPager.getCurrentItem() > presenter.getFragmentsCount()) {
 			viewPager.setCurrentItem(0);
 			navigationMenuManager.setSelectedItem(0);
 		}
-		sourcesPageAdapter.finishUpdate(viewPager);
-		sourcesPageAdapter.notifyDataSetChanged();
 		navigationMenuManager.finishSourcesUpdates();
 	}
 
@@ -241,8 +238,12 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 			return presenter.getFragmentTitleByIndex(position);
 		}
 
-		// TODO: реализовать более интеллектуальный способ обновления (например сделать интерфейс-марке и
-		// вставить в него имя источника)
+		/**
+		 * Neceessary method - because modify sources, so i needd to get correct information about
+		 * previously created fragments.
+		 * <p/>
+		 * see: https://stackoverflow.com/questions/8060904/add-delete-pages-to-viewpager-dynamically
+		 */
 		@Override
 		public int getItemPosition(Object object) {
 			return POSITION_NONE;

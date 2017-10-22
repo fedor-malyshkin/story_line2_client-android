@@ -43,6 +43,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 	private NewsTapeRecyclerViewAdapter newsTapeRecyclerViewAdapter;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private Context storedAppContext;
+	private String sourceName;
 
 	// newInstance constructor for creating fragment with arguments
 	public static NewsTapeFragment newInstance(SourceBusinessModel source) {
@@ -51,6 +52,11 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		args.putString(FRAGMENT_ARG_SOURCE_NAME, source.getName());
 		fragment.setArguments(args);
 		return fragment;
+	}
+
+
+	public String getSourceName() {
+		return sourceName;
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class NewsTapeFragment extends Fragment implements INewsTapeView {
 		initializeRecyclerView();
 		initializeSwipeUpdate();
 		// arguments
-		String sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
+		sourceName = getArguments().getString(FRAGMENT_ARG_SOURCE_NAME);
 
 		presenter.setSourceName(sourceName);
 		presenter.initializePresenter();

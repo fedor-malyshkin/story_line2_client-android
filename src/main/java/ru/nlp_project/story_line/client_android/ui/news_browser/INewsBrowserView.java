@@ -16,8 +16,6 @@ public interface INewsBrowserView {
 	Context getContext();
 	void startActivity(Intent intent);
 
-	void refreshCurrentNewsWatcher();
-
 	void decreaseFont();
 
 	void increaseFont();
