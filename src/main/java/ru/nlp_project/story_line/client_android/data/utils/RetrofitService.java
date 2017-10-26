@@ -5,15 +5,18 @@ import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import ru.nlp_project.story_line.client_android.data.news_header.NewsHeadersRetrofitService;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+import ru.nlp_project.story_line.client_android.data.feedback.FeedbackRetrofitService;
 import ru.nlp_project.story_line.client_android.data.news_article.NewsArticlesRetrofitService;
+import ru.nlp_project.story_line.client_android.data.news_header.NewsHeadersRetrofitService;
 import ru.nlp_project.story_line.client_android.data.source.SourcesRetrofitService;
 
 @Singleton
 public class RetrofitService {
 
 	private String baseUrl;
-	private Retrofit retrofit;
+	private Retrofit retrofitJson;
+	private Retrofit retrofitMisc;
 
 	public RetrofitService(String baseUrl) {
 		this.baseUrl = baseUrl;
@@ -23,25 +26,36 @@ public class RetrofitService {
 		OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 		//	clientBuilder.addNetworkInterceptor(new StethoInterceptor());
 
-		retrofit = new Retrofit.Builder()
+		retrofitJson = new Retrofit.Builder()
 				.baseUrl(baseUrl)
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.addConverterFactory(JacksonConverterFactory.create())
 				.client(clientBuilder.build())
 				.build();
+
+		retrofitMisc = new Retrofit.Builder()
+				.baseUrl(baseUrl)
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+				.addConverterFactory(ScalarsConverterFactory.create())
+				.client(clientBuilder.build())
+				.build();
+
 	}
 
+	public FeedbackRetrofitService getFeedbackRetrofitService() {
+		return retrofitMisc.create(FeedbackRetrofitService.class);
+	}
 
 	public SourcesRetrofitService getSourcesBrowserService() {
-		return retrofit.create(SourcesRetrofitService.class);
+		return retrofitJson.create(SourcesRetrofitService.class);
 	}
 
 	public NewsArticlesRetrofitService getNewsWatcherService() {
-		return retrofit.create(NewsArticlesRetrofitService.class);
+		return retrofitJson.create(NewsArticlesRetrofitService.class);
 	}
 
 	public NewsHeadersRetrofitService getNewsTapeService() {
-		return retrofit.create(NewsHeadersRetrofitService.class);
+		return retrofitJson.create(NewsHeadersRetrofitService.class);
 	}
 
 }

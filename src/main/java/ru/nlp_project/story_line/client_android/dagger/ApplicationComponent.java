@@ -19,5 +19,7 @@ public abstract class ApplicationComponent {
 
 	public abstract PreferencesComponent addToGraph(PreferencesModule module);
 
+	public abstract FeedbackComponent addToGraph(FeedbackModule module);
+
 	public abstract void inject(StartupPresenter instance);
 }

@@ -35,6 +35,14 @@
       android:parentActivityName=".ui.sources_browser.SourcesBrowserActivity">
     </activity>
     <activity
+      android:label="@string/activity_feedback"
+      android:name=".ui.feedback.FeedbackActivity">
+    </activity>
+    <activity
+      android:label="@string/activity_feedback_about"
+      android:name=".ui.feedback.AboutActivity">
+    </activity>
+    <activity
       android:label="@string/activity_preferences_title"
       android:name=".ui.preferences.PreferencesActivity">
     </activity>

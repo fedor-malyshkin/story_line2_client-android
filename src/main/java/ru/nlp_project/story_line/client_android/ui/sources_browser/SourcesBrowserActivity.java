@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.ui.sources_browser;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,7 +14,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
+import ru.nlp_project.story_line.client_android.ui.feedback.AboutActivity;
+import ru.nlp_project.story_line.client_android.ui.feedback.FeedbackActivity;
 import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
@@ -197,13 +199,15 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	@Override
 	public void onMenuItemAbout(View view) {
 		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemAbout", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, AboutActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
 	public void onMenuItemFeedback(View view) {
 		drawerLayout.closeDrawers();
-		Toast.makeText(getContext(), "onMenuItemFeedback", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, FeedbackActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

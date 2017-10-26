@@ -44,4 +44,8 @@ public class DaggerBuilder {
 	public static PreferencesComponent createPreferencesBuilder() {
 		return getApplicationBuilder().addToGraph(new PreferencesModule());
 	}
+
+	public static FeedbackComponent createFeedbackBuilder() {
+		return getApplicationBuilder().addToGraph(new FeedbackModule());
+	}
 }

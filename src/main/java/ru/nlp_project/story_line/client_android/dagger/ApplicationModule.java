@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 import ru.nlp_project.story_line.client_android.BuildConfig;
 import ru.nlp_project.story_line.client_android.business.IStartupInteractor;
 import ru.nlp_project.story_line.client_android.business.StartupInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.feedback.FeedbackInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.feedback.IFeedbackInteractor;
 import ru.nlp_project.story_line.client_android.business.news_browser.INewsBrowserInteractor;
 import ru.nlp_project.story_line.client_android.business.news_browser.NewsBrowserInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
@@ -22,6 +24,8 @@ import ru.nlp_project.story_line.client_android.business.sources_browser.ISource
 import ru.nlp_project.story_line.client_android.business.sources_browser.SourcesBrowserInteractorImpl;
 import ru.nlp_project.story_line.client_android.data.IStartupRepository;
 import ru.nlp_project.story_line.client_android.data.StartupRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.feedback.FeedbackRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.feedback.IFeedbackRepository;
 import ru.nlp_project.story_line.client_android.data.news_article.INewsArticlesRepository;
 import ru.nlp_project.story_line.client_android.data.news_article.NewsArticlesRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.news_header.INewsHeadersRepository;
@@ -42,8 +46,8 @@ import ru.nlp_project.story_line.client_android.ui.utils.ImageDownloaderImpl;
 @Module
 public class ApplicationModule {
 
-	public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
-	// public static final String BASE_URL = "http://192.168.1.100:8001";
+	// public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
+	public static final String BASE_URL = "http://192.168.1.100:8001";
 	public static final String DATABASE_NAME = "story_line.db";
 	public static final int DATABASE_VERSION = BuildConfig.VERSION_CODE;
 	private Context context;
@@ -51,6 +55,15 @@ public class ApplicationModule {
 	public ApplicationModule(Context context) {
 		this.context = context;
 	}
+
+
+	@Provides
+	@Singleton
+	public IFeedbackRepository provideFeedbackRepository(FeedbackRepositoryImpl implementation) {
+		implementation.initializeRepository();
+		return implementation;
+	}
+
 
 	@Provides
 	@Singleton
@@ -117,6 +130,14 @@ public class ApplicationModule {
 	@Singleton
 	public IImageDownloader provideImageDownloader() {
 		return new ImageDownloaderImpl(BASE_URL, context);
+	}
+
+
+	@Provides
+	@Singleton
+	public IFeedbackInteractor provideFeedbackInteractor(FeedbackInteractorImpl implementation) {
+		implementation.initializeInteractor();
+		return implementation;
 	}
 
 

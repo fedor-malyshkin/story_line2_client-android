@@ -12,7 +12,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 
 	@Inject
 	@SchedulerType(SchedulerType.ui)
-	public Scheduler uiScheduler;
+	 Scheduler uiScheduler;
 	@Inject
 	INewsWatcherInteractor interactor;
 
