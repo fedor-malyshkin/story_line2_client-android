@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.news_article;
+package ru.nlp_project.story_line.client_android.data.news_articles;
 
 import android.util.Log;
 import io.reactivex.Observable;

@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
-import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
+import ru.nlp_project.story_line.client_android.business.news_headers.INewsHeadersInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsTapeScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 
@@ -21,7 +20,7 @@ public class NewsTapePresenterImpl implements INewsTapePresenter {
 	@SchedulerType(SchedulerType.ui)
 	Scheduler uiScheduler;
 	@Inject
-	INewsTapeInteractor interactor;
+	INewsHeadersInteractor interactor;
 
 	private String sourceName;
 	private List<NewsHeaderBusinessModel> newsHeaders;

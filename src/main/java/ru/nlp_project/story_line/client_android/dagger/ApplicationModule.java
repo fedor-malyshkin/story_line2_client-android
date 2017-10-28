@@ -12,26 +12,24 @@ import ru.nlp_project.story_line.client_android.business.IStartupInteractor;
 import ru.nlp_project.story_line.client_android.business.StartupInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.feedback.FeedbackInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.feedback.IFeedbackInteractor;
-import ru.nlp_project.story_line.client_android.business.news_browser.INewsBrowserInteractor;
-import ru.nlp_project.story_line.client_android.business.news_browser.NewsBrowserInteractorImpl;
-import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
-import ru.nlp_project.story_line.client_android.business.news_tape.NewsTapeInteractorImpl;
-import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
-import ru.nlp_project.story_line.client_android.business.news_watcher.NewsWatcherInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_articles.INewsArticlesrInteractor;
+import ru.nlp_project.story_line.client_android.business.news_articles.NewsArticlesrInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_headers.INewsHeadersInteractor;
+import ru.nlp_project.story_line.client_android.business.news_headers.NewsHeadersInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.preferences.IPreferencesInteractor;
 import ru.nlp_project.story_line.client_android.business.preferences.PreferencesInteractorImpl;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
-import ru.nlp_project.story_line.client_android.business.sources_browser.SourcesBrowserInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
+import ru.nlp_project.story_line.client_android.business.sources.SourcesInteractorImpl;
 import ru.nlp_project.story_line.client_android.data.IStartupRepository;
 import ru.nlp_project.story_line.client_android.data.StartupRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.feedback.FeedbackRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.feedback.IFeedbackRepository;
-import ru.nlp_project.story_line.client_android.data.news_article.INewsArticlesRepository;
-import ru.nlp_project.story_line.client_android.data.news_article.NewsArticlesRepositoryImpl;
-import ru.nlp_project.story_line.client_android.data.news_header.INewsHeadersRepository;
-import ru.nlp_project.story_line.client_android.data.news_header.NewsHeadersRepositoryImpl;
-import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
-import ru.nlp_project.story_line.client_android.data.source.SourcesRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.news_articles.INewsArticlesRepository;
+import ru.nlp_project.story_line.client_android.data.news_articles.NewsArticlesRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.news_headers.INewsHeadersRepository;
+import ru.nlp_project.story_line.client_android.data.news_headers.NewsHeadersRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.sources.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.data.sources.SourcesRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.utils.DatabaseHelper;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.LocalDBStorageImpl;
@@ -158,7 +156,7 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public ISourcesBrowserInteractor provideSourcesBrowserInteractor(SourcesBrowserInteractorImpl
+	public ISourcesInteractor provideSourcesBrowserInteractor(SourcesInteractorImpl
 			implementation) {
 		implementation.initializeInteractor();
 		return implementation;
@@ -166,15 +164,8 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public INewsBrowserInteractor provideNewsBrowserInteractor(NewsBrowserInteractorImpl
+	public INewsHeadersInteractor provideNewsHeadersInteractor(NewsHeadersInteractorImpl
 			implementation) {
-		implementation.initializeInteractor();
-		return implementation;
-	}
-
-	@Provides
-	@Singleton
-	public INewsTapeInteractor provideNewsTapeInteractor(NewsTapeInteractorImpl implementation) {
 		implementation.initializeInteractor();
 		return implementation;
 	}
@@ -189,7 +180,7 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public INewsWatcherInteractor provideNewsWatcherInteractor(NewsWatcherInteractorImpl
+	public INewsArticlesrInteractor provideNewsWatcherInteractor(NewsArticlesrInteractorImpl
 			implementation) {
 		implementation.initializeInteractor();
 		return implementation;

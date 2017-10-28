@@ -2,8 +2,6 @@ package ru.nlp_project.story_line.client_android.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.nlp_project.story_line.client_android.business.news_tape.INewsTapeInteractor;
-import ru.nlp_project.story_line.client_android.business.news_tape.NewsTapeInteractorImpl;
 import ru.nlp_project.story_line.client_android.ui.news_tape.INewsTapePresenter;
 import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapePresenterImpl;
 

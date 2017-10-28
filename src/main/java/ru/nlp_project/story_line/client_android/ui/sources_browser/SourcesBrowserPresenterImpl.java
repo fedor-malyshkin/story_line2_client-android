@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
+import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
 import ru.nlp_project.story_line.client_android.ui.news_tape.NewsTapeFragment;
 import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesActivity;
@@ -21,7 +21,7 @@ import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesActivi
 public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Inject
-	ISourcesBrowserInteractor interactor;
+	ISourcesInteractor interactor;
 	private ISourcesBrowserView view;
 	private Comparator<SourceBusinessModel> orderComparator;
 	private List<SourceBusinessModel> sources = new ArrayList<>();

@@ -3,8 +3,8 @@ package ru.nlp_project.story_line.client_android.business.preferences;
 import io.reactivex.Observable;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
-import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
+import ru.nlp_project.story_line.client_android.data.sources.ISourcesRepository;
 import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 
 public class PreferencesInteractorImpl implements IPreferencesInteractor {
@@ -14,7 +14,7 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 	@Inject
 	ISourcesRepository repository;
 	@Inject
-	ISourcesBrowserInteractor sourcesBrowserInteractor;
+	ISourcesInteractor sourcesBrowserInteractor;
 	private IPreferencesPresenter presenter;
 
 	@Inject

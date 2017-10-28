@@ -2,7 +2,7 @@ package ru.nlp_project.story_line.client_android.ui.news_watcher;
 
 import io.reactivex.Scheduler;
 import javax.inject.Inject;
-import ru.nlp_project.story_line.client_android.business.news_watcher.INewsWatcherInteractor;
+import ru.nlp_project.story_line.client_android.business.news_articles.INewsArticlesrInteractor;
 import ru.nlp_project.story_line.client_android.dagger.NewsWatcherScope;
 import ru.nlp_project.story_line.client_android.dagger.SchedulerType;
 import ru.nlp_project.story_line.client_android.ui.utils.StringUtils;
@@ -14,7 +14,7 @@ public class NewsWatcherPresenterImpl implements INewsWatcherPresenter {
 	@SchedulerType(SchedulerType.ui)
 	 Scheduler uiScheduler;
 	@Inject
-	INewsWatcherInteractor interactor;
+	INewsArticlesrInteractor interactor;
 
 
 	private String newsArticleServerId;

@@ -7,9 +7,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ru.nlp_project.story_line.client_android.data.feedback.FeedbackRetrofitService;
-import ru.nlp_project.story_line.client_android.data.news_article.NewsArticlesRetrofitService;
-import ru.nlp_project.story_line.client_android.data.news_header.NewsHeadersRetrofitService;
-import ru.nlp_project.story_line.client_android.data.source.SourcesRetrofitService;
+import ru.nlp_project.story_line.client_android.data.news_articles.NewsArticlesRetrofitService;
+import ru.nlp_project.story_line.client_android.data.news_headers.NewsHeadersRetrofitService;
+import ru.nlp_project.story_line.client_android.data.sources.SourcesRetrofitService;
 
 @Singleton
 public class RetrofitService {

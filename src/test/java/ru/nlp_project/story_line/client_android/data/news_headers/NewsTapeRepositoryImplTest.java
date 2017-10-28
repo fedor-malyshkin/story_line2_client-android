@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.news_header;
+package ru.nlp_project.story_line.client_android.data.news_headers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -78,8 +78,8 @@ public class NewsTapeRepositoryImplTest {
 
 		// prepare datas
 		List<NewsHeaderDataModel> list = new ArrayList<>();
-		list.add(new NewsHeaderDataModel((long) 0, "news0", "source0", null, "serverId0"));
-		list.add(new NewsHeaderDataModel((long) 1, "news1", "source1", null, "serverId1"));
+		list.add(new NewsHeaderDataModel((long) 0, "news0", "source0", null, null, "serverId0"));
+		list.add(new NewsHeaderDataModel((long) 1, "news1", "source1", null, null, "serverId1"));
 		netSource.onNext(list);
 		netSource.onComplete();
 
@@ -115,9 +115,9 @@ public class NewsTapeRepositoryImplTest {
 		netSource.onError(new IllegalStateException("test exception"));
 
 		// prepare datas
-		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0", "source0", null, "serverId0"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "source1", null, "serverId1"));
-		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "source2", null, "serverId2"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 0, "news0", "source0", null, null, "serverId0"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 1, "news1", "source1", null, null, "serverId1"));
+		dbSource.onNext(new NewsHeaderDataModel((long) 2, "news2", "source2", null, null, "serverId2"));
 		dbSource.onComplete();
 
 		TestObserver<NewsHeaderBusinessModel> testObserver = TestObserver.create();

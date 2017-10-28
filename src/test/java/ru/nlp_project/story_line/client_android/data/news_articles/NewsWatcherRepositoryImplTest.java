@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.data.news_article;
+package ru.nlp_project.story_line.client_android.data.news_articles;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

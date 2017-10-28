@@ -1,4 +1,4 @@
-package ru.nlp_project.story_line.client_android.business.sources_browser;
+package ru.nlp_project.story_line.client_android.business.sources;
 
 import android.util.Log;
 import io.reactivex.Observable;
@@ -6,20 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
-import ru.nlp_project.story_line.client_android.data.source.ISourcesRepository;
+import ru.nlp_project.story_line.client_android.data.sources.ISourcesRepository;
 import ru.nlp_project.story_line.client_android.ui.sources_browser.ISourcesBrowserPresenter;
 
 
-public class SourcesBrowserInteractorImpl implements ISourcesBrowserInteractor {
+public class SourcesInteractorImpl implements ISourcesInteractor {
 
-	private static final String TAG = SourcesBrowserInteractorImpl.class.getName();
+	private static final String TAG = SourcesInteractorImpl.class.getName();
 	@Inject
 	ISourcesRepository repository;
 	private Map<String, SourceBusinessModel> sourcesCache = new HashMap<>();
 
 
 	@Inject
-	public SourcesBrowserInteractorImpl() {
+	public SourcesInteractorImpl() {
 	}
 
 	@Override

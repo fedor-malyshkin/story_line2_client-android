@@ -1,22 +1,22 @@
-package ru.nlp_project.story_line.client_android.business.news_watcher;
+package ru.nlp_project.story_line.client_android.business.news_articles;
 
 import io.reactivex.Single;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsArticleBusinessModel;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
-import ru.nlp_project.story_line.client_android.data.news_article.INewsArticlesRepository;
+import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
+import ru.nlp_project.story_line.client_android.data.news_articles.INewsArticlesRepository;
 import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherPresenter;
 
-public class NewsWatcherInteractorImpl implements INewsWatcherInteractor {
+public class NewsArticlesrInteractorImpl implements INewsArticlesrInteractor {
 
 	@Inject
 	INewsArticlesRepository repository;
 	@Inject
-	ISourcesBrowserInteractor sourcesBrowserInteractor;
+	ISourcesInteractor sourcesBrowserInteractor;
 
 
 	@Inject
-	public NewsWatcherInteractorImpl() {
+	public NewsArticlesrInteractorImpl() {
 	}
 
 	@Override

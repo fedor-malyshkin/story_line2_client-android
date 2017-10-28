@@ -1,22 +1,22 @@
-package ru.nlp_project.story_line.client_android.business.news_tape;
+package ru.nlp_project.story_line.client_android.business.news_headers;
 
 import io.reactivex.Observable;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
-import ru.nlp_project.story_line.client_android.business.sources_browser.ISourcesBrowserInteractor;
-import ru.nlp_project.story_line.client_android.data.news_header.INewsHeadersRepository;
+import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
+import ru.nlp_project.story_line.client_android.data.news_headers.INewsHeadersRepository;
 import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserPresenter;
 
-public class NewsTapeInteractorImpl implements INewsTapeInteractor {
+public class NewsHeadersInteractorImpl implements INewsHeadersInteractor {
 
 	@Inject
 	INewsHeadersRepository repository;
 	@Inject
-	ISourcesBrowserInteractor sourcesBrowserInteractor;
+	ISourcesInteractor sourcesBrowserInteractor;
 
 
 	@Inject
-	public NewsTapeInteractorImpl() {
+	public NewsHeadersInteractorImpl() {
 	}
 
 	@Override
