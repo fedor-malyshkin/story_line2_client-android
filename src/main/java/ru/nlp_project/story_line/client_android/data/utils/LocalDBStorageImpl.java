@@ -6,6 +6,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import nl.qbusict.cupboard.DatabaseCompartment;
@@ -36,7 +37,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 	}
 
 	@Override
-	public void addSourceToCache(SourceDataModel dataModel) {
+	public void addSource(SourceDataModel dataModel) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		SourceDataModel existing = withDatabase.query(SourceDataModel.class)
@@ -46,6 +47,8 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 			existing.updatePresentationData(dataModel);
 			withDatabase.put(existing);
 		} else {
+			// set new date for new record
+			dataModel.setAdditionDate( new Date());
 			withDatabase.put(dataModel);
 		}
 	}

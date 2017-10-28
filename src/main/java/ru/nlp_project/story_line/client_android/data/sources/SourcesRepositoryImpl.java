@@ -47,7 +47,7 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 
 		netStream.observeOn(bckgScheduler).subscribe(
 				// onNext
-				val -> localDBStorage.addSourceToCache(val),
+				val -> localDBStorage.addSource(val),
 				// onError
 				exc -> Log.e
 						(TAG, exc.getMessage(), exc)

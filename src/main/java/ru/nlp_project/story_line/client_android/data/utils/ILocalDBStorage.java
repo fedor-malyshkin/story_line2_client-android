@@ -11,7 +11,7 @@ public interface ILocalDBStorage {
 
 	void initializeDBStorage();
 
-	void addSourceToCache(SourceDataModel sourceDataModel);
+	void addSource(SourceDataModel sourceDataModel);
 
 	Observable<SourceDataModel> createSourceStream();
 

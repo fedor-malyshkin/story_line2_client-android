@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,6 +18,10 @@ public class SourceDataModel {
 	private String title;
 	@JsonProperty("title_short")
 	private String titleShort;
+	/**
+	 * Addition date.
+	 */
+	private Date additionDate;
 	private boolean enabled = true;
 	private int _order = -1;
 
@@ -29,15 +34,16 @@ public class SourceDataModel {
 		this.name = name;
 		this.title = title;
 		this.titleShort = titleShort;
+
 	}
 
 	public SourceDataModel(Long id, String name, String title, String titleShort, boolean enabled,
-			int order) {
+			int order, Date additionDate) {
 		this(id, name, title, titleShort);
 		this.enabled = enabled;
 		this._order = order;
+		this.additionDate = additionDate;
 	}
-
 
 	public String getName() {
 		return name;
@@ -90,9 +96,16 @@ public class SourceDataModel {
 
 	public SourceBusinessModel convert() {
 		return new SourceBusinessModel(getId(), getName(), getTitle(), getTitleShort(), isEnabled(),
-				getOrder());
+				getOrder(), getAdditionDate());
 	}
 
+	public Date getAdditionDate() {
+		return additionDate;
+	}
+
+	public void setAdditionDate(Date additionDate) {
+		this.additionDate = additionDate;
+	}
 
 	/**
 	 * see analogious {@link SourceBusinessModel#updatePresentationData(SourceBusinessModel)}
@@ -105,7 +118,6 @@ public class SourceDataModel {
 		this.titleShort = other.titleShort;
 	}
 
-
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("SourceDataModel{");
@@ -113,6 +125,7 @@ public class SourceDataModel {
 		sb.append(", name='").append(name).append('\'');
 		sb.append(", title='").append(title).append('\'');
 		sb.append(", titleShort='").append(titleShort).append('\'');
+		sb.append(", additionDate=").append(additionDate);
 		sb.append(", enabled=").append(enabled);
 		sb.append(", _order=").append(_order);
 		sb.append('}');
