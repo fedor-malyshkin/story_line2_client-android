@@ -1,11 +1,16 @@
 package ru.nlp_project.story_line.client_android.business;
 
+import java.util.Date;
 import ru.nlp_project.story_line.client_android.ui.IStartupPresenter;
-import ru.nlp_project.story_line.client_android.ui.StartupPresenter;
 
-public interface IStartupInteractor extends  IInteractor<IStartupPresenter>{
+public interface IStartupInteractor extends IInteractor {
 
 	void bindPresenter(IStartupPresenter presenter);
 
-	void startupInitialization();
+	/**
+	 * Execute startup initialization.
+	 *
+	 * @param lastStartupDate - last application startup date
+	 */
+	void startupInitialization(Date lastStartupDate);
 }

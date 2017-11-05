@@ -7,11 +7,11 @@ import ru.nlp_project.story_line.client_android.data.IRepository;
 
 public interface ISourcesRepository extends IRepository {
 
-	Observable<SourceBusinessModel> createSourceLocalStream();
+	Observable<SourceBusinessModel> createSourceStreamLocal();
 
 	Observable<SourceBusinessModel> createSourceRemoteStream();
 
-	Observable<SourceBusinessModel> createSourceRemoteCachedStream();
+	Observable<SourceBusinessModel> createSourceStreamRemoteCached();
 
 	void upsetSources(List<SourceBusinessModel> list);
 

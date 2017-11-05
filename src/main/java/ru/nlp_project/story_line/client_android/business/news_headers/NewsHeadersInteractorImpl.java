@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsHeaderBusinessModel;
 import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
 import ru.nlp_project.story_line.client_android.data.news_headers.INewsHeadersRepository;
-import ru.nlp_project.story_line.client_android.ui.news_browser.INewsBrowserPresenter;
 
 public class NewsHeadersInteractorImpl implements INewsHeadersInteractor {
 
@@ -43,8 +42,5 @@ public class NewsHeadersInteractorImpl implements INewsHeadersInteractor {
 
 	}
 
-	@Override
-	public void bindPresenter(INewsBrowserPresenter presenter) {
 
-	}
 }

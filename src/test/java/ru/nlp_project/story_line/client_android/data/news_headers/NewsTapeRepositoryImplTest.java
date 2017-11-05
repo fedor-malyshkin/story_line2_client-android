@@ -26,6 +26,7 @@ import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 
+@Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class NewsTapeRepositoryImplTest {
 
@@ -61,7 +62,7 @@ public class NewsTapeRepositoryImplTest {
 				("someDomain", null);
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).addNewsHeaderToCache(any());
+		verify(localDBStorage, never()).addNewsHeader(any());
 	}
 
 	@Test
@@ -89,7 +90,7 @@ public class NewsTapeRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(2)).addNewsHeaderToCache(any());
+		inOrder.verify(localDBStorage, times(2)).addNewsHeader(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();

@@ -116,6 +116,7 @@ public class SourceDataModel {
 		}
 		this.title = other.title;
 		this.titleShort = other.titleShort;
+		this.additionDate = other.additionDate;
 	}
 
 	@Override

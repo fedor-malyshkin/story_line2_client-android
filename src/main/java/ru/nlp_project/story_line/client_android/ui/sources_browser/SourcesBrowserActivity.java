@@ -20,10 +20,13 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
+import ru.nlp_project.story_line.client_android.business.models.ChangeRecordBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
+import ru.nlp_project.story_line.client_android.ui.changes.ChangesDialog;
 import ru.nlp_project.story_line.client_android.ui.feedback.AboutActivity;
 import ru.nlp_project.story_line.client_android.ui.feedback.FeedbackActivity;
 import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
@@ -217,6 +220,13 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		drawerLayout.closeDrawers();
 	}
 
+	@Override
+	public void showChangesDialog(List<ChangeRecordBusinessModel> records) {
+		FragmentManager fm = getSupportFragmentManager();
+		ChangesDialog dialog = ChangesDialog.newInstance("Some Title");
+		dialog.show(fm, "fragment_edit_name");
+	}
+
 	public class SourcesPageAdapter extends CacheableFragmentStatePageAdapter {
 
 		SourcesPageAdapter(FragmentManager fragmentManager) {
@@ -243,7 +253,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 		}
 
 		/**
-		 * Neceessary method - because modify sources, so i needd to get correct information about
+		 * Necessary method - because modify sources, so i needd to get correct information about
 		 * previously created fragments.
 		 * <p/>
 		 * see: https://stackoverflow.com/questions/8060904/add-delete-pages-to-viewpager-dynamically

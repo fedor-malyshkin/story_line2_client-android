@@ -45,7 +45,7 @@ public class NewsArticlesRepositoryImpl implements INewsArticlesRepository {
 		// first subscriber -- write to cache if request from network
 		netStream.subscribe(
 				// onNext
-				localDBStorage::addNewsArticleToCache
+				localDBStorage::addNewsArticle
 		);
 
 		Observable<NewsArticleDataModel> localStream = localDBStorage

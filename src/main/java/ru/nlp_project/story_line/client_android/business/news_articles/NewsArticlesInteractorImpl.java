@@ -5,9 +5,8 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.NewsArticleBusinessModel;
 import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
 import ru.nlp_project.story_line.client_android.data.news_articles.INewsArticlesRepository;
-import ru.nlp_project.story_line.client_android.ui.news_watcher.INewsWatcherPresenter;
 
-public class NewsArticlesrInteractorImpl implements INewsArticlesrInteractor {
+public class NewsArticlesInteractorImpl implements INewsArticlesInteractor {
 
 	@Inject
 	INewsArticlesRepository repository;
@@ -16,7 +15,7 @@ public class NewsArticlesrInteractorImpl implements INewsArticlesrInteractor {
 
 
 	@Inject
-	public NewsArticlesrInteractorImpl() {
+	public NewsArticlesInteractorImpl() {
 	}
 
 	@Override
@@ -36,8 +35,5 @@ public class NewsArticlesrInteractorImpl implements INewsArticlesrInteractor {
 
 	}
 
-	@Override
-	public void bindPresenter(INewsWatcherPresenter presenter) {
 
-	}
 }

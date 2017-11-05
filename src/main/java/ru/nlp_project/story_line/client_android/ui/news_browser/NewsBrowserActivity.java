@@ -212,6 +212,7 @@ public class NewsBrowserActivity extends AppCompatActivity implements INewsBrows
 		}
 	}
 
+
 	public class NewsArticlesPageAdapter extends CacheableFragmentStatePageAdapter {
 
 		public NewsArticlesPageAdapter(FragmentManager fragmentManager) {

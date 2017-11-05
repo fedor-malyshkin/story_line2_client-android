@@ -36,11 +36,13 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 	 * (т.е. при успешном обновлении -- обновляется кэш)...
 	 */
 	@Override
-	public Observable<SourceBusinessModel> createSourceRemoteCachedStream() {
+	public Observable<SourceBusinessModel> createSourceStreamRemoteCached() {
 		SourcesRetrofitService netService = retrofitService.getSourcesBrowserService();
 		Observable<SourceDataModel> netStream = netService.list()
 				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
 						(TAG, t.getMessage(), t));
+
+		// TODO: replace with doOnNext .....
 		// see for details: http://stackoverflow.com/a/36118469
 		// need at least 2 subscribers (localDBStorage + actual)
 		netStream = netStream.replay().autoConnect(2);
@@ -76,7 +78,7 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createSourceLocalStream() {
+	public Observable<SourceBusinessModel> createSourceStreamLocal() {
 		return localDBStorage.createSourceStream().subscribeOn(bckgScheduler)
 				.compose(Converters.toSourceBusinessModel);
 	}

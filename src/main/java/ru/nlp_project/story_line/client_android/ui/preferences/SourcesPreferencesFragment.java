@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import ru.nlp_project.story_line.client_android.BuildConfig;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
@@ -115,7 +116,14 @@ public class SourcesPreferencesFragment extends PreferenceFragmentCompat impleme
 			pref.setChecked(sourceBusinessModel.isEnabled());
 			pref.setKey(sourceBusinessModel.getName());
 			pref.setTitle(sourceBusinessModel.getTitleShort());
-			pref.setSummary(sourceBusinessModel.getTitle());
+
+			if (BuildConfig.DEBUG) {
+				pref.setSummary(
+						sourceBusinessModel.getTitle() + " - " + sourceBusinessModel.getAdditionDate());
+			} else {
+				pref.setSummary(sourceBusinessModel.getTitle());
+			}
+
 			editor.putBoolean(sourceBusinessModel.getName(), sourceBusinessModel.isEnabled());
 			pref.setOnPreferenceChangeListener(
 					this::onPreferenceChange);

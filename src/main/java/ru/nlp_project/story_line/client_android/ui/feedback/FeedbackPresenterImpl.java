@@ -27,7 +27,6 @@ public class FeedbackPresenterImpl implements IFeedbackPresenter {
 
 	@Override
 	public void initializePresenter() {
-		interactor.bindPresenter(this);
 	}
 
 
@@ -59,6 +58,7 @@ public class FeedbackPresenterImpl implements IFeedbackPresenter {
 
 	@Override
 	public void loadAboutInfo() {
-		interactor.getAboutInfo().observeOn(uiScheduler).subscribe(view::loadAboutInfo, view::loadAboutInfoError);
+		interactor.getAboutInfo().observeOn(uiScheduler)
+				.subscribe(view::loadAboutInfo, view::loadAboutInfoError);
 	}
 }

@@ -48,4 +48,8 @@ public class DaggerBuilder {
 	public static FeedbackComponent createFeedbackBuilder() {
 		return getApplicationBuilder().addToGraph(new FeedbackModule());
 	}
+
+	public static ChangesComponent createChangesBuilder() {
+		return getApplicationBuilder().addToGraph(new ChangesModule());
+	}
 }

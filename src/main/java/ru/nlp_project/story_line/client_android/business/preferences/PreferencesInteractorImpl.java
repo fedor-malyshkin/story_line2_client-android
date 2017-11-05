@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
 import ru.nlp_project.story_line.client_android.data.sources.ISourcesRepository;
-import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 
 public class PreferencesInteractorImpl implements IPreferencesInteractor {
 
@@ -15,7 +14,6 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 	ISourcesRepository repository;
 	@Inject
 	ISourcesInteractor sourcesBrowserInteractor;
-	private IPreferencesPresenter presenter;
 
 	@Inject
 	public PreferencesInteractorImpl() {
@@ -23,12 +21,12 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 
 	@Override
 	public Observable<SourceBusinessModel> createCombinedSourcesStream() {
-		return sourcesBrowserInteractor.createCombinedSourcesRemoteCachedStream();
+		return sourcesBrowserInteractor.createCombinedSourcesStreamRemoteCached();
 	}
 
 	@Override
 	public void updateSourceState(String key, boolean checked) {
-		sourcesBrowserInteractor.updateSourceState(key,checked);
+		sourcesBrowserInteractor.updateSourceState(key, checked);
 	}
 
 	@Override
@@ -41,8 +39,4 @@ public class PreferencesInteractorImpl implements IPreferencesInteractor {
 
 	}
 
-	@Override
-	public void bindPresenter(IPreferencesPresenter presenter) {
-		this.presenter = presenter;
-	}
 }

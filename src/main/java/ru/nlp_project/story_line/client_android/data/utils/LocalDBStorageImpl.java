@@ -2,6 +2,7 @@ package ru.nlp_project.story_line.client_android.data.utils;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
+import android.content.ContentValues;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import io.reactivex.Maybe;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import nl.qbusict.cupboard.DatabaseCompartment;
+import ru.nlp_project.story_line.client_android.data.models.ChangeRecordDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
@@ -48,7 +50,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 			withDatabase.put(existing);
 		} else {
 			// set new date for new record
-			dataModel.setAdditionDate( new Date());
+			dataModel.setAdditionDate(new Date());
 			withDatabase.put(dataModel);
 		}
 	}
@@ -85,7 +87,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 
 	@Override
-	public void addNewsArticleToCache(NewsArticleDataModel dataModel) {
+	public void addNewsArticle(NewsArticleDataModel dataModel) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		NewsArticleDataModel existing = withDatabase.query(NewsArticleDataModel.class)
@@ -99,7 +101,7 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 
 
 	@Override
-	public void addNewsHeaderToCache(NewsHeaderDataModel dataModel) {
+	public void addNewsHeader(NewsHeaderDataModel dataModel) {
 		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
 		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
 		NewsHeaderDataModel existing = withDatabase.query(NewsHeaderDataModel.class)
@@ -161,4 +163,46 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		return res;
 	}
 
+
+	@Override
+	public void setChangeRecordsAsSeen(List<Long> ids) {
+		SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(rdb);
+		ContentValues val = new ContentValues();
+		val.put("seen", 1);
+		withDatabase.update(ChangeRecordDataModel.class, val, "id IN {?}", ids.toString());
+
+	}
+
+	@Override
+	public void addChangeRecord(ChangeRecordDataModel dataModel) {
+		SQLiteDatabase wdb = databaseHelper.getWritableDatabase();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(wdb);
+		withDatabase.put(dataModel);
+	}
+
+	@Override
+	public boolean hasUnseenChangeRecords() {
+		SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+		/*
+		SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+		http://www.sqlite.org/datatype3.html
+		 */
+		String selector = "seen = 0";
+		long res = DatabaseUtils
+				.queryNumEntries(rdb, cupboard().getTable(ChangeRecordDataModel.class), selector);
+		return res > 0;
+	}
+
+	@Override
+	public List<ChangeRecordDataModel> getUnseenChangeRecords() {
+		SQLiteDatabase rdb = databaseHelper.getReadableDatabase();
+		DatabaseCompartment withDatabase = cupboard().withDatabase(rdb);
+		/*
+		SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+		http://www.sqlite.org/datatype3.html
+		 */
+		String selector = "seen = 0";
+		return withDatabase.query(ChangeRecordDataModel.class).withSelection(selector).list();
+	}
 }

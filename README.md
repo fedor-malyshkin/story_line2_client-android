@@ -41,7 +41,7 @@
  - View присваивается самим View, ч/з `Presenter#bindView()`
  - инициализируется в методе `Presenter#initializePresenter()`, вызываемой View (потому что инициализацию нужно делать в подходящий момент, после инициализации View)
   - Interactor внутри _присваивается_/_инициализируется_ ч/з Dagger2
- - создание связи Interactor->Presenter выполняется в методе `Presenter#initializePresenter()` (ч/з `Interactor#bindPresenter` и другие методы `Interactor`'а для Rx-инициализации)
+ - создание связи Interactor->Presenter выполняется в методе `Presenter#initializePresenter()` (ч/з другие методы `Interactor`'а для Rx-инициализации)
 - **Interactor**:
  - создаётся через Dagger2 (singletone, w/o scope)
  - _инициализируется_ через Dagger2 (`Interactor#initializeInteractor`)

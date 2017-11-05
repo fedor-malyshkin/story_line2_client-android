@@ -22,4 +22,6 @@ public abstract class ApplicationComponent {
 	public abstract FeedbackComponent addToGraph(FeedbackModule module);
 
 	public abstract void inject(StartupPresenter instance);
+
+	public abstract ChangesComponent addToGraph(ChangesModule module);
 }

@@ -2,12 +2,12 @@ package ru.nlp_project.story_line.client_android.business.sources;
 
 import android.util.Log;
 import io.reactivex.Observable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.data.sources.ISourcesRepository;
-import ru.nlp_project.story_line.client_android.ui.sources_browser.ISourcesBrowserPresenter;
 
 
 public class SourcesInteractorImpl implements ISourcesInteractor {
@@ -15,7 +15,8 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 	private static final String TAG = SourcesInteractorImpl.class.getName();
 	@Inject
 	ISourcesRepository repository;
-	private Map<String, SourceBusinessModel> sourcesCache = new HashMap<>();
+	private Map<String, SourceBusinessModel> sourcesCache = Collections
+			.synchronizedMap(new HashMap<>());
 
 
 	@Inject
@@ -24,30 +25,36 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 
 	@Override
 	public void initializeInteractor() {
-		Map<String, SourceBusinessModel> newSources = new HashMap<>();
-		createSourceStreamRemoteCached().subscribe(
-				// onNext
-				s -> {
-					newSources.put(s.getName(), s);
-				},
-				// onError
-				e -> {
-				},
-				// onComplete
-				() -> {
-					sourcesCache.clear();
-					sourcesCache.putAll(newSources);
-				});
 	}
 
 	@Override
 	public Observable<SourceBusinessModel> createSourceStreamRemoteCached() {
-		return repository.createSourceRemoteCachedStream();
+		Map<String, SourceBusinessModel> newSources = new HashMap<>();
+		Observable<SourceBusinessModel> result = repository
+				.createSourceStreamRemoteCached().doOnNext(s -> newSources.put(s.getName(), s))
+				.doOnComplete(
+						() -> {
+							sourcesCache.clear();
+							sourcesCache.putAll(newSources);
+						}
+				);
+		// return result with listeners (to update cache)
+		return result;
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createSourceStreamFromCache() {
-		return repository.createSourceLocalStream();
+	public Observable<SourceBusinessModel> createSourceStreamCached() {
+		Map<String, SourceBusinessModel> newSources = new HashMap<>();
+		Observable<SourceBusinessModel> result = repository.createSourceStreamLocal()
+				.doOnNext(s -> newSources.put(s.getName(), s))
+				.doOnComplete(
+						() -> {
+							sourcesCache.clear();
+							sourcesCache.putAll(newSources);
+						}
+				);
+		// return result with listeners (to update cache)
+		return result;
 	}
 
 	@Override
@@ -63,18 +70,18 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 	}
 
 	@Override
-	public Observable<SourceBusinessModel> createCombinedSourcesRemoteCachedStream() {
+	public Observable<SourceBusinessModel> createCombinedSourcesStreamRemoteCached() {
 		Map<String, SourceBusinessModel> remoteLocalMap = new HashMap<>();
 		Observable<SourceBusinessModel> sourceRemote = Observable
 				.wrap(repository.createSourceRemoteStream());
 		// подстраховываемся локальным источником при проблемах с  сетью
 		sourceRemote = sourceRemote
-				.onErrorResumeNext(repository.createSourceLocalStream());
+				.onErrorResumeNext(repository.createSourceStreamLocal());
 		// фактически: берём локальный источник и его трансформируем в Map
 		// однако: при первоначальной подписке -- запрашиваем данные из сети
 		// и для каждой записи из БД -- объединем с данными из сети (модифицируя получаемые данные)
 		return sourceRemote.doOnSubscribe(
-				(disposable) -> repository.createSourceLocalStream().subscribe(
+				(disposable) -> repository.createSourceStreamLocal().subscribe(
 						// onNext
 						val -> remoteLocalMap.put(val.getName(), val),
 						// onError
@@ -85,7 +92,7 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 					if (remoteLocal == null) {
 						return;
 					}
-					// update active/oder info
+					// update active/oder/additionDate/etc info
 					model.updateSystemData(remoteLocal);
 					// set ID !!!
 					model.setId(remoteLocal.getId());
@@ -106,8 +113,5 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 		return repository.getActiveSourcesCount();
 	}
 
-	@Override
-	public void bindPresenter(ISourcesBrowserPresenter presenter) {
 
-	}
 }

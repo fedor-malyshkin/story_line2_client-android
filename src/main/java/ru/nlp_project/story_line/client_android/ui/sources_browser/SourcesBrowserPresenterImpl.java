@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import javax.inject.Inject;
+import ru.nlp_project.story_line.client_android.business.change_records.IChangeRecordsInteractor;
+import ru.nlp_project.story_line.client_android.business.models.ChangeRecordBusinessModel;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.business.sources.ISourcesInteractor;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserScope;
@@ -22,9 +24,12 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Inject
 	ISourcesInteractor interactor;
+	@Inject
+	IChangeRecordsInteractor changeRecordsInteractor;
 	private ISourcesBrowserView view;
 	private Comparator<SourceBusinessModel> orderComparator;
 	private List<SourceBusinessModel> sources = new ArrayList<>();
+
 
 	@Inject
 	public SourcesBrowserPresenterImpl() {
@@ -38,14 +43,9 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	}
 
 	@Override
-	public void initializePresenter() {
-	}
-
-	@Override
 	public int getFragmentsCount() {
 		return sources.size();
 	}
-
 
 	@Override
 	public Fragment getFragmentByIndex(int position) {
@@ -76,7 +76,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 
 	@Override
 	public void refreshSourcesList() {
-		checkAndUpdateSources(interactor.createSourceStreamFromCache());
+		checkAndUpdateSources(interactor.createSourceStreamCached());
 	}
 
 	@Override
@@ -124,4 +124,13 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	public List<SourceBusinessModel> getSources() {
 		return sources;
 	}
+
+	@Override
+	public void initializePresenter() {
+		if (changeRecordsInteractor.hasUnseenRecords()) {
+			List<ChangeRecordBusinessModel> records = changeRecordsInteractor.getUnseenRecords();
+			view.showChangesDialog(records);
+		}
+	}
+
 }

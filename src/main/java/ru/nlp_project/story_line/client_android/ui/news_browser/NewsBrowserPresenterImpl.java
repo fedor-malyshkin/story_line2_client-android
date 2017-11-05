@@ -35,9 +35,6 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 		return NewsWatcherFragment.newInstance(serverId);
 	}
 
-	@Override
-	public void initializePresenter() {
-	}
 
 	@Override
 	public CharSequence getFragmentTitleByIndex(int position) {
@@ -56,7 +53,6 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 		intent.putExtra(PreferencesActivity.PREFERENCES_TYPE, PreferencesActivity.MASTER_SETTINGS);
 		view.startActivity(intent);
 		return true;
-
 	}
 
 	@Override
@@ -67,6 +63,11 @@ public class NewsBrowserPresenterImpl implements INewsBrowserPresenter {
 	@Override
 	public void unbindView() {
 		this.view = null;
+	}
+
+	@Override
+	public void initializePresenter() {
+
 	}
 
 

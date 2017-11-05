@@ -10,10 +10,12 @@ import javax.inject.Singleton;
 import ru.nlp_project.story_line.client_android.BuildConfig;
 import ru.nlp_project.story_line.client_android.business.IStartupInteractor;
 import ru.nlp_project.story_line.client_android.business.StartupInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.change_records.ChangeRecordsInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.change_records.IChangeRecordsInteractor;
 import ru.nlp_project.story_line.client_android.business.feedback.FeedbackInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.feedback.IFeedbackInteractor;
-import ru.nlp_project.story_line.client_android.business.news_articles.INewsArticlesrInteractor;
-import ru.nlp_project.story_line.client_android.business.news_articles.NewsArticlesrInteractorImpl;
+import ru.nlp_project.story_line.client_android.business.news_articles.INewsArticlesInteractor;
+import ru.nlp_project.story_line.client_android.business.news_articles.NewsArticlesInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.news_headers.INewsHeadersInteractor;
 import ru.nlp_project.story_line.client_android.business.news_headers.NewsHeadersInteractorImpl;
 import ru.nlp_project.story_line.client_android.business.preferences.IPreferencesInteractor;
@@ -22,6 +24,8 @@ import ru.nlp_project.story_line.client_android.business.sources.ISourcesInterac
 import ru.nlp_project.story_line.client_android.business.sources.SourcesInteractorImpl;
 import ru.nlp_project.story_line.client_android.data.IStartupRepository;
 import ru.nlp_project.story_line.client_android.data.StartupRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.change_records.ChangeRecordsRepositoryImpl;
+import ru.nlp_project.story_line.client_android.data.change_records.IChangeRecordsRepository;
 import ru.nlp_project.story_line.client_android.data.feedback.FeedbackRepositoryImpl;
 import ru.nlp_project.story_line.client_android.data.feedback.IFeedbackRepository;
 import ru.nlp_project.story_line.client_android.data.news_articles.INewsArticlesRepository;
@@ -180,12 +184,29 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
-	public INewsArticlesrInteractor provideNewsWatcherInteractor(NewsArticlesrInteractorImpl
+	public INewsArticlesInteractor provideNewsArticlesInteractor(NewsArticlesInteractorImpl
 			implementation) {
 		implementation.initializeInteractor();
 		return implementation;
 	}
 
+
+	@Provides
+	@Singleton
+	public IChangeRecordsRepository provideChangeRecordsRepository(ChangeRecordsRepositoryImpl
+			implementation) {
+		implementation.initializeRepository();
+		return implementation;
+	}
+
+
+	@Provides
+	@Singleton
+	public IChangeRecordsInteractor provideChangeRecordsInteractor(ChangeRecordsInteractorImpl
+			implementation) {
+		implementation.initializeInteractor();
+		return implementation;
+	}
 
 }
 

@@ -5,6 +5,14 @@
   <PreferenceCategory
     android:title="@string/preferences_category_update_title">
 
+<!--
+    <EditTextPreference
+      android:key="last_startup_date"
+      android:enabled="false"
+      />
+-->
+
+
   </PreferenceCategory>
 
   <PreferenceCategory

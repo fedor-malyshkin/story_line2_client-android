@@ -55,7 +55,7 @@ public class NewsWatcherRepositoryImplTest {
 				("someDomain");
 
 		Assertions.assertThat(actualStream).isNotNull();
-		verify(localDBStorage, never()).addNewsArticleToCache(any());
+		verify(localDBStorage, never()).addNewsArticle(any());
 	}
 
 
@@ -87,7 +87,7 @@ public class NewsWatcherRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(1)).addNewsArticleToCache(any());
+		inOrder.verify(localDBStorage, times(1)).addNewsArticle(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertValueCount(1);
@@ -121,7 +121,7 @@ public class NewsWatcherRepositoryImplTest {
 		bckgScheduler.triggerActions();
 
 		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(1)).addNewsArticleToCache(any());
+		inOrder.verify(localDBStorage, times(1)).addNewsArticle(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();

@@ -5,6 +5,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import ru.nlp_project.story_line.client_android.data.models.ChangeRecordDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsArticleDataModel;
 import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
@@ -18,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cupboard().register(NewsArticleDataModel.class);
 		cupboard().register(NewsHeaderDataModel.class);
 		cupboard().register(SourceDataModel.class);
+		cupboard().register(ChangeRecordDataModel.class);
 	}
 
 	public DatabaseHelper(Context context, String databaseName, int databaseVersion) {

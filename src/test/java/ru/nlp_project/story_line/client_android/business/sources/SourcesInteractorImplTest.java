@@ -33,12 +33,14 @@ public class SourcesInteractorImplTest {
 	public void createCombinedSourcePreferencesStream_ErrorNetwork() throws Exception {
 		// prepare
 		ReplaySubject<SourceBusinessModel> observableLocal = ReplaySubject.create();
-		observableLocal.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1));
-		observableLocal.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2));
 		observableLocal
-				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		observableLocal.onComplete();
-		when(sourceRepository.createSourceLocalStream()).thenReturn(observableLocal);
+		when(sourceRepository.createSourceStreamLocal()).thenReturn(observableLocal);
 
 		ReplaySubject<SourceBusinessModel> observableRemote = ReplaySubject.create();
 		observableRemote.onError(new IllegalStateException());
@@ -46,7 +48,7 @@ public class SourcesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcesRemoteCachedStream();
+				.createCombinedSourcesStreamRemoteCached();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -57,9 +59,9 @@ public class SourcesInteractorImplTest {
 		testObserver.assertComplete();
 		testObserver.assertValueCount(3);
 		List<SourceBusinessModel> expected = Arrays
-				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1),
-						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2),
-						new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null),
+						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null),
+						new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		testObserver.assertValueSequence(expected);
 	}
 
@@ -70,12 +72,14 @@ public class SourcesInteractorImplTest {
 	public void createCombinedSourcePreferencesStream_NoChanges() throws Exception {
 		// prepare
 		ReplaySubject<SourceBusinessModel> observableLocal = ReplaySubject.create();
-		observableLocal.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1));
-		observableLocal.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2));
 		observableLocal
-				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		observableLocal.onComplete();
-		when(sourceRepository.createSourceLocalStream()).thenReturn(observableLocal);
+		when(sourceRepository.createSourceStreamLocal()).thenReturn(observableLocal);
 
 		ReplaySubject<SourceBusinessModel> observableRemote = ReplaySubject.create();
 		observableRemote.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK"));
@@ -86,7 +90,7 @@ public class SourcesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcesRemoteCachedStream();
+				.createCombinedSourcesStreamRemoteCached();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -97,9 +101,9 @@ public class SourcesInteractorImplTest {
 		testObserver.assertComplete();
 		testObserver.assertValueCount(3);
 		List<SourceBusinessModel> expected = Arrays
-				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1),
-						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2),
-						new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null),
+						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null),
+						new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		testObserver.assertValueSequence(expected);
 	}
 
@@ -111,13 +115,14 @@ public class SourcesInteractorImplTest {
 		// prepare
 		ReplaySubject<SourceBusinessModel> observableLocal = ReplaySubject.create();
 		observableLocal
-				.onNext(new SourceBusinessModel(new Long(1), "bnkomi.ru", "BNKLong", "BNK", true, 1));
+				.onNext(new SourceBusinessModel(new Long(1), "bnkomi.ru", "BNKLong", "BNK", true, 1, null));
 		observableLocal
-				.onNext(new SourceBusinessModel(new Long(2), "7x7.ru", "7x7Long", "7x7", true, 2));
+				.onNext(new SourceBusinessModel(new Long(2), "7x7.ru", "7x7Long", "7x7", true, 2, null));
 		observableLocal
-				.onNext(new SourceBusinessModel(new Long(3), "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.onNext(
+						new SourceBusinessModel(new Long(3), "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		observableLocal.onComplete();
-		when(sourceRepository.createSourceLocalStream()).thenReturn(observableLocal);
+		when(sourceRepository.createSourceStreamLocal()).thenReturn(observableLocal);
 
 		ReplaySubject<SourceBusinessModel> observableRemote = ReplaySubject.create();
 		observableRemote.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK"));
@@ -129,7 +134,7 @@ public class SourcesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcesRemoteCachedStream();
+				.createCombinedSourcesStreamRemoteCached();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -140,10 +145,10 @@ public class SourcesInteractorImplTest {
 		testObserver.assertComplete();
 		testObserver.assertValueCount(4);
 		List<SourceBusinessModel> expected = Arrays
-				.asList(new SourceBusinessModel(new Long(1), "bnkomi.ru", "BNKLong", "BNK", true, 1),
-						new SourceBusinessModel(new Long(2), "7x7.ru", "7x7Long", "7x7", true, 2),
-						new SourceBusinessModel(new Long(3), "komiinform.ru", "KIMLong", "KIM", true, 3),
-						new SourceBusinessModel(null, "new_source.ru", "NSLong", "NS", true, -1));
+				.asList(new SourceBusinessModel(new Long(1), "bnkomi.ru", "BNKLong", "BNK", true, 1, null),
+						new SourceBusinessModel(new Long(2), "7x7.ru", "7x7Long", "7x7", true, 2, null),
+						new SourceBusinessModel(new Long(3), "komiinform.ru", "KIMLong", "KIM", true, 3, null),
+						new SourceBusinessModel(null, "new_source.ru", "NSLong", "NS", true, -1, null));
 		testObserver.assertValueSequence(expected);
 
 	}
@@ -157,12 +162,14 @@ public class SourcesInteractorImplTest {
 	public void createCombinedSourcePreferencesStream_AbsentOnRemote() throws Exception {
 		// prepare
 		ReplaySubject<SourceBusinessModel> observableLocal = ReplaySubject.create();
-		observableLocal.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1));
-		observableLocal.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2));
 		observableLocal
-				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3));
+				.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null));
+		observableLocal
+				.onNext(new SourceBusinessModel(null, "komiinform.ru", "KIMLong", "KIM", true, 3, null));
 		observableLocal.onComplete();
-		when(sourceRepository.createSourceLocalStream()).thenReturn(observableLocal);
+		when(sourceRepository.createSourceStreamLocal()).thenReturn(observableLocal);
 
 		ReplaySubject<SourceBusinessModel> observableRemote = ReplaySubject.create();
 		observableRemote.onNext(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK"));
@@ -172,7 +179,7 @@ public class SourcesInteractorImplTest {
 
 		//call
 		Observable<SourceBusinessModel> resultStream = testable
-				.createCombinedSourcesRemoteCachedStream();
+				.createCombinedSourcesStreamRemoteCached();
 
 		// subscribe
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
@@ -183,8 +190,8 @@ public class SourcesInteractorImplTest {
 		testObserver.assertComplete();
 		testObserver.assertValueCount(2);
 		List<SourceBusinessModel> expected = Arrays
-				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1),
-						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2)
+				.asList(new SourceBusinessModel(null, "bnkomi.ru", "BNKLong", "BNK", true, 1, null),
+						new SourceBusinessModel(null, "7x7.ru", "7x7Long", "7x7", true, 2, null)
 				);
 		testObserver.assertValueSequence(expected);
 

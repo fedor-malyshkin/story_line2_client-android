@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.view.ViewGroup;
+import java.util.List;
+import ru.nlp_project.story_line.client_android.business.models.ChangeRecordBusinessModel;
 
 public interface INewsBrowserView {
 	FloatingActionButton getFAB();
@@ -19,4 +21,5 @@ public interface INewsBrowserView {
 	void decreaseFont();
 
 	void increaseFont();
+
 }

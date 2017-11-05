@@ -3,6 +3,7 @@ package ru.nlp_project.story_line.client_android.data.sources;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import android.util.Log;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.TestScheduler;
@@ -12,14 +13,20 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+import org.robolectric.annotation.Implements;
 import ru.nlp_project.story_line.client_android.business.models.SourceBusinessModel;
 import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 
-public class SourcesBrowserRepositoryImplTest {
+@Config(manifest=Config.NONE)
+@RunWith(RobolectricTestRunner.class)
+public class SourcesRepositoryImplTest {
 
 	private RetrofitService retrofitService;
 	private TestScheduler bckgScheduler;
@@ -48,7 +55,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(retrofitService.getSourcesBrowserService()).thenReturn(service);
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
-		Observable<SourceBusinessModel> actualStream = testable.createSourceRemoteCachedStream();
+		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		Assertions.assertThat(actualStream).isNotNull();
 		verify(localDBStorage, never()).addSource(any());
@@ -65,7 +72,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceBusinessModel> actualStream = testable.createSourceRemoteCachedStream();
+		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		// prepare data
 		List<SourceDataModel> list = new ArrayList<>();
@@ -97,7 +104,7 @@ public class SourcesBrowserRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceBusinessModel> actualStream = testable.createSourceRemoteCachedStream();
+		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));
@@ -120,5 +127,13 @@ public class SourcesBrowserRepositoryImplTest {
 		testObserver.assertValueCount(3);
 	}
 
+	@Implements(Log.class)
+	public static class ShadowLog {
+
+		public static int e(java.lang.String tag, java.lang.String msg, Throwable t) {
+			System.out.println("[" + tag + "] " + msg);
+			return 0;
+		}
+	}
 
 }

@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.ui;
 
 import android.support.v7.preference.PreferenceManager;
+import java.util.Date;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.business.IStartupInteractor;
@@ -44,7 +45,10 @@ public class StartupPresenter implements IStartupPresenter {
 
 	public void startupInitialization() {
 		PreferenceManager.setDefaultValues(view.getContext(), R.xml.preferences_master, false);
-		interactor.startupInitialization();
+		Date lastStartupDate = view.getStartupDateInPreferences();
+		interactor.startupInitialization(lastStartupDate);
+		view.storeStartupDateInPreferences(new Date());
+
 		startApplication();
 	}
 }

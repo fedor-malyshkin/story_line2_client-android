@@ -41,7 +41,7 @@ public class NewsHeadersRepositoryImpl implements INewsHeadersRepository {
 
 		netStream.observeOn(bckgScheduler).subscribe(
 				// onNext
-				localDBStorage::addNewsHeaderToCache,
+				localDBStorage::addNewsHeader,
 				// onError
 				t -> Log.e(TAG, t.getMessage(), t),
 				// onComplete
