@@ -20,7 +20,7 @@ import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 
 
-public class NewsWatcherRepositoryImplTest {
+public class NewsArticlesRepositoryImplTest {
 
 	private RetrofitService retrofitService;
 	private TestScheduler bckgScheduler;
@@ -43,7 +43,7 @@ public class NewsWatcherRepositoryImplTest {
 
 
 	@Test
-	public void testCreateStream_NoAction() {
+	public void testCreateNewsArticleRemoteCachedStream_NoAction() {
 		// long chain of initialization
 		MaybeSubject<NewsArticleDataModel> netSource = MaybeSubject.create();
 		MaybeSubject<NewsArticleDataModel> dbSource = MaybeSubject.create();
@@ -61,7 +61,7 @@ public class NewsWatcherRepositoryImplTest {
 
 	// getting from DB first order
 	@Test
-	public void testCreateStream_Success() {
+	public void testCreateNewsArticleRemoteCachedStream_Success() {
 		// long chain of initialization
 		MaybeSubject<NewsArticleDataModel> netSource = MaybeSubject.create();
 		MaybeSubject<NewsArticleDataModel> dbSource = MaybeSubject.create();
@@ -96,7 +96,7 @@ public class NewsWatcherRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateStream_NoInDBCache() {
+	public void testCreateNewsArticleRemoteCachedStream_NoInDBCache() {
 		// long chain of initialization
 		MaybeSubject<NewsArticleDataModel> netSource = MaybeSubject.create();
 		MaybeSubject<NewsArticleDataModel> dbSource = MaybeSubject.create();

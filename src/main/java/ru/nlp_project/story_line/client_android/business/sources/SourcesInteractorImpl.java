@@ -30,16 +30,13 @@ public class SourcesInteractorImpl implements ISourcesInteractor {
 	@Override
 	public Observable<SourceBusinessModel> createSourceStreamRemoteCached() {
 		Map<String, SourceBusinessModel> newSources = new HashMap<>();
-		Observable<SourceBusinessModel> result = repository
-				.createSourceStreamRemoteCached().doOnNext(s -> newSources.put(s.getName(), s))
+		return repository.createSourceStreamRemoteCached().doOnNext(s -> newSources.put(s.getName(), s))
 				.doOnComplete(
 						() -> {
 							sourcesCache.clear();
 							sourcesCache.putAll(newSources);
 						}
 				);
-		// return result with listeners (to update cache)
-		return result;
 	}
 
 	@Override

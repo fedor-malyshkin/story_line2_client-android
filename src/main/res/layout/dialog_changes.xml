@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_margin="4dp"
     >
     <TextView
       android:id="@+id/dialog_changes_text"
@@ -15,6 +16,12 @@
       android:layout_height="wrap_content"
       android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
+    <Button
+      android:id="@+id/dialog_changes_ok"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/dialog_changes_ok"
+      />
 
   </LinearLayout>
 

@@ -41,25 +41,13 @@ public class SourcesRepositoryImpl implements ISourcesRepository {
 		Observable<SourceDataModel> netStream = netService.list()
 				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
 						(TAG, t.getMessage(), t));
-
-		// TODO: replace with doOnNext .....
-		// see for details: http://stackoverflow.com/a/36118469
-		// need at least 2 subscribers (localDBStorage + actual)
-		netStream = netStream.replay().autoConnect(2);
-
-		netStream.observeOn(bckgScheduler).subscribe(
-				// onNext
-				val -> localDBStorage.addSource(val),
-				// onError
-				exc -> Log.e
-						(TAG, exc.getMessage(), exc)
-		);
-		// intermediate level - to receive onError to localDBStorage
-		Observable<SourceDataModel> wrap = Observable.wrap(netStream);
+		netStream = netStream
+				.doOnNext(localDBStorage::addSource);
 		// fallback source
-		Observable<SourceDataModel> resumeNext = wrap
-				.onErrorResumeNext(localDBStorage.createSourceStream());
-		return resumeNext.compose(Converters.toSourceBusinessModel);
+		return netStream
+				.onErrorResumeNext(localDBStorage.createSourceStream())
+				.compose(Converters.toSourceBusinessModel);
+
 	}
 
 	@Override

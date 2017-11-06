@@ -26,9 +26,9 @@ import ru.nlp_project.story_line.client_android.data.models.NewsHeaderDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
-public class NewsTapeRepositoryImplTest {
+public class NewsHeadersRepositoryImplTest {
 
 	private RetrofitService retrofitService;
 	private TestScheduler bckgScheduler;
@@ -50,7 +50,7 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateStream_NoAction() {
+	public void testCreateNewsHeaderRemoteCachedStream_NoAction() {
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -66,7 +66,7 @@ public class NewsTapeRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateStream_Success() {
+	public void testCreateNewsHeaderRemoteCachedStream_Success() {
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<NewsHeaderDataModel> dbSource = ReplaySubject.create();
@@ -99,7 +99,7 @@ public class NewsTapeRepositoryImplTest {
 
 	@Test
 	@Config(shadows = ShadowLog.class, manifest = Config.NONE)
-	public void testCreateStream_NetworkError() {
+	public void testCreateNewsHeaderRemoteCachedStream_NetworkError() {
 
 		// long chain of initialization
 		ReplaySubject<List<NewsHeaderDataModel>> netSource = ReplaySubject.create();

@@ -48,8 +48,8 @@ import ru.nlp_project.story_line.client_android.ui.utils.ImageDownloaderImpl;
 @Module
 public class ApplicationModule {
 
-	// public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
-	public static final String BASE_URL = "http://192.168.1.100:8001";
+	public static final String BASE_URL = "http://datahouse01.nlp-project.ru:8000";
+	//	public static final String BASE_URL = "http://192.168.1.100:8001";
 	public static final String DATABASE_NAME = "story_line.db";
 	public static final int DATABASE_VERSION = BuildConfig.VERSION_CODE;
 	private Context context;

@@ -37,7 +37,7 @@ public class NewsArticleDataModel {
 	@JsonProperty("_id")
 	private String serverId;
 
-	// neccessary for unmarshalling from JSON
+	// neccessary for unmarshalling from JSON & Cupboard
 	public NewsArticleDataModel() {
 	}
 

@@ -85,7 +85,7 @@ public class FeedbackActivity extends AppCompatActivity implements IFeedbackView
 
 	@Override
 	public void convertSendToUnlockButton() {
-		sendButton.setText(R.string.activity_feedback_send_unlnock);
+		sendButton.setText(R.string.activity_feedback_send_unlock);
 		sendButton.setOnClickListener(this::onUnlnock);
 	}
 

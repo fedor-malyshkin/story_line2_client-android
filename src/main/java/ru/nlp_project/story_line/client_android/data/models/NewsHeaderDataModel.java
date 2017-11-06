@@ -41,7 +41,7 @@ public class NewsHeaderDataModel {
 		this.serverId = serverId;
 	}
 
-	// neccessary for unmarshalling from JSON
+	// neccessary for unmarshalling from JSON & Cupboard
 	public NewsHeaderDataModel() {
 	}
 

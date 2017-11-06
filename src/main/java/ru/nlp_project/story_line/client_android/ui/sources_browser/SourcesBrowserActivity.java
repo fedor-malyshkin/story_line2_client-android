@@ -221,9 +221,9 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	}
 
 	@Override
-	public void showChangesDialog(List<ChangeRecordBusinessModel> records) {
+	public void showChangesDialog() {
 		FragmentManager fm = getSupportFragmentManager();
-		ChangesDialog dialog = ChangesDialog.newInstance("Some Title");
+		ChangesDialog dialog = ChangesDialog.newInstance();
 		dialog.show(fm, "fragment_edit_name");
 	}
 

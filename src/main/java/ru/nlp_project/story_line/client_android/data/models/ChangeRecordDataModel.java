@@ -20,6 +20,11 @@ public class ChangeRecordDataModel {
 	private boolean seen = false;
 	private String message;
 
+	// necessary for Cupboard
+	public ChangeRecordDataModel() {
+	}
+
+
 
 	public ChangeRecordDataModel(Long _id, int type, Date additionDate, boolean seen,
 			String message) {

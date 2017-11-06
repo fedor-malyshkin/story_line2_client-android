@@ -8,4 +8,6 @@ public interface IChangesView {
 	Context getContext();
 
 	void setChangesText(String presentation);
+
+	void hideDialog();
 }

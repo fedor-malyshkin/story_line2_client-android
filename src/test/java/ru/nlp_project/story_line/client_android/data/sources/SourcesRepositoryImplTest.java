@@ -1,5 +1,6 @@
 package ru.nlp_project.story_line.client_android.data.sources;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -10,7 +11,8 @@ import io.reactivex.schedulers.TestScheduler;
 import io.reactivex.subjects.ReplaySubject;
 import java.util.ArrayList;
 import java.util.List;
-import org.assertj.core.api.Assertions;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +26,7 @@ import ru.nlp_project.story_line.client_android.data.models.SourceDataModel;
 import ru.nlp_project.story_line.client_android.data.utils.ILocalDBStorage;
 import ru.nlp_project.story_line.client_android.data.utils.RetrofitService;
 
-@Config(manifest=Config.NONE)
+@Config(manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public class SourcesRepositoryImplTest {
 
@@ -47,7 +49,7 @@ public class SourcesRepositoryImplTest {
 	}
 
 	@Test
-	public void testCreateSourceStream_NoAction() {
+	public void testCreateSourceStreamRemoteCached_NoAction() {
 		// long chain of initialization
 		ReplaySubject<List<SourceDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<SourceDataModel> dbSource = ReplaySubject.create();
@@ -55,15 +57,16 @@ public class SourcesRepositoryImplTest {
 		when(retrofitService.getSourcesBrowserService()).thenReturn(service);
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
-		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
 
-		Assertions.assertThat(actualStream).isNotNull();
+		Observable<SourceBusinessModel> expectedStream = testable.createSourceStreamRemoteCached();
+
+		assertThat(expectedStream).isNotNull();
 		verify(localDBStorage, never()).addSource(any());
 	}
 
 
 	@Test
-	public void testCreateSourceStream_Success() {
+	public void testCreateSourceStreamRemoteCached_Success() {
 		// long chain of initialization
 		ReplaySubject<List<SourceDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<SourceDataModel> dbSource = ReplaySubject.create();
@@ -72,7 +75,7 @@ public class SourcesRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
+		Observable<SourceBusinessModel> expectedStream = testable.createSourceStreamRemoteCached();
 
 		// prepare data
 		List<SourceDataModel> list = new ArrayList<>();
@@ -82,20 +85,23 @@ public class SourcesRepositoryImplTest {
 		netSource.onComplete();
 
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
-		actualStream.subscribe(testObserver);
+		expectedStream.subscribe(testObserver);
 		// run scheduler
 		bckgScheduler.triggerActions();
 
-		InOrder inOrder = inOrder(localDBStorage);
-		inOrder.verify(localDBStorage, times(2)).addSource(any());
+		verify(localDBStorage, times(2)).addSource(any());
 
 		testObserver.assertNoErrors();
 		testObserver.assertComplete();
 		testObserver.assertValueCount(2);
 	}
 
+	/**
+	 * test with using toList without subscription
+	 */
 	@Test
-	public void testCreateSourceStream_NetworkError() {
+	public void testCreateSourceStreamRemoteCached_toList_Success()
+			throws ExecutionException, InterruptedException {
 		// long chain of initialization
 		ReplaySubject<List<SourceDataModel>> netSource = ReplaySubject.create();
 		ReplaySubject<SourceDataModel> dbSource = ReplaySubject.create();
@@ -104,18 +110,50 @@ public class SourcesRepositoryImplTest {
 		when(service.list()).thenReturn(netSource);
 		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
 
-		Observable<SourceBusinessModel> actualStream = testable.createSourceStreamRemoteCached();
+		Observable<SourceBusinessModel> expectedStream = testable.createSourceStreamRemoteCached();
+
+		// prepare data
+		List<SourceDataModel> list = new ArrayList<>();
+		list.add(new SourceDataModel(null, "domain0", "name0", "short0"));
+		list.add(new SourceDataModel(null, "domain1", "name1", "short1"));
+		netSource.onNext(list);
+		netSource.onComplete();
+
+		List<SourceBusinessModel> expected = new ArrayList<>();
+		Future<List<SourceBusinessModel>> future = expectedStream.toList().toFuture();
+		// run scheduler
+		bckgScheduler.triggerActions();
+		List<SourceBusinessModel> models = future.get();
+
+		assertThat(models).describedAs("Check that collect all emitted elements").hasSize(2);
+
+		InOrder inOrder = inOrder(localDBStorage);
+		inOrder.verify(localDBStorage, times(2)).addSource(any());
+	}
+
+
+	@Test
+	public void testCreateSourceStreamRemoteCached_NetworkError() {
+		// long chain of initialization
+		ReplaySubject<List<SourceDataModel>> netSource = ReplaySubject.create();
+		ReplaySubject<SourceDataModel> dbSource = ReplaySubject.create();
+		Observable tempMock = mock(Observable.class);
+		when(retrofitService.getSourcesBrowserService()).thenReturn(service);
+		when(service.list()).thenReturn(netSource);
+		when(localDBStorage.createSourceStream()).thenReturn(dbSource);
+
+		Observable<SourceBusinessModel> expectedStream = testable.createSourceStreamRemoteCached();
 
 		// prepare datas
 		netSource.onError(new IllegalStateException("test exception"));
 
-		dbSource.onNext(new SourceDataModel(null, "domain0", "name0", "short0"));
-		dbSource.onNext(new SourceDataModel(null, "domain1", "name1", "short1"));
-		dbSource.onNext(new SourceDataModel(null, "domain2", "name2", "short2"));
+		dbSource.onNext(new SourceDataModel(null, "domain0", "name0", "short0_"));
+		dbSource.onNext(new SourceDataModel(null, "domain1", "name1", "short1_"));
+		dbSource.onNext(new SourceDataModel(null, "domain2", "name2", "short2_"));
 		dbSource.onComplete();
 
 		TestObserver<SourceBusinessModel> testObserver = TestObserver.create();
-		actualStream.subscribe(testObserver);
+		expectedStream.subscribe(testObserver);
 		// run scheduler
 		bckgScheduler.triggerActions();
 

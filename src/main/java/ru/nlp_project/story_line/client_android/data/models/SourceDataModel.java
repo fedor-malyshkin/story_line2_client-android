@@ -25,7 +25,7 @@ public class SourceDataModel {
 	private boolean enabled = true;
 	private int _order = -1;
 
-	// necessary for unmarshalling from JSON
+	// necessary for unmarshalling from JSON & Cupboard
 	public SourceDataModel() {
 	}
 
@@ -116,7 +116,6 @@ public class SourceDataModel {
 		}
 		this.title = other.title;
 		this.titleShort = other.titleShort;
-		this.additionDate = other.additionDate;
 	}
 
 	@Override

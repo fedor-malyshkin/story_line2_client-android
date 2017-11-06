@@ -42,5 +42,7 @@
   <string name="activity_feedback_send">Отправить</string>
   <string name="activity_feedback_from_hint">От</string>
   <string name="activity_feedback_message_hint">Сообщение</string>
-  <string name="activity_feedback_send_unlnock">Отправить ещё</string>
+  <string name="activity_feedback_send_unlock">Отправить ещё</string>
+  <string name="dialog_changes_ok">Ok</string>
+  <string name="dialog_changes_title">Изменения</string>
 </resources>

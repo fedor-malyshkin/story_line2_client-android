@@ -37,16 +37,12 @@ public class NewsArticlesRepositoryImpl implements INewsArticlesRepository {
 	public Single<NewsArticleBusinessModel> createNewsArticleRemoteCachedStream(String serverId) {
 		final long requestId = System.currentTimeMillis();
 		NewsArticlesRetrofitService netService = retrofitService.getNewsWatcherService();
-		// connectable (run if more than 1 subscriber)
+
 		Observable<NewsArticleDataModel> netStream = netService.getNewsArticleById(serverId)
 				.subscribeOn(bckgScheduler).toObservable().doOnError(t -> Log.e
-						(TAG, t.getMessage(), t)).publish().autoConnect(2);
+						(TAG, t.getMessage(), t));
 
-		// first subscriber -- write to cache if request from network
-		netStream.subscribe(
-				// onNext
-				localDBStorage::addNewsArticle
-		);
+		netStream = netStream.doOnNext(localDBStorage::addNewsArticle);
 
 		Observable<NewsArticleDataModel> localStream = localDBStorage
 				.createNewsArticleStream(serverId).subscribeOn(bckgScheduler).toObservable();

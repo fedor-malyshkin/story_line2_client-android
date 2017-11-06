@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,17 +23,15 @@ public class ChangesDialog extends DialogFragment implements IChangesView {
 
 	@BindView(R.id.dialog_changes_text)
 	TextView textView;
-
+	@BindView(R.id.dialog_changes_ok)
+	Button buttonOn;
 
 	public ChangesDialog() {
 	}
 
 
-	public static ChangesDialog newInstance(String title) {
+	public static ChangesDialog newInstance() {
 		ChangesDialog frag = new ChangesDialog();
-		Bundle args = new Bundle();
-		args.putString("title", title);
-		frag.setArguments(args);
 		return frag;
 
 	}
@@ -46,14 +45,21 @@ public class ChangesDialog extends DialogFragment implements IChangesView {
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		ButterKnife.bind(view);
-		ChangesComponent builder = DaggerBuilder
-				.createChangesBuilder();
-		builder.inject(this);
 
+		ButterKnife.bind(this, view);
+		ChangesComponent builder = DaggerBuilder.createChangesBuilder();
+		builder.inject(this);
 		presenter.bindView(this);
+
+		initializeComponenets(view);
+
 		// last step - after full interface initialization
 		presenter.initializePresenter();
+	}
+
+	private void initializeComponenets(View view) {
+		getDialog().setTitle(R.string.dialog_changes_title);
+		buttonOn.setOnClickListener(presenter::onClickButtonOk);
 	}
 
 	@Override
@@ -71,6 +77,11 @@ public class ChangesDialog extends DialogFragment implements IChangesView {
 	public void onDismiss(DialogInterface dialog) {
 		super.onDismiss(dialog);
 		presenter.onDismiss();
+	}
+
+	@Override
+	public void hideDialog() {
+		dismiss();
 	}
 }
 

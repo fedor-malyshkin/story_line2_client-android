@@ -128,8 +128,7 @@ public class SourcesBrowserPresenterImpl implements ISourcesBrowserPresenter {
 	@Override
 	public void initializePresenter() {
 		if (changeRecordsInteractor.hasUnseenRecords()) {
-			List<ChangeRecordBusinessModel> records = changeRecordsInteractor.getUnseenRecords();
-			view.showChangesDialog(records);
+			view.showChangesDialog();
 		}
 	}
 

@@ -170,8 +170,10 @@ public class LocalDBStorageImpl implements ILocalDBStorage {
 		DatabaseCompartment withDatabase = cupboard().withDatabase(rdb);
 		ContentValues val = new ContentValues();
 		val.put("seen", 1);
-		withDatabase.update(ChangeRecordDataModel.class, val, "id IN {?}", ids.toString());
 
+		for (Long id : ids) {
+			withDatabase.update(ChangeRecordDataModel.class, val, "_id = ?", id.toString());
+		}
 	}
 
 	@Override

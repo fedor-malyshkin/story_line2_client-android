@@ -25,5 +25,5 @@ public interface ISourcesBrowserView {
 
 	void onMenuItemSource(int i);
 
-	void showChangesDialog(List<ChangeRecordBusinessModel> records);
+	void showChangesDialog();
 }

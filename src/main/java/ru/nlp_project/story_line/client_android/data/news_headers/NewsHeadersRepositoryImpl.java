@@ -35,23 +35,9 @@ public class NewsHeadersRepositoryImpl implements INewsHeadersRepository {
 		Observable<NewsHeaderDataModel> netStream = netService.listHeaders(sourceDomain, 20, lastNewsId)
 				.subscribeOn(bckgScheduler).flatMap(Observable::fromIterable).doOnError(t -> Log.e
 						(TAG, t.getMessage(), t));
-		// see for details: http://stackoverflow.com/a/36118469
-		// need at least 2 subscribers (localDBStorage + actual)
-		netStream = netStream.replay().autoConnect(2);
-
-		netStream.observeOn(bckgScheduler).subscribe(
-				// onNext
-				localDBStorage::addNewsHeader,
-				// onError
-				t -> Log.e(TAG, t.getMessage(), t),
-				// onComplete
-				() -> {
-				}
-		);
-		// intermediate level - to receive onError to localDBStorage
-		Observable<NewsHeaderDataModel> wrap = Observable.wrap(netStream);
+		netStream = netStream.doOnNext(localDBStorage::addNewsHeader);
 		// fallback source
-		return wrap
+		return netStream
 				.onErrorResumeNext(localDBStorage.createNewsHeaderStream(sourceDomain))
 				.compose(Converters.toNewsHeaderBusinessModel);
 	}

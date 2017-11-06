@@ -43,6 +43,18 @@ public class ChangeRecordBusinessModel {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("ChangeRecordBusinessModel{");
+		sb.append("id=").append(id);
+		sb.append(", type=").append(type);
+		sb.append(", additionDate=").append(additionDate);
+		sb.append(", seen=").append(seen);
+		sb.append(", message='").append(message).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
+
 	public Long getId() {
 		return id;
 	}
