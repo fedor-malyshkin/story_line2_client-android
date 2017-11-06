@@ -130,7 +130,6 @@ public class SourcesPreferencesFragment extends PreferenceFragmentCompat impleme
 			result.add(pref);
 		}
 		editor.apply();
-
 		return result;
 	}
 

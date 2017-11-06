@@ -11,6 +11,10 @@ public interface IPreferencesPresenter extends IPresenter<ISourcePreferencesView
 	String SHARED_PREFERENCES_FONT_SIZE_KEY_DEFAULT = "18";
 	String SHARED_PREFERENCES_LAST_STARTUP_DATE = "last_startup_date";
 
+	String SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME = "image_cache_size";
+	String SHARED_PREFERENCES_CACHE_SIZE_KEY_DEFAULT = "25";
+
+
 	List<SourceBusinessModel> getAllSources();
 
 	void updateSourceState(String key, boolean checked);

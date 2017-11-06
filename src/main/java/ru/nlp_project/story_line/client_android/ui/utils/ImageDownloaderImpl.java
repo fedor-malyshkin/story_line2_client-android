@@ -2,15 +2,16 @@ package ru.nlp_project.story_line.client_android.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v7.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.LruCache;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso.Builder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 
 public class ImageDownloaderImpl implements IImageDownloader {
 
@@ -42,8 +44,6 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	@Override
 	public void loadImageInto(String newsArticleServerId, ImageView target) {
 		Picasso picasso = getPicasso();
-		// Picasso picasso = Picasso.with(context);
-		// picasso.setIndicatorsEnabled(true);
 		String url = formatUrl(newsArticleServerId);
 		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
@@ -53,8 +53,6 @@ public class ImageDownloaderImpl implements IImageDownloader {
 			ImageView target,
 			Integer widthDP, Integer heightDP) {
 		Picasso picasso = getPicasso();
-		// Picasso picasso = Picasso.with(context);
-		// picasso.setIndicatorsEnabled(true);
 		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
 				convertDpToPixel(heightDP),
 				"crop");
@@ -65,8 +63,6 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	public void loadImageIntoScale(String newsArticleServerId, ImageView target,
 			Integer widthDP, Integer heightDP) {
 		Picasso picasso = getPicasso();
-		// Picasso picasso = Picasso.with(context);
-		// picasso.setIndicatorsEnabled(true);
 		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
 				convertDpToPixel(heightDP),
 				"scale");
@@ -106,13 +102,25 @@ public class ImageDownloaderImpl implements IImageDownloader {
 			return picassoInstance;
 		}
 
+		int cacheSize = getCacheSize(context);
 		Builder builder = new Builder(context);
-		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(context);
-		LruCache cache = new LruCache(5 * 1_024 * 1_024);
+		// specified cache size - as disk cache
+		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(context, cacheSize * 1_024 * 1_024);
+		// half of specified cache size - as memory cache
+		LruCache cache = new LruCache(cacheSize * 1_024 * 1_024 / 2);
 		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(true)
 				.listener(errorListener)
 				.memoryCache(cache).build();
 		return picassoInstance;
+	}
+
+	private int getCacheSize(Context context) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		String cacheSize = prefs
+				.getString(IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME,
+						IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_DEFAULT);
+		return Integer.parseInt(cacheSize);
 	}
 
 	@Override
