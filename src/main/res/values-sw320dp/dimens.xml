@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--https://material.io/guidelines/components/buttons-floating-action-button.html#buttons-floating-action-button-floating-action-button-->
+  <!-- FAB margin size -->
+  <dimen name="fab_margin">16dp</dimen>
+  <!-- prev + FAB normal size is 56dp + gap (8dp)-->
+  <dimen name="fab_goto_source_vertical_height">272dp</dimen>
+  <!-- prev + FAB normal size is 56dp + gap (8dp)-->
+  <dimen name="fab_share_url_vertical_height">208dp</dimen>
+  <!-- prev + FAB normal size is 56dp + gap (8dp)-->
+  <dimen name="fab_share_text_vertical_height">144dp</dimen>
+  <!-- FAB normal size is 56dp + fab_margin + gap (8dp) -->
+  <dimen name="fab_share_image_vertical_height">80dp</dimen>
+
+
+  <!-- news tape entry height -->
+  <dimen name="news_tape_entry_height">100dp</dimen>
+  <!-- news tape entry image width (same as entry height) -->
+  <dimen name="news_tape_entry_image_width">100dp</dimen>
+
+</resources>

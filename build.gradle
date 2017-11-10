@@ -28,6 +28,11 @@ repositories {
 	mavenCentral()
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
 ext {
 	// must match 'targetSdkVersion'
 	compileSdkPrjVersion = 25
@@ -35,7 +40,7 @@ ext {
 	targetSdkPrjVersion = compileSdkPrjVersion
 	supportLibraryPrjVersion = '25.4.0'
 	buildToolsPrjVersion = '25.0.2'
-	versionPrjCode = 2
+	versionPrjCode = 3
 	versionPrjName = "0.1"
 }
 
@@ -65,11 +70,22 @@ android {
 			enabled false
 		}
 	}
+
+	signingConfigs {
+	    release {
+	        keyAlias keystoreProperties['keyAlias']
+	        keyPassword keystoreProperties['keyPassword']
+	        storeFile file(keystoreProperties['storeFile'])
+	        storePassword keystoreProperties['storePassword']
+	    }
+	}
+
 	buildTypes {
 		release {
 			minifyEnabled false
 //			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			signingConfig signingConfigs.release
 		}
 	}
 	compileOptions {

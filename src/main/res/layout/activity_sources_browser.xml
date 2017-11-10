@@ -8,21 +8,18 @@
   android:id="@+id/activity_sources_browser_drawer_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-
   tools:openDrawer="start">
 
 
   <android.support.design.widget.CoordinatorLayout
     android:id="@+id/activity_sources_browser_coordinator_layout"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <!-- main container -->
     <android.support.design.widget.AppBarLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:fitsSystemWindows="true">
+      android:layout_height="wrap_content">
       <android.support.v7.widget.Toolbar
         android:id="@+id/activity_sources_browser_toolbar"
         android:layout_width="match_parent"
