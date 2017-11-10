@@ -33,14 +33,20 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 
 	private void initializeListeners() {
 		SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+		// image cache size
 		ListPreference imageCacheSizePref = (ListPreference) getPreferenceScreen()
 				.findPreference(IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME);
 		{
-			String imageCacheSize = preferences
-					.getString(IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME,
-							IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_DEFAULT);
-			imageCacheSizePref.setSummary(imageCacheSize);
+			imageCacheSizePref.setSummary(imageCacheSizePref.getValue() + " Mb");
 			imageCacheSizePref.setOnPreferenceChangeListener(this::preferenceChangeListener);
+		}
+		// font size
+		ListPreference fontSizePref = (ListPreference) getPreferenceScreen()
+				.findPreference(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME);
+		{
+			CharSequence entry = fontSizePref.getEntry();
+			fontSizePref.setSummary(entry);
+			fontSizePref.setOnPreferenceChangeListener(this::preferenceChangeListener);
 		}
 	}
 
@@ -49,10 +55,12 @@ public class MasterPreferencesFragment extends PreferenceFragmentCompat {
 		if (preference.getKey()
 				.equalsIgnoreCase(IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME)) {
 			ListPreference imageCacheSizePref = (ListPreference) preference;
-			String imageCacheSize = preferences
-					.getString(IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_NAME,
-							IPreferencesPresenter.SHARED_PREFERENCES_CACHE_SIZE_KEY_DEFAULT);
-			imageCacheSizePref.setSummary(newValue + "");
+			imageCacheSizePref.setSummary(newValue + " Mb");
+		} else if (preference.getKey()
+				.equalsIgnoreCase(IPreferencesPresenter.SHARED_PREFERENCES_FONT_SIZE_KEY_NAME)) {
+			ListPreference fontSizePref = (ListPreference) preference;
+			int index = fontSizePref.findIndexOfValue((String) newValue);
+			fontSizePref.setSummary(fontSizePref.getEntries()[index]);
 		}
 		return true;
 	}
