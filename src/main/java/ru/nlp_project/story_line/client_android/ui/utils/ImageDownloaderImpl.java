@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso.Builder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import ru.nlp_project.story_line.client_android.BuildConfig;
 import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 
 public class ImageDownloaderImpl implements IImageDownloader {
@@ -108,7 +109,7 @@ public class ImageDownloaderImpl implements IImageDownloader {
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(context, cacheSize * 1_024 * 1_024);
 		// half of specified cache size - as memory cache
 		LruCache cache = new LruCache(cacheSize * 1_024 * 1_024 / 2);
-		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(true)
+		picassoInstance = builder.downloader(okHttpDownloader).indicatorsEnabled(BuildConfig.DEBUG)
 				.listener(errorListener)
 				.memoryCache(cache).build();
 		return picassoInstance;

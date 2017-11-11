@@ -8,14 +8,14 @@
   android:background="?attr/selectableItemBackground"
   xmlns:android="http://schemas.android.com/apk/res/android">
   <ImageView
-    android:id="@+id/view_sources_browser_navigation_menu_item_image"
+    android:id="@+id/menu_item_icon"
     android:layout_alignParentStart="true"
     android:layout_centerVertical="true"
     android:layout_height="@dimen/navigation_drawer_icon_size"
     android:layout_width="@dimen/navigation_drawer_icon_size"
     android:layout_marginStart="@dimen/navigation_drawer_icon_side_margins"
     android:layout_marginEnd="@dimen/navigation_drawer_icon_side_margins"
-    android:src="@drawable/ic_zoom_out_white"
+    android:src="@android:drawable/ic_menu_view"
     android:alpha="0.54"
     android:contentDescription="x"
     tools:ignore="HardcodedText"/>

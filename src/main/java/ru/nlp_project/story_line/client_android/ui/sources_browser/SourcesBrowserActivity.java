@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,8 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	DrawerLayout drawerLayout;
 	@BindView(R.id.activity_sources_browser_navigation_recycler_view)
 	RecyclerView navigationRecyclerView;
+	@BindView(R.id.activity_sources_browser_navigation_view)
+	NavigationView navigationView;
 
 	private SourcesPageAdapter sourcesPageAdapter;
 	// Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
@@ -90,7 +93,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 
 	private void initializeNavigationMenu() {
 		navigationMenuManager = new NavigationMenuManager(presenter, this,
-				navigationRecyclerView);
+				navigationRecyclerView, navigationView.getHeaderView(0));
 		navigationMenuManager.initialize();
 	}
 
@@ -279,7 +282,6 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 			if (positionOffsetPixels == 0) {
 				navigationMenuManager.setSelectedItem(position);
 			}
-
 		}
 
 		@Override
