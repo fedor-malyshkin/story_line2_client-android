@@ -5,12 +5,12 @@
   <PreferenceCategory
     android:title="@string/preferences_category_update_title">
 
-<!--
-    <EditTextPreference
-      android:key="last_startup_date"
-      android:enabled="false"
-      />
--->
+    <!--
+        <EditTextPreference
+          android:key="last_startup_date"
+          android:enabled="false"
+          />
+    -->
 
 
   </PreferenceCategory>
@@ -48,15 +48,18 @@
       android:defaultValue="25"/>
   </PreferenceCategory>
 
-  <PreferenceScreen
-    android:key="preferences_screen_sources_key"
-    android:title="@string/preferences_screen_sources_title"
-    android:summary="@string/preferences_screen_sources_summary">
+  <PreferenceCategory
+    android:title="@string/preferences_category_sources_title">
 
-    <Preference
-      android:key="stub"
-      android:title="stub"/>
-  </PreferenceScreen>
+    <PreferenceScreen
+      android:key="preferences_screen_sources_key"
+      android:title="@string/preferences_screen_sources_title"
+      android:summary="@string/preferences_screen_sources_summary">
 
+      <Preference
+        android:key="stub"
+        android:title="stub"/>
+    </PreferenceScreen>
+  </PreferenceCategory>
 
 </PreferenceScreen>
