@@ -11,14 +11,14 @@
   <item
     android:id="@+id/menu_item_dec_font"
     android:checkable="false"
-    android:icon="@drawable/ic_menu_dec_font"
+    android:icon="@drawable/ic_zoom_out_white"
     android:title="@string/menu_item_dec_font"
     app:showAsAction="ifRoom">
   </item>
   <item
     android:id="@+id/menu_item_inc_font"
     android:checkable="false"
-    android:icon="@drawable/ic_menu_inc_font"
+    android:icon="@drawable/ic_zoom_in_white"
     android:title="@string/menu_item_inc_font"
     app:showAsAction="ifRoom">
   </item>

@@ -19,4 +19,11 @@
 
   <dimen name="navigation_drawer_header_subtitle_height">56dp</dimen>
   <dimen name="navigation_drawer_header_space">8dp</dimen>
+  <dimen name="navigation_drawer_entry_height">48dp</dimen>
+
+  <dimen name="navigation_drawer_icon_size">24dp</dimen>
+
+  <!--Use 16dp horizontal margins on mobile and 24dp on tablet-->
+  <dimen name="navigation_drawer_icon_side_margins">16dp</dimen>
+  <dimen name="navigation_drawer_content_left_margins">72dp</dimen>
 </resources>

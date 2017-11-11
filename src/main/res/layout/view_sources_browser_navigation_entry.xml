@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--https://material.io/guidelines/patterns/navigation-drawer.html#navigation-drawer-specs-->
 <RelativeLayout
+  xmlns:tools="http://schemas.android.com/tools"
   android:orientation="horizontal"
   android:layout_width="match_parent"
-  android:layout_height="48dp"
+  android:layout_height="@dimen/navigation_drawer_entry_height"
   android:background="?attr/selectableItemBackground"
   xmlns:android="http://schemas.android.com/apk/res/android">
   <ImageView
     android:id="@+id/view_sources_browser_navigation_menu_item_image"
-    android:layout_centerVertical="true"
     android:layout_alignParentStart="true"
-
-    android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:layout_width="72dp"
-
-    android:src="@drawable/ic_menu_home"
-    android:contentDescription=""/>
+    android:layout_centerVertical="true"
+    android:layout_height="@dimen/navigation_drawer_icon_size"
+    android:layout_width="@dimen/navigation_drawer_icon_size"
+    android:layout_marginStart="@dimen/navigation_drawer_icon_side_margins"
+    android:layout_marginEnd="@dimen/navigation_drawer_icon_side_margins"
+    android:src="@drawable/ic_zoom_out_white"
+    android:alpha="0.54"
+    android:contentDescription="x"
+    tools:ignore="HardcodedText"/>
 
   <TextView
     android:id="@+id/menu_item_caption"
-
-    android:layout_toEndOf="@id/view_sources_browser_navigation_menu_item_image"
+    android:layout_alignParentStart="true"
     android:layout_centerVertical="true"
-
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="16dp"
-
+    android:layout_width="wrap_content"
+    android:layout_marginStart="@dimen/navigation_drawer_content_left_margins"
     android:text="@string/activity_startup_title"
-    android:textStyle="bold"
     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
     />
 </RelativeLayout>

@@ -18,4 +18,9 @@
   <!-- news tape entry image width (same as entry height) -->
   <dimen name="news_tape_entry_image_width">150dp</dimen>
 
+
+  <!--Use 16dp horizontal margins on mobile and 24dp on tablet-->
+  <dimen name="navigation_drawer_icon_side_margins">24dp</dimen>
+  <!-- so we have 72dp + (24-16)dp https://material.io/guidelines/patterns/navigation-drawer.html#navigation-drawer-specs -->
+  <dimen name="navigation_drawer_content_left_margins">80dp</dimen>
 </resources>
