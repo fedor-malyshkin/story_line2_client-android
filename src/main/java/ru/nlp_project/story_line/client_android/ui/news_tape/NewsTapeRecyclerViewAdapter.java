@@ -52,13 +52,13 @@ class NewsTapeRecyclerViewAdapter extends
 			int viewType) {
 		Context context = parent.getContext();
 		LayoutInflater inflater = LayoutInflater.from(context);
+
 		View articleHeaderView = null;
 		if (viewType == VIEW_W_IMAGE) {
 			// Inflate the custom layout
 			articleHeaderView = inflater
 					.inflate(R.layout.view_news_tape_entry, parent, false);
 		} else {
-			Log.i("viewType", VIEW_W_NO_IMAGE + " - ");
 			articleHeaderView = inflater
 					.inflate(R.layout.view_news_tape_entry_no_image, parent, false);
 		}
