@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import java.util.Date;
+import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.ui.preferences.IPreferencesPresenter;
 import ru.nlp_project.story_line.client_android.ui.sources_browser.SourcesBrowserActivity;
 
@@ -57,4 +58,18 @@ public class StartupActivity extends AppCompatActivity implements IStartupView {
 		editor.apply();
 	}
 
+	@Override
+	public void initializeTheme(Context applicationContext) {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getContext());
+		boolean isDarkTheme = prefs
+				.getBoolean(IPreferencesPresenter.SHARED_PREFERENCES_IS_DARK_THEME_NAME,
+						false);
+
+		if (isDarkTheme) {
+			applicationContext.setTheme(R.style.AppTheme);
+		} else {
+			applicationContext.setTheme(R.style.AppThemeLight);
+		}
+	}
 }

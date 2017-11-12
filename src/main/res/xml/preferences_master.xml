@@ -33,7 +33,8 @@
 
     <CheckBoxPreference
       android:key="is_dark_theme"
-      android:title="@string/preferences_dark_theme_title"/>
+      android:title="@string/preferences_dark_theme_title"
+      android:defaultValue="false"/>
     <CheckBoxPreference
       android:key="is_load_images"
       android:title="@string/preferences_load_images_title"

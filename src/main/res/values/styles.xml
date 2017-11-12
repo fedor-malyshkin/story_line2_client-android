@@ -2,6 +2,7 @@
 
   <!-- Theming: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35 -->
   <style name="AppTheme" parent="@style/Theme.AppCompat.NoActionBar">
+    <item name="fabDescriptionDrawable">@drawable/drawable_rounded_border</item>
     <!-- your app branding color for the app bar -->
     <item name="colorPrimary">@color/primary</item>
     <!-- darker variant for the status bar and contextual app bars -->
@@ -16,16 +17,38 @@
     <item name="android:dialogTheme">@style/AppDialogTheme</item>
   </style>
 
+
+  <!-- Theming: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35 -->
+  <style name="AppThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <item name="fabDescriptionDrawable">@drawable/drawable_rounded_border_light</item>
+    <!-- your app branding color for the app bar -->
+    <item name="colorPrimary">@color/light_primary</item>
+    <!-- darker variant for the status bar and contextual app bars -->
+    <item name="colorPrimaryDark">@color/light_primary_dark</item>
+    <!-- theme UI controls like checkboxes and text fields -->
+    <item name="colorAccent">@color/light_accent</item>
+    <item name="android:windowBackground">@color/light_primary</item>
+    <item name="titleTextColor">@color/light_primary_light</item>
+
+    <!-- Customize your theme here. -->
+    <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    <!-- Apply default style for dialogs -->
+    <item name="android:dialogTheme">@style/AppDialogThemeLight</item>
+  </style>
+
   <!-- https://www.bignerdranch.com/blog/splash-screens-the-right-way/ -->
   <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
     <item name="android:windowBackground">@drawable/drawable_background_splash_screen</item>
   </style>
 
-  <!-- Apply default style for dialogs -->
+  <!-- https://www.bignerdranch.com/blog/splash-screens-the-right-way/ -->
+  <style name="SplashThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/drawable_background_splash_screen</item>
+  </style>
+
 
   <!-- Define your custom dialog theme here extending from base -->
   <style name="AppDialogTheme" parent="Theme.AppCompat.Dialog">
-    <!--<item name="android:windowTitleStyle">@style/DialogWindowTitle</item>-->
     <!-- Define color properties as desired -->
     <item name="colorPrimary">@color/primary</item>
     <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -40,10 +63,18 @@
     <item name="android:windowCloseOnTouchOutside">true</item>
   </style>
 
-  <style name="DialogWindowTitle" parent="Base.DialogWindowTitle.AppCompat">
-    <item name="android:background">@color/primary</item>
-    <item name="android:gravity">center</item>
-    <item name="android:textAppearance">@style/DialogWindowTitle</item>
-  </style>
+  <style name="AppDialogThemeLight" parent="Theme.AppCompat.Light.Dialog">
+    <!-- Define color properties as desired -->
+    <item name="colorPrimary">@color/light_primary</item>
+    <item name="colorPrimaryDark">@color/light_primary_dark</item>
+    <item name="android:textColorHighlight">@color/light_primary_light</item>
+    <item name="colorAccent">@color/light_accent</item>
+    <!--<item name="colorControlNormal">@color/dark_blue</item>-->
 
+    <!-- Define window properties as desired -->
+    <item name="android:windowNoTitle">false</item>
+    <item name="android:windowFullscreen">false</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:windowCloseOnTouchOutside">true</item>
+  </style>
 </resources>

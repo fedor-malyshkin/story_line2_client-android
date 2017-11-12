@@ -21,16 +21,15 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import java.util.List;
 import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
-import ru.nlp_project.story_line.client_android.business.models.ChangeRecordBusinessModel;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.SourcesBrowserComponent;
 import ru.nlp_project.story_line.client_android.ui.changes.ChangesDialog;
 import ru.nlp_project.story_line.client_android.ui.feedback.AboutActivity;
 import ru.nlp_project.story_line.client_android.ui.feedback.FeedbackActivity;
 import ru.nlp_project.story_line.client_android.ui.utils.CacheableFragmentStatePageAdapter;
+import ru.nlp_project.story_line.client_android.ui.utils.ThemeUtils;
 
 public class SourcesBrowserActivity extends AppCompatActivity implements ISourcesBrowserView {
 
@@ -56,6 +55,7 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	private ActionBarDrawerToggle drawerToggle;
 	private NavigationMenuManager navigationMenuManager;
 	private SourcesBrowserActivity.SourcesOnPageChangeListener sourcePageChangeListener;
+	private boolean creationTimeThemeDark;
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -71,8 +71,13 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	}
 
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// must be called before "super.onCreate"
+		creationTimeThemeDark = ThemeUtils.isCurrentThemeDark(this);
+		ThemeUtils.setTheme(this, creationTimeThemeDark);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sources_browser);
 
@@ -101,6 +106,10 @@ public class SourcesBrowserActivity extends AppCompatActivity implements ISource
 	protected void onResume() {
 		super.onResume();
 		presenter.refreshSourcesList();
+
+		boolean isNowThemeDark = ThemeUtils.isCurrentThemeDark(this);
+		if (isNowThemeDark != creationTimeThemeDark)
+			ThemeUtils.setThemeAndRecreate(this, isNowThemeDark);
 	}
 
 	@Override

@@ -12,4 +12,6 @@ public interface IStartupView {
 	Date getStartupDateInPreferences();
 
 	void storeStartupDateInPreferences(Date date);
+
+	void initializeTheme(Context applicationContext);
 }

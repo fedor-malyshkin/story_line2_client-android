@@ -60,7 +60,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="4sp"
       android:padding="6sp"
-      android:background="@drawable/drawable_rounded_border"
+      android:background="?attr/fabDescriptionDrawable"
       android:text="@string/activity_news_browser_goto_source_fab_title"
       />
 
@@ -94,7 +94,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="4sp"
       android:padding="6sp"
-      android:background="@drawable/drawable_rounded_border"
+      android:background="?attr/fabDescriptionDrawable"
       android:text="@string/activity_news_browser_share_url_fab_title"/>
 
 
@@ -127,7 +127,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="4sp"
       android:padding="6sp"
-      android:background="@drawable/drawable_rounded_border"
+      android:background="?attr/fabDescriptionDrawable"
       android:text="@string/activity_news_browser_share_text_fab_title"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -160,7 +160,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="4sp"
       android:padding="6sp"
-      android:background="@drawable/drawable_rounded_border"
+      android:background="?attr/fabDescriptionDrawable"
       android:text="@string/activity_news_browser_share_image_fab_title"
       />
 
@@ -194,7 +194,7 @@
       android:layout_height="wrap_content"
       android:layout_margin="4sp"
       android:padding="6sp"
-      android:background="@drawable/drawable_rounded_border"
+      android:background="?attr/fabDescriptionDrawable"
       android:text="@string/activity_news_browser_share_news_fab_title"/>
 
     <android.support.design.widget.FloatingActionButton

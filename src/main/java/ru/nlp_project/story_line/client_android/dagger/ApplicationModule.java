@@ -61,6 +61,13 @@ public class ApplicationModule {
 
 	@Provides
 	@Singleton
+	public Context provideApplicationContext() {
+		return this.context;
+	}
+
+
+	@Provides
+	@Singleton
 	public IFeedbackRepository provideFeedbackRepository(FeedbackRepositoryImpl implementation) {
 		implementation.initializeRepository();
 		return implementation;

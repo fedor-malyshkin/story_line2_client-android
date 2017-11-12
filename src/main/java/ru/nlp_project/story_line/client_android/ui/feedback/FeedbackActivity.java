@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import ru.nlp_project.story_line.client_android.R;
 import ru.nlp_project.story_line.client_android.dagger.DaggerBuilder;
 import ru.nlp_project.story_line.client_android.dagger.FeedbackComponent;
+import ru.nlp_project.story_line.client_android.ui.utils.ThemeUtils;
 
 public class FeedbackActivity extends AppCompatActivity implements IFeedbackView {
 
@@ -24,9 +25,24 @@ public class FeedbackActivity extends AppCompatActivity implements IFeedbackView
 	TextInputEditText messageEditText;
 	@BindView(R.id.activity_feedback_send)
 	Button sendButton;
+	private boolean creationTimeThemeDark;
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		boolean isNowThemeDark = ThemeUtils.isCurrentThemeDark(this);
+		if (isNowThemeDark != creationTimeThemeDark) {
+			ThemeUtils.setThemeAndRecreate(this, isNowThemeDark);
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// must be called before "super.onCreate"
+		creationTimeThemeDark = ThemeUtils.isCurrentThemeDark(this);
+		ThemeUtils.setTheme(this, creationTimeThemeDark);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feedback);
 

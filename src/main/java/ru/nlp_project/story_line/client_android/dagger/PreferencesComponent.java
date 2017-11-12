@@ -1,6 +1,7 @@
 package ru.nlp_project.story_line.client_android.dagger;
 
 import dagger.Subcomponent;
+import ru.nlp_project.story_line.client_android.ui.preferences.MasterPreferencesFragment;
 import ru.nlp_project.story_line.client_android.ui.preferences.PreferencesActivity;
 import ru.nlp_project.story_line.client_android.ui.preferences.SourcesPreferencesFragment;
 
@@ -12,7 +13,7 @@ import ru.nlp_project.story_line.client_android.ui.preferences.SourcesPreference
 @PreferencesScope
 public abstract class PreferencesComponent {
 
-	public abstract void inject(PreferencesActivity activity);
-
 	public abstract void inject(SourcesPreferencesFragment fragment);
+
+	public abstract void inject(MasterPreferencesFragment fragment);
 }

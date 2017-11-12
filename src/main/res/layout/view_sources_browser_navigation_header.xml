@@ -18,6 +18,7 @@
     android:background="@drawable/drawable_sources_browser_navigation_bckg"
     android:gravity="bottom"
     android:orientation="vertical"
+    android:layout_marginStart="@dimen/navigation_drawer_header_space"
     android:layout_marginBottom="@dimen/navigation_drawer_header_space">
 
     <TextView
