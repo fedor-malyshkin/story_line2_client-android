@@ -16,6 +16,9 @@
   <dimen name="news_tape_entry_height">100dp</dimen>
   <!-- news tape entry image width (same as entry height) -->
   <dimen name="news_tape_entry_image_width">100dp</dimen>
+  <!-- news tape entry font size -->
+  <dimen name="news_tape_entry_title_text_size">14sp</dimen>
+
 
   <dimen name="navigation_drawer_header_subtitle_height">56dp</dimen>
   <dimen name="navigation_drawer_header_space">8dp</dimen>

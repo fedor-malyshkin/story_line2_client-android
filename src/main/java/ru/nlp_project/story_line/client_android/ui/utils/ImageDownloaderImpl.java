@@ -3,14 +3,12 @@ package ru.nlp_project.story_line.client_android.ui.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
 import com.squareup.picasso.Callback;
@@ -54,8 +52,8 @@ public class ImageDownloaderImpl implements IImageDownloader {
 			ImageView target,
 			Integer widthDP, Integer heightDP) {
 		Picasso picasso = getPicasso();
-		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
-				convertDpToPixel(heightDP),
+		String url = formatUrl(newsArticleServerId, DimensionUtils.convertDpToPixel(context, widthDP),
+				DimensionUtils.convertDpToPixel(context, heightDP),
 				"crop");
 		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
@@ -64,20 +62,12 @@ public class ImageDownloaderImpl implements IImageDownloader {
 	public void loadImageIntoScale(String newsArticleServerId, ImageView target,
 			Integer widthDP, Integer heightDP) {
 		Picasso picasso = getPicasso();
-		String url = formatUrl(newsArticleServerId, convertDpToPixel(widthDP),
-				convertDpToPixel(heightDP),
+		String url = formatUrl(newsArticleServerId, DimensionUtils.convertDpToPixel(context, widthDP),
+				DimensionUtils.convertDpToPixel(context, heightDP),
 				"scale");
 		picasso.load(url).into(target, new LoadingCallback(url, target));
 	}
 
-	private int convertDpToPixel(Integer dp) {
-		if (dp == null || dp == 0) {
-			return 0;
-		}
-		Resources resources = context.getResources();
-		DisplayMetrics metrics = resources.getDisplayMetrics();
-		return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-	}
 
 	@SuppressLint("DefaultLocale")
 	private String formatUrl(String newsArticleId, Integer width, Integer height,

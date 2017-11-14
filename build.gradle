@@ -40,7 +40,7 @@ ext {
 	targetSdkPrjVersion = compileSdkPrjVersion
 	supportLibraryPrjVersion = '25.4.0'
 	buildToolsPrjVersion = '25.0.2'
-	versionPrjCode = 3
+	versionPrjCode = 5
 	versionPrjName = "0.1"
 }
 

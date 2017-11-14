@@ -17,6 +17,8 @@
   <dimen name="news_tape_entry_height">150dp</dimen>
   <!-- news tape entry image width (same as entry height) -->
   <dimen name="news_tape_entry_image_width">150dp</dimen>
+  <!-- news tape entry font size -->
+  <dimen name="news_tape_entry_title_text_size">18sp</dimen>
 
 
   <!--Use 16dp horizontal margins on mobile and 24dp on tablet-->

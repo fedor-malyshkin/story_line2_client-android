@@ -99,9 +99,10 @@ public class NewsWatcherFragment extends Fragment implements INewsWatcherView {
 		storedAppContext = getActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_news_watcher, container, false);
 		ButterKnife.bind(this, view);
-
 		return view;
 	}
+
+
 
 	private void initializeFAB(INewsBrowserView view) {
 		if (view != null) {
